@@ -3,32 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/subject.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/initBatches.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/subjectCount.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/insertMarks.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/initGrades.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/display.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/distinctSubjects.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/StudentCard.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/parent_sms.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/distinctStudentsList.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/updateStudents.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/between.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/statisticsSearch.php</file>
             <file>file:/C:/xampp/htdocs/InDepthReports/statistics.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/subjectBetween.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/distinctGrades.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/distinctStudents.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/insertStudents.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/createStudentsTable.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/count.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/displayTerms.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/marksAbove.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/createMarksTable.php</file>
+            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/initBatches.php</file>
             <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/initSubjects.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/gradeSubject.php</file>
-            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/distinctBatches.php</file>
+            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/initGrades.php</file>
+            <file>file:/C:/xampp/htdocs/InDepthReports/sqldb/statisticsSearch.php</file>
         </group>
     </open-files>
 </project-private>

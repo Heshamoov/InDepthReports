@@ -41,10 +41,10 @@ $(function () {
         var message = "";     var termHeader = "";
         selected_terms.each(function () {
                 if (message ===""){
-                    message = " (marks.Exam_Group = '" + $(this).text() + "'";
+                    message = " (Exam_Group = '" + $(this).text() + "'";
                     termHeader = $(this).text();
                 } else {
-                    message += " OR marks.Exam_Group = '" + $(this).text() + "'";
+                    message += " OR Exam_Group = '" + $(this).text() + "'";
                     termHeader += " - " + $(this).text();
                 }
         });
@@ -63,12 +63,12 @@ $(function () {
             }
             if (message ===""){
                 if (selected_terms !== "") 
-                    message = " AND (marks.grade = '" + currentGrade + "' ";
+                    message = " AND (grade = '" + currentGrade + "' ";
                 else 
-                    message = " (marks.grade = '" + currentGrade + "'";
+                    message = " (grade = '" + currentGrade + "'";
                 gradeHeader = currentGrade;
             } else {
-                message += " OR marks.grade = '" + currentGrade + "'";  //  grade like 'GR1' OR grade like 'GR10';
+                message += " OR grade = '" + currentGrade + "'";  //  grade like 'GR1' OR grade like 'GR10';
                 gradeHeader += " - " + currentGrade;
             }
         });
@@ -81,19 +81,15 @@ $(function () {
         //Batches
         var message = "";       var batchHeader = "";
         selected_batches.each(function () {
-            var currentBatch = $(this).text();
-            var bracketIndex = currentBatch.indexOf("(");
-            currentBatch = currentBatch.slice(0,bracketIndex);
-
             if (message === "") {
                 if (selected_grades !== "") 
-                        message = " AND (marks.batch = '" + currentBatch + "' ";
+                        message = " AND (batch = '" + $(this).text() + "' ";
                 else 
-                        message = " (marks.batch = '" + currentBatch + "' ";
-                batchHeader = currentBatch;
+                        message = " (batch = '" + $(this).text() + "' ";
+                batchHeader = $(this).text();
             } else {
-                message += " OR marks.batch = '" + currentBatch + "' ";
-                batchHeader += " - " + currentBatch;
+                message += " OR batch = '" + $(this).text() + "' ";
+                batchHeader += " - " + $(this).text();
             }
         });
         if (message !== "")
@@ -104,14 +100,21 @@ $(function () {
         //Gender
         var message = "";       var genderHeader = "";
         selected_gender.each(function () {
+            
+            var DB_Gender = "";
+            if ($(this).text() === 'Male')
+                DB_Gender = 'm';
+            else if ($(this).text() === 'Female')
+                DB_Gender = 'f';
+                
             if (message === "") {
                 if (selected_terms !=="" || selected_grades !== "" || selected_batches !== "") 
-                    message = " AND (students.gender = '" + $(this).text() + "' ";
+                    message = " AND (gender = '" + DB_Gender + "' ";
                 else 
-                    message = " (students.gender = '" + $(this).text() + "' ";
+                    message = " (gender = '" + DB_Gender + "' ";
                 genderHeader = $(this).text();
                 } else {
-                    message += "OR students.gender = '" + $(this).text() + "' ";
+                    message += "OR gender = '" + DB_Gender + "' ";
                     genderHeader += " - " + $(this).text();
                 }
         });
@@ -138,12 +141,12 @@ $(function () {
             tableNumber++;
             if (message === "") {
                 if (selected_terms !== "" || selected_grades !== "" || selected_batches !== "" || selected_gender !== "") 
-                    message = " AND (marks.subject = '" + currentSubject + "' ";
+                    message = " AND (subject = '" + currentSubject + "' ";
                 else
-                    message = " (marks.subject = '" + currentSubject + "' ";
+                    message = " (subject = '" + currentSubject + "' ";
                 subjectHeader = currentSubject;
             } else {
-                message += "OR marks.subject = '" + currentSubject + "' ";
+                message += "OR subject = '" + currentSubject + "' ";
                 subjectHeader += " - " + currentSubject;
             }
             tableName = "T" + tableNumber;
@@ -747,7 +750,7 @@ $(function () {
 </script>
 
 <!--Batches via Grades-->
-<script type="text/javascript">
+<!--<script type="text/javascript">
 document.getElementById("grade").onchange = function() {fetchBatches();};
 function fetchBatches() {
         output.value = "";
@@ -809,6 +812,8 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
         }
          $('#batch').multiselect('rebuild');
          output.value += "\n Subject \n";
+         
+         
 // Fetch & Fill Subjects
         selectedGrades.each(function() {
                 var currentGrade = $(this).text().slice(0,4);
@@ -858,10 +863,10 @@ output.value += "distinctArray[" + distinctIndexSubject + "] = " + distinctArray
         }
          $('#subject').multiselect('rebuild');
 };
-</script>
+</script>-->
 
  <!--Grades via Terms-->
- <script type="text/javascript">
+<!-- <script type="text/javascript">
 document.getElementById("term").onchange = function() {fetchGrades();};
 function fetchGrades() {
         var str =""; var fillGrades = document.getElementById('grade');               
@@ -964,7 +969,7 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
                 });
                 doc.save("Statistics.pdf");
         }
-</script>
+</script>-->
 
 </body>
 </html>

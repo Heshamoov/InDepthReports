@@ -7,10 +7,13 @@
         if ($conn->connect_error)
                 die("Connection failed: " . $conn->connect_error . "\n");
         
-        $sql = "SELECT code FROM courses WHERE is_deleted = 0";
+        $sql = "SELECT DISTINCT course_name FROM courses\n"
+             . "WHERE is_deleted = 0\n"
+             . "ORDER BY created_at";
+        
         $result = $conn->query($sql);
         
         while($row = mysqli_fetch_array($result))
-                echo $row['code'] . "\n";
+                echo $row['course_name'] . "\n";
         
         $conn->close();
