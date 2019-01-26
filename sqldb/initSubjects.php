@@ -1,4 +1,4 @@
-<?php
+    <?php
         $servername = "localhost";          $username = "reports2018";
         $password = "Indepth2018";        $DB = "fedena_pro";
 
@@ -9,7 +9,8 @@
 
         $sql = "SELECT DISTINCT subject FROM gold";
         $result = $conn->query($sql);
-    
+
+        
         while($row = mysqli_fetch_array($result))
                 echo $row['subject'] . "\n";
         
