@@ -1,6 +1,6 @@
 <?php
         $servername = "localhost";          $username = "reports2018";
-        $password = "Indepth2018";        $DB = "alsanawbar2018";
+        $password = "Indepth2018";        $DB = "fedena_pro";
 
         $conn = new mysqli($servername, $username, $password, $DB);
 
@@ -14,13 +14,11 @@
         $terms = $_REQUEST["terms"];
         
         if ($terms == "" and $grades == "" and $batches == "" and $gender == "") {
-        $sql =       " SELECT  Subject FROM marks" .
-                        " INNER JOIN students ON students.admission_no = marks.MOE" .
-                        " WHERE subject = '$subject'";
+        $sql =       " SELECT  subject FROM gold" .
+                     " WHERE subject = '$subject'";
         } else {
-        $sql =       " SELECT  Subject FROM marks" .
-                        " INNER JOIN students ON students.admission_no = marks.MOE" .
-                        " WHERE $terms $grades $batches $gender  AND subject = '$subject'";
+        $sql =       " SELECT  subject FROM gold" .
+                     " WHERE $terms $grades $batches $gender  AND subject = '$subject'";
             
         }
 //        echo $sql;

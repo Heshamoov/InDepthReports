@@ -133,21 +133,26 @@ $(function () {
         
         //Subjects
         selected_subjects.each(function () {
-            var currentSubject = "";
+            var currentSubject = "";    var firstSpace = true;
             var subject = $(this).text();     
-            for (var i = 0; i < subject.length; i++)        // Extracting English letters and numbers and remove Arabic letters                
-                if ((subject[i] >= 'A' && subject[i] <= 'z') || (subject[i] >= '0' && subject[i] <= '9') || (subject[i] === " ")) 
+            for (var i = 0; i < subject.length; i++) {       // Extracting English letters and numbers and remove Arabic letters                
+                if ((subject[i] >= 'A' && subject[i] <= 'z') || (subject[i] >= '0' && subject[i] <= '9'))
                     currentSubject += subject[i];
+                if (subject[i] === ' ' && firstSpace && i > 3) {
+                    currentSubject += subject[i];
+                    firstSpace = false;
+                }
+            }
             
             tableNumber++;
             if (message === "") {
                 if (selected_terms !== "" || selected_grades !== "" || selected_batches !== "" || selected_gender !== "") 
-                    message = " AND (subject = '" + currentSubject + "' ";
+                    message = " AND (subject LIKE '" + currentSubject + "%' ";  //Add '%' to the end of the subject name: WHERE subject LIKE 'Math%' 
                 else
-                    message = " (subject = '" + currentSubject + "' ";
+                    message = " (subject LIKE '" + currentSubject + "%' ";
                 subjectHeader = currentSubject;
             } else {
-                message += "OR subject = '" + currentSubject + "' ";
+                message += "OR subject LIKE '" + currentSubject + "%' ";
                 subjectHeader += " - " + currentSubject;
             }
             tableName = "T" + tableNumber;
