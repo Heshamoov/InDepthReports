@@ -133,11 +133,12 @@ $(function () {
         
         //Subjects
         selected_subjects.each(function () {
-            var currentSubject = $(this).text();
-            if (currentSubject.indexOf("(") !== -1) {
-                var bracketIndex = currentSubject.indexOf("(");
-                currentSubject = currentSubject.slice(0,bracketIndex);
-            }
+            var currentSubject = "";
+            var subject = $(this).text();     
+            for (var i = 0; i < subject.length; i++)        // Extracting English letters and numbers and remove Arabic letters                
+                if ((subject[i] >= 'A' && subject[i] <= 'z') || (subject[i] >= '0' && subject[i] <= '9') || (subject[i] === " ")) 
+                    currentSubject += subject[i];
+            
             tableNumber++;
             if (message === "") {
                 if (selected_terms !== "" || selected_grades !== "" || selected_batches !== "" || selected_gender !== "") 
