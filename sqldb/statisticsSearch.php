@@ -22,7 +22,7 @@
     $sql = "SELECT moe, a_name, gender, exam_group, grade, batch, subject, mark "
             . "FROM gold WHERE $terms $grades $batches $gender $subjects";
 
-      echo $sql;    
+//      echo $sql;    
         $result = $conn->query($sql);
         $rownumber = 1;
         if ($result->num_rows > 0) {
