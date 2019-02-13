@@ -15,13 +15,13 @@
         
         if ($terms == "" and $grades == "" and $batches == "" and $gender == "") {
         $sql =       " SELECT  subject FROM gold" .
-                     " WHERE subject = '$subject'";
+                     " WHERE subject LIKE '$subject%'";
         } else {
         $sql =       " SELECT  subject FROM gold" .
-                     " WHERE $terms $grades $batches $gender  AND subject = '$subject'";
+                     " WHERE $terms $grades $batches $gender  AND subject LIKE '$subject%'";
             
         }
-//        echo $sql;
+        //echo $sql;
         
         $result = $conn->query($sql);
         $rowcount=mysqli_num_rows($result);

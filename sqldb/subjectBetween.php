@@ -1,6 +1,6 @@
 <?php
         $servername = "localhost";          $username = "reports2018";
-        $password = "Indepth2018";        $DB = "alsanawbar2018";
+        $password = "Indepth2018";        $DB = "fedena_pro";
 
         $conn = new mysqli($servername, $username, $password, $DB);
 
@@ -16,19 +16,17 @@
         $max = $_REQUEST["max"];
         
         if ($terms == "" and $grades == "" and $batches == "" and $gender == "") {
-                $sql =       " SELECT marks.subject" .
-                                " FROM marks" .
-                                " INNER JOIN students ON students.admission_no = marks.MOE" .
-                                " WHERE subject = '$subject'" .
-                                " AND (marks.mark BETWEEN $min AND $max)";
+                $sql =       " SELECT *" .
+                                " FROM gold" .
+                                " WHERE subject LIKE '$subject%'" .
+                                " AND (mark BETWEEN $min AND $max)";
         } else {
-              $sql =       " SELECT marks.subject" .
-                                " FROM marks" .
-                                " INNER JOIN students ON students.admission_no = marks.MOE" .
-                                " WHERE $terms $grades $batches $gender AND subject = '$subject'" .
-                                " AND (marks.mark BETWEEN $min AND $max)";
+              $sql =       " SELECT *" .
+                                " FROM gold" .
+                                " WHERE $terms $grades $batches $gender AND subject LIKE '$subject%'" .
+                                " AND (mark BETWEEN $min AND $max)";
         }
-//       echo $sql;
+      // echo $sql;
         
         $result = $conn->query($sql);
         $rowcount=mysqli_num_rows($result);
