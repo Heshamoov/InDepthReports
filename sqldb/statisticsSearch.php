@@ -19,10 +19,35 @@
 //            " INNER JOIN students ON marks.moe = students.admission_no " .
 //            " WHERE $terms $grades $batches $gender $subjects";
 
-    $sql = "SELECT moe, a_name, gender, exam_group, grade, batch, subject, mark "
-            . "FROM gold WHERE $terms $grades $batches $gender $subjects";
+    $sql =    "SELECT students.admission_no moe, students.first_name name, students.gender,  batches.id, batches.name batch_name, \n"
+            . "courses.id, courses.course_name grade_name, exam_groups.id examgroups_id, exam_groups.name exam_name, exam_scores.id examscores_id,\n"
+            . " exam_scores.marks marks, exams.id exam_id, exams.subject_id, subjects.id subjects_id, subjects.name subject_name\n"
+            . "\n"
+            . "FROM (((((("
+            . "students\n"
+            . "INNER JOIN batches \n"
+            . "ON batches.id = students.batch_id)\n"
+            . "\n"
+            . "INNER JOIN courses \n"
+            . "ON batches.course_id = courses.id)\n"
+            . "\n"
+            . "INNER JOIN exam_groups\n"
+            . "ON exam_groups.batch_id = students.batch_id)\n"
+            . "\n"
+            . "INNER JOIN exam_scores \n"
+            . "ON exam_scores.student_id = students.id)\n"
+            . "\n"
+            . "INNER JOIN exams\n"
+            . "ON exams.id = exam_scores.exam_id)\n"
+            . "\n"
+            . "INNER JOIN subjects\n"
+            . "ON subjects.id = exams.subject_id)\n "
+            . "WHERE $terms $grades $batches $gender $subjects";
 
-//      echo $sql;    
+            
+
+
+//        echo $sql;    
         $result = $conn->query($sql);
         $rownumber = 1;
         if ($result->num_rows > 0) {
@@ -33,10 +58,10 @@
                 
                 while($row = $result->fetch_assoc())
                         echo "<tr><td>"  . $rownumber++ . "</td><td>" . $row["moe"] . 
-                                "</td><td>" . $row["a_name"] . "</td><td>" . $row["gender"] .
-                                "</td><td>" . $row["exam_group"] . "</td><td>" . $row["grade"] .
-                                "</td><td>" . $row["batch"] . "</td><td>" . $row["subject"] .
-                                "</td><td>" . $row["mark"]."</td></tr>";
+                                "</td><td>" . $row["name"] . "</td><td>" . $row["gender"] .
+                                "</td><td>" . $row["exam_name"] . "</td><td>" . $row["grade_name"] .
+                                "</td><td>" . $row["batch_name"] . "</td><td>" . $row["subject_name"] .
+                                "</td><td>" . $row["marks"]."</td></tr>";
                 echo "</tbody>";
         } else
                 echo "Data Not Found, try to import it to DB";

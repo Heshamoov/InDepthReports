@@ -9,7 +9,7 @@
 
         $sql =    "SELECT DISTINCT name FROM batches\n"
                 . "WHERE is_deleted = 0\n"
-                . "ORDER BY created_at DESC";
+                . "ORDER BY created_at";
                 
         $result = $conn->query($sql);
     

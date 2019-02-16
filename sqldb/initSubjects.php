@@ -7,11 +7,11 @@
         if ($conn->connect_error)
                 die("Connection failed: " . $conn->connect_error . "\n");
 
-        $sql = "SELECT DISTINCT subject FROM gold";
+        $sql = "SELECT DISTINCT name FROM subjects";
         $result = $conn->query($sql);
 
         
         while($row = mysqli_fetch_array($result))
-                echo $row['subject'] . "\n";
+                echo $row['name'] . "\n";
         
         $conn->close();

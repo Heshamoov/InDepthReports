@@ -14,17 +14,15 @@ $grades = $_REQUEST["grades"];
         $gender = $_REQUEST["gender"];
         $terms = $_REQUEST["terms"];
     
-//        $sql =       " SELECT students.admission_no, students.first_name, students.gender," .
-//                        " marks.Exam_Group, marks.Grade, marks.Batch, marks.Subject, marks.Mark " .
-//                        " FROM marks" .
-//                        " INNER JOIN students ON students.admission_no = marks.MOE" .
-//                        " WHERE $terms $grades $batches $gender $subjects";
-//        echo $sql;
+       $sql =       " SELECT students.admission_no, students.first_name, students.gender," .
+                        " marks.Exam_Group, marks.Grade, marks.Batch, marks.Subject, marks.Mark " .
+                        " FROM marks" .
+                        " INNER JOIN students ON students.admission_no = marks.MOE" .
+                        " WHERE $terms $grades $batches $gender $subjects";
+       //echo $sql;
         
         
-        $sql =        " SELECT *  "
-                    . " FROM gold " 
-                    . " WHERE $terms $grades $batches $gender $subjects";
+        
 
         
         $result = $conn->query($sql);
