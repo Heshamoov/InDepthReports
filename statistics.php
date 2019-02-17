@@ -338,20 +338,20 @@ $(function () {
                         <select id="term" multiple="multiple"></select>
                     </td>
                     <td>
-                        <select id="grade" multiple="multiple"></select> 
+                        <div class="w3-dropdown-hover">                           
+                            <select class="w3-black w3-dropdown-content" id ="grade" multiple="multiple" class="w3-block" ></select>  
+                        </div>                      
                     </td>
                     <td>
-                        <select id="batch" multiple="multiple" class="w3-block">
-                        </select>
+                        <select id="batch" multiple="multiple" class="w3-block"></select>
                     </td>
                     <td>
-                        <select id="subject" multiple="multiple">
-                        </select>         
+                        <select id="subject" multiple="multiple"></select>         
                     </td>
                     <td>
-                        <select id="gender" multiple="multiple">
+                        <select class="w3-dropdown-content w3-dropdown-hover" id="gender" multiple="multiple"> 
                             <option>Male</option>
-                            <option>Female</option>
+                            <option>Female</option> 
                         </select>
                     </td>
                     <td>|||</td>

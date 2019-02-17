@@ -8,6 +8,8 @@
 
         <link rel="stylesheet" href="css/resultstyle.css">
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
         <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -178,7 +180,7 @@ function drawMaterial() {
         <table id= "table1">
         <tr><td></td><td></td><td>Grade</td><td>Subject</td><td></td><td>Search</td></tr>
         <tr><td><button class="w3-button w3-blue" id="exportS" onclick="downloadStatistics()()" title="Export Statistics as PDF"><span class="material-icons">get_app</span></button>
-        </td><td>|||</td><td><select id="grade"></select></td><td><select id="subject"></select></td>
+        </td><td>|||</td><td><select id="grade"></select></td><td><select id="subject"> </select></td>
         <td>|||</td><td><button class="w3-button w3-blue w3-block" id="search" title="Get students marks"><span class="fa fa-search"></span></button></td>
         <td>|||</td><td><button class="w3-button w3-blue" id="exportM" onclick="downloadStudents()" title="Export Marks as PDF"><span class="material-icons">get_app</span></button></td>
         </tr>
