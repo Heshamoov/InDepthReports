@@ -31,7 +31,7 @@
 //    . "WHERE (marks.Exam_Group = '$term') AND (marks.Grade = '$grade')"
 //                . " AND (marks.Subject = '$subject') AND (marks.mark >= $min) $gender";
         
-         "SELECT students.gender gender,\n"
+          $sql = "SELECT students.gender gender,\n"
             . "exam_scores.marks marks"
             . "\n"
             . "FROM (((((("
@@ -53,10 +53,10 @@
             . "\n"
             . "INNER JOIN subjects\n"
             . "ON subjects.id = exams.subject_id)\n "
-            ."WHERE (exam_group.name = '$term' ) AND (courses.course_name = '$grade' "
-                 . "AND (subjects.name = 'Arabic Language') AND (exam_scores.marks >= $min ) $gender )";     
+            ."WHERE (exam_groups.name = '$term' ) AND (courses.course_name = '$grade' "
+            . "AND (subjects.name = '$subject') AND (exam_scores.marks >= $min ) $gender )";     
 
-//    echo $sql;
+// echo $sql;
         
         $result = $conn->query($sql);
         $rowcount=mysqli_num_rows($result);

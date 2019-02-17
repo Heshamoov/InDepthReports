@@ -196,10 +196,7 @@ function drawMaterial() {
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T1">  
             <th colspan="4" class="w3-blue" style="font-size: 16px">Benchmark Data<br>Academic Year
                 <select id="T1-Year">
-                        <option>2017 - 2018</option>
-                        <option>2016 - 2017</option>
-                        <option>2015 - 2016</option>
-                        <option>2014 - 2015</option>
+                        
                 </select>
         </th>
         <tr>
@@ -241,10 +238,6 @@ function drawMaterial() {
         <table class=" w3-table-all w3-striped w3-centered w3-card-4" id="T2">  
                 <th colspan="4" class="w3-blue" style="font-size: 16px">Benchmark Data<br>Academic Year
                         <select id="T2-Year">
-                                <option>2017 - 2018</option>
-                                <option>2016 - 2017</option>
-                                <option>2015 - 2016</option>
-                                <option>2014 - 2015</option>
                         </select></th>
                 <tr>
                 <th colspan="2" class="w3-border-right">
@@ -289,10 +282,6 @@ function drawMaterial() {
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T3">  
         <th colspan="4" class="w3-blue" style="font-size: 16px">Benchmark Data<br>Academic Year
                 <select id="T3-Year">
-                        <option>2017 - 2018</option>
-                        <option>2016 - 2017</option>
-                        <option>2015 - 2016</option>
-                        <option>2014 - 2015</option>
                 </select>
         </th>
         <tr>
@@ -333,11 +322,7 @@ function drawMaterial() {
         <div class="w3-container w3-half">
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T4">  
                 <th colspan="4" class="w3-blue" style="font-size: 16px">Benchmark Data<br>Academic Year
-                        <select id="T4-Year">
-                                <option>2017 - 2018</option>
-                                <option>2016 - 2017</option>
-                                <option>2015 - 2016</option>
-                                <option>2014 - 2015</option>
+                        <select id="T4-Year" style.visiblity='display:hide'>
                         </select></th>
                 <tr>
                 <th colspan="2" class="w3-border-right">

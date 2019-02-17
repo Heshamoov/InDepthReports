@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <title>Statistics</title>
     <link rel="icon" type="image/png" href="CSS/imges/PageLogo.PNG" />
@@ -23,7 +23,9 @@
     <script src="js/jspdf.plugin.autotable.js"></script>
 
 <script type="text/javascript">
+    
 $(function () {
+    
     $('#term').multiselect({ includeSelectAllOption: true });
     $('#grade').multiselect({  includeSelectAllOption: true });
     $('#batch').multiselect({ includeSelectAllOption: true });
@@ -255,6 +257,7 @@ $(function () {
     });
 });
 </script>
+ 
     
 </head>
 <body>
@@ -337,10 +340,8 @@ $(function () {
                     <td>
                         <select id="term" multiple="multiple"></select>
                     </td>
-                    <td>
-                        <div class="w3-dropdown-hover">                           
-                            <select class="w3-black w3-dropdown-content" id ="grade" multiple="multiple" class="w3-block" ></select>  
-                        </div>                      
+                    <td >
+                        <select  id ="grade" multiple="multiple" class="w3-block w3-dropdown-content" ></select>  
                     </td>
                     <td>
                         <select id="batch" multiple="multiple" class="w3-block"></select>
@@ -349,10 +350,10 @@ $(function () {
                         <select id="subject" multiple="multiple"></select>         
                     </td>
                     <td>
-                        <select class="w3-dropdown-content w3-dropdown-hover" id="gender" multiple="multiple"> 
-                            <option>Male</option>
-                            <option>Female</option> 
-                        </select>
+                            <select id="gender" multiple="multiple"> 
+                                <option>Male</option>
+                                <option>Female</option> 
+                            </select>
                     </td>
                     <td>|||</td>
                     <td>
