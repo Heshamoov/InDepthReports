@@ -41,11 +41,11 @@ $(function () {
         var message = "";     var termHeader = "";
         selected_terms.each(function () {
                 if (message ===""){
-                    message = " (Exam_Group = '" + $(this).text() + "'";
+                    message = " (exam_groups.name = '" + $(this).text() + "'";
                     termHeader = $(this).text();
                 } else {
-                    message += " OR Exam_Group = '" + $(this).text() + "'";
-                    termHeader += " - " + $(this).text();
+                    message += " OR exam_groups.name = '" + $(this).text() + "'";
+                    termHeader += " , " + $(this).text();
                 }
         });
         if (message !== "")
@@ -63,13 +63,13 @@ $(function () {
             }
             if (message ===""){
                 if (selected_terms !== "") 
-                    message = " AND (grade = '" + currentGrade + "' ";
+                    message = " AND (courses.course_name = '" + currentGrade + "' ";
                 else 
-                    message = " (grade = '" + currentGrade + "'";
-                gradeHeader = currentGrade;
+                    message = " (courses.course_name = '" + currentGrade + "'";
+                gradeHeader = " - " + currentGrade;
             } else {
-                message += " OR grade = '" + currentGrade + "'";  //  grade like 'GR1' OR grade like 'GR10';
-                gradeHeader += " - " + currentGrade;
+                message += " OR courses.course_name = '" + currentGrade + "'";  //  grade like 'GR1' OR grade like 'GR10';
+                gradeHeader += " , " + currentGrade;
             }
         });
         if (message !== "")
@@ -83,13 +83,13 @@ $(function () {
         selected_batches.each(function () {
             if (message === "") {
                 if (selected_grades !== "") 
-                        message = " AND (batch = '" + $(this).text() + "' ";
+                        message = " AND (batches.name = '" + $(this).text() + "' ";
                 else 
-                        message = " (batch = '" + $(this).text() + "' ";
-                batchHeader = $(this).text();
+                        message = " (batches.name = '" + $(this).text() + "' ";
+                batchHeader = " - " + $(this).text();
             } else {
-                message += " OR batch = '" + $(this).text() + "' ";
-                batchHeader += " - " + $(this).text();
+                message += " OR batches.name = '" + $(this).text() + "' ";
+                batchHeader += " , " + $(this).text();
             }
         });
         if (message !== "")
@@ -112,10 +112,10 @@ $(function () {
                     message = " AND (gender = '" + DB_Gender + "' ";
                 else 
                     message = " (gender = '" + DB_Gender + "' ";
-                genderHeader = $(this).text();
+                genderHeader = " - " + $(this).text();
                 } else {
                     message += "OR gender = '" + DB_Gender + "' ";
-                    genderHeader += " - " + $(this).text();
+                    genderHeader += " , " + $(this).text();
                 }
         });
         if (message !== "")
@@ -147,14 +147,16 @@ $(function () {
             tableNumber++;
             if (message === "") {
                 if (selected_terms !== "" || selected_grades !== "" || selected_batches !== "" || selected_gender !== "") 
-                    message = " AND (subject LIKE '" + currentSubject + "%' ";  //Add '%' to the end of the subject name: WHERE subject LIKE 'Math%' 
+                    message = " AND (subjects.name  LIKE '" + currentSubject + "%' ";  //Add '%' to the end of the subject name: WHERE subject LIKE 'Math%' 
                 else
-                    message = " (subject LIKE '" + currentSubject + "%' ";
-                subjectHeader = currentSubject;
+                    message = " (subjects.name = '" + currentSubject +  "' " ;
+                subjectHeader = " - " + currentSubject;
             } else {
-                message += "OR subject LIKE '" + currentSubject + "%' ";
-                subjectHeader += " - " + currentSubject;
+                message += "OR subjects.name  LIKE '" + currentSubject + "%' ";
+                subjectHeader += " , "+ currentSubject;
             }
+            
+            
             tableName = "T" + tableNumber;
             var tableNeme2 = 'TT' + tableNumber;
             document.getElementById(tableName).style.visibility = "Visible";
@@ -211,7 +213,7 @@ $(function () {
         else
             selected_subjects = "";
         
-        stable.rows[0].cells[0].innerHTML =  termHeader + " " + gradeHeader + " " + batchHeader + " " + " ( " + subjectHeader + " ) " + genderHeader; 
+        stable.rows[0].cells[0].innerHTML =  "Statistics: "+termHeader + " " + gradeHeader + " " + batchHeader + "" + "  " + subjectHeader + "  " + genderHeader; 
         stablePDF.rows[0].cells[0].innerHTML =  termHeader + " " + gradeHeader + " " + batchHeader + " " + " ( " + subjectHeader + " ) " + genderHeader; 
 
         var xmlhttp = new XMLHttpRequest();
@@ -979,3 +981,4 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
 
 </body>
 </html>
+
