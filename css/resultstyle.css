@@ -61,7 +61,7 @@ input[type=text]{
 
 #rightdiv,#tables
 {
-  overflow-y: scroll;
+  overflow: scroll;
   height:80rem;
   padding-bottom: 30rem;
 }

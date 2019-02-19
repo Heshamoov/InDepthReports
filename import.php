@@ -5,6 +5,7 @@
     <link rel="icon" type="image/png" href="CSS/imges/PageLogo.PNG" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel = "stylesheet" type = "text/css" href = "css/style.css">
+        <link rel="stylesheet" href="css/resultstyle.css">
     <link rel="stylesheet" href="css/www.w3schools.com_w3css_4_w3.css">
     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -17,6 +18,12 @@
     <script src="https://s3.amazonaws.com/api_play/src/js/vkbeautify.0.99.00.beta.js"></script>
     <script src="https://s3.amazonaws.com/api_play/src/js/common.js"></script>
 
+    <style>
+            body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif}
+            .w3-bar,h1,button,select {font-family: "Montserrat", sans-serif}
+            .w3-custom {color:#fff !important; background-color:#009688 !important}
+            .fa-anchor,.fa-coffee {font-size:200px}
+</style>
 <script>
     $(function(){ $("#display").click(function() {
         document.getElementById('output').value = '';
@@ -299,64 +306,8 @@
     <?php $token = $_POST['token']; ?>
     <?php $iurl =  $_POST['iurl'];  ?>
 <!-- Navigation bar -->
-    <div class="w3-bar w3-theme-d2 w3-left-align">
-        
-        <form name="frm" action="import.php" method="POST">
-            <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-            <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-            <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Home" type="submit" style="background-color: #009688">
-        </form>   
-        
-        <form name="frm" action="statistics.php" method="POST">
-            <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-            <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-            <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Statistics" type="submit">
-        </form>   
-                
-        <form name="frm" action="subject_wise.php" method="POST">
-            <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-            <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-            <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Subject Wise" type="submit">
-        </form>
-        
-        <form name="frm" action="student_wise.php" method="POST">
-            <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-            <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-            <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Student Wise" type="submit">
-        </form>        
-        
-        <form name="frm" action="batch_wise.php" method="POST">
-            <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-            <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-            <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Batch Wise" type="submit">
-        </form>   
-        
-        <form name="frm" action="year_wise.php" method="POST">
-            <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-            <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-            <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Year Wise" type="submit">
-        </form>   
-        
-        
-        <div class="w3-dropdown-hover w3-hide-small">
-            <button class="w3-button" title="Advanced Reports">More<i class="fa fa-caret-down"></i></button>     
-            <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-                <form name="frm" action="gender_wise.php" method="POST">
-                    <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                    <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                    <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Gender Wise" type="submit">
-                </form>   
-
-                <form name="frm" action="teacher_wise.php" method="POST">
-                    <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                    <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                    <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Teacher Wise" type="submit">
-                </form>   
-                <a href="#" class="w3-bar-item w3-button w3-mobile">....</a>
-            </div>
-        </div>  <!-- Search box -->
-    <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal w3-mobile" title="Search"><i class="fa fa-search"></i></a>-->
-    </div>
+        <?php include('navbar.php'); ?>
+ <!-- End of Navigation bar -->
         
 <div class="w3-container w3-quarter">
     <h4>Student Search</h4>

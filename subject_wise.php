@@ -1,28 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-        <title>Subject Wise</title>
-        <link rel="icon" type="image/png" href="CSS/imges/PageLogo.PNG" />    
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <link rel="stylesheet" href="css/resultstyle.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
-        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
-
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
-        <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script src="js/jspdf.min.js"></script>
-        <script src="js/jspdf.debug.js"></script>
-        <script src="js/jspdf.plugin.autotable.js"></script>    
+<?php include('Header.php'); ?>
+<title>Statistics based on subject</title>
+</head>
 <script type="text/javascript">
 $(function () { $('#search').click(function () {
                 
@@ -71,7 +49,6 @@ function drawMaterial() {
         for (var i = 1; i < 5; i++) {
                 tableName = 'T' + i;
                 
-                var year = document.getElementById(tableName + '-Year').options[document.getElementById(tableName + '-Year').selectedIndex].text;
                 var term1 = document.getElementById(tableName + '-Term1').options[document.getElementById(tableName + '-Term1').selectedIndex].text;
                 var term2 = document.getElementById(tableName + '-Term2').options[document.getElementById(tableName + '-Term2').selectedIndex].text;
                 var gender1 = document.getElementById(tableName + '-Gender1').options[document.getElementById(tableName + '-Gender1').selectedIndex].text;
@@ -119,86 +96,29 @@ function drawMaterial() {
     
 <div class=" w3-responsive header">
 <!-- Navigation bar -->
-<div class="w3-responsive w3-bar w3-theme-d2 w3-left-align">
-        
-        <form name="frm" action="import.php" method="POST">
-            <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-            <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-            <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Home" type="submit" style="background-color: #009688">
-        </form>   
-        
-        <form name="frm" action="statistics.php" method="POST">
-                <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Statistics" type="submit">
-        </form>   
-        
-        <form name="frm" action="subject_wise.php" method="POST">
-                <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Subject Wise" type="submit">
-        </form>   
-        
-        <form name="frm" action="student_wise.php" method="POST">
-                <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Student Wise" type="submit">
-        </form>   
-        
-        <form name="frm" action="batch_wise.php" method="POST">
-                <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Batch Wise" type="submit">
-        </form>   
-        
-        <form name="frm" action="year_wise.php" method="POST">
-                <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Year Wise" type="submit">
-        </form>   
-        
-        <div class="w3-responsive w3-dropdown-hover w3-hide-small">
-                <button class="w3-button" title="Advanced Reports">More<i class="fa fa-caret-down"></i></button>     
-                <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-                        <form name="frm" action="gender_wise.php" method="POST">
-                                <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                                <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                                <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Gender Wise" type="submit">
-                        </form>   
-
-                        <form name="frm" action="teacher_wise.php" method="POST">
-                                <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                                <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                                <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Teacher Wise" type="submit">
-                        </form>   
-                <a href="#" class="w3-bar-item w3-button w3-mobile">....</a>
-            </div>
-        </div>
-</div>
-
+        <?php include('navbar.php'); ?>
+<!-- End of Navigation bar -->
 <div id="upperdiv" class="w3-container">
+    
+<br>
         <table id= "table1">
-        <tr><td></td><td></td><td>Grade</td><td>Subject</td><td></td><td>Search</td></tr>
-        <tr><td><button class="w3-button w3-blue" id="exportS" onclick="downloadStatistics()()" title="Export Statistics as PDF"><span class="material-icons">get_app</span></button>
-        </td><td>|||</td><td><select id="grade"></select></td><td><select id="subject"> </select></td>
-        <td>|||</td><td><button class="w3-button w3-blue w3-block" id="search" title="Get students marks"><span class="fa fa-search"></span></button></td>
-        <td>|||</td><td><button class="w3-button w3-blue" id="exportM" onclick="downloadStudents()" title="Export Marks as PDF"><span class="material-icons">get_app</span></button></td>
+        <tr><td></td><td></td><td>Grade</td><td>Subject</td><td></td><td></td></tr>
+        <tr><td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()()" title="Export Statistics as PDF" >Export Statistics  <span class="material-icons">save_alt</span></button>
+        </td><td></td><td><select id="grade"></select></td><td><select id="subject"> </select></td>
+        <td></td><td><button style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="search" title="Get students marks">Search Results  <span class="fa fa-search"></span></button></td>
+        <td></td><td><button  style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="exportM" onclick="downloadStudents()" title="Export Marks as PDF">Export Mark  <span class="material-icons ">save_alt</span></button></td>
         </tr>
-        </table>
+        </table><br>
 </div>
 
-<div id="tables">
+<div id="tables" style="height: 100vh; overflow: auto">
 <!--Tables-->
 <!--////////////////////////            Table 1     ///////////////////////////////////////////////////-->
 <textarea id="output" rows="10" cols="50" hidden></textarea>
 <div class="w3-row w3-border">
         <div class="w3-container w3-half">
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T1">  
-            <th colspan="4" class="w3-blue" style="font-size: 16px">Benchmark Data<br>Academic Year
-                <select id="T1-Year">
-                        
-                </select>
-        </th>
+            <th colspan="4" class="w3-teal" style="font-size: 18px">Benchmark Data</th>
         <tr>
         <th colspan="2" class="w3-border-right">
                 <select id="T1-Term1"></select>
@@ -236,9 +156,7 @@ function drawMaterial() {
     
         <div class="w3-container w3-half">
         <table class=" w3-table-all w3-striped w3-centered w3-card-4" id="T2">  
-                <th colspan="4" class="w3-blue" style="font-size: 16px">Benchmark Data<br>Academic Year
-                        <select id="T2-Year">
-                        </select></th>
+                <th colspan="4" class="w3-teal" style="font-size: 18px">Benchmark Data</th>
                 <tr>
                 <th colspan="2" class="w3-border-right">
                         <select id="T2-Term1"></select>
@@ -280,10 +198,7 @@ function drawMaterial() {
 <div class="w3-row w3-border">
         <div class="w3-container w3-half">
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T3">  
-        <th colspan="4" class="w3-blue" style="font-size: 16px">Benchmark Data<br>Academic Year
-                <select id="T3-Year">
-                </select>
-        </th>
+        <th colspan="4" class="w3-teal" style="font-size: 18px">Benchmark Data</th>
         <tr>
         <th colspan="2" class="w3-border-right">
                 <select id="T3-Term1"></select>
@@ -321,9 +236,7 @@ function drawMaterial() {
     
         <div class="w3-container w3-half">
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T4">  
-                <th colspan="4" class="w3-blue" style="font-size: 16px">Benchmark Data<br>Academic Year
-                        <select id="T4-Year" style.visiblity='display:hide'>
-                        </select></th>
+                <th colspan="4" class="w3-teal" style="font-size: 18px">Benchmark Data</th>
                 <tr>
                 <th colspan="2" class="w3-border-right">
                         <select id="T4-Term1"></select>
@@ -458,13 +371,13 @@ function fetchTerms(table) {
         httpterms.open("GET", "sqldb/displayTerms.php", false);
         httpterms.send();
         for (T=1; T<5; T++) {
-                var select = document.getElementById('T' + T + '-Year');
-                while (select.length > 0)
-                        select.remove(0);
+//                var select = document.getElementById('T' + T + '-Year');
+//                while (select.length > 0)
+//                        select.remove(0);
                         
                 delete termsArray[termsArray.length - 1];
-                for( var i in termsArray )
-                        select.add( new Option( termsArray[i] ) );    
+//                for( var i in termsArray )
+//                        select.add( new Option( termsArray[i] ) );    
                 
                 for (c=1; c<3; c++) {
                         var tableName = 'T' + T + '-Term' + c;
@@ -477,10 +390,7 @@ function fetchTerms(table) {
                                   select.add( new Option( termsArray[i] ) );    
                 }
         }
-        $(function () {$('#T1-Year').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T2-Year').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T3-Year').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T4-Year').multiselect({includeSelectAllOption: true});});
+      
         
         $(function () {$('#T1-Term1').multiselect({includeSelectAllOption: true});});
         $(function () {$('#T1-Term2').multiselect({includeSelectAllOption: true});});

@@ -6,6 +6,12 @@
 
         if ($conn->connect_error)
                 die("Connection failed: " . $conn->connect_error . "\n");
+        //   -----------arabic encoding----------------
+         $sSQL= 'SET CHARACTER SET utf8'; 
+        mysqli_query($conn,$sSQL) 
+         or die ('Can\'t charset in DataBase');
+        //    -----------arabic encoding-------------
+
 
         $sql = "SELECT DISTINCT name FROM subjects";
         $result = $conn->query($sql);

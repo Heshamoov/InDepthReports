@@ -6,6 +6,13 @@
 
     if ($conn->connect_error)
             die("Connection failed: " . $conn->connect_error . "\n");
+   
+    
+//   -----------arabic encoding----------------
+     $sSQL= 'SET CHARACTER SET utf8'; 
+    mysqli_query($conn,$sSQL) 
+    or die ('Can\'t charset in DataBase');
+//    -----------arabic encoding-------------
 
     $terms = $_REQUEST["terms"];
     $grades = $_REQUEST["grades"];
@@ -80,7 +87,7 @@
         $result = $conn->query($sql);
         $rownumber = 1;
         if ($result->num_rows > 0) {
-                echo "<thead><tr class= w3-blue ><th>No</th><th>MOE</th>" .
+                echo "<thead><tr id =out class= w3-custom ><th>No</th><th>MOE</th>" .
                         "<th>Name</th><th>Gender</th><th>Exam Group</th>" .
                         "<th>Grade</th><th>Section</th>" .
                         "<th>Subject</th><th>Mark</th></tr></thead><tbody>";
@@ -96,3 +103,7 @@
                 echo "Data Not Found, try to import it to DB";
         
         $conn->close();
+        
+        
+     
+

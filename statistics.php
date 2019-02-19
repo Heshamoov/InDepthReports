@@ -1,29 +1,8 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" >
-<head>
-    <title>Statistics</title>
-    <link rel="icon" type="image/png" href="CSS/imges/PageLogo.PNG" />
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="css/resultstyle.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link href="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/css/bootstrap-multiselect.css" rel="stylesheet" type="text/css" />
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script src="http://cdn.rawgit.com/davidstutz/bootstrap-multiselect/master/dist/js/bootstrap-multiselect.js" type="text/javascript"></script>
-
-    <script src="js/jspdf.min.js"></script>
-    <script src="js/jspdf.debug.js"></script>
-    <script src="js/jspdf.plugin.autotable.js"></script>
-
-<script type="text/javascript">
-    
+<?php include('Header.php'); ?>
+<title>Statistics</title>
+</head>
+<script type="text/javascript"> 
 $(function () {
     
     $('#term').multiselect({ includeSelectAllOption: true });
@@ -31,8 +10,9 @@ $(function () {
     $('#batch').multiselect({ includeSelectAllOption: true });
     $('#subject').multiselect({ includeSelectAllOption: true });
     $('#gender').multiselect({ includeSelectAllOption: true });
-
-    $('#search').click(function () {
+    
+    $( document ).on("ready click",function () {
+        
         var selected_terms = $("#term option:selected");
         var selected_grades = $("#grade option:selected");
         var selected_batches = $("#batch option:selected");
@@ -256,98 +236,50 @@ $(function () {
         }
     });
 });
+
+
+
 </script>
  
     
-</head>
+
 <body>
+    
     <?php $token = $_POST['token']; ?>
     <?php $iurl =  $_POST['iurl']; ?>
-    <div class=" w3-responsive header">
     
-        <!-- Navigation bar -->
-        <div class="w3-responsive w3-bar w3-theme-d2 w3-left-align">
-        
-            <form name="frm" action="import.php" method="POST">
-                <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Home" type="submit" style="background-color: #009688">
-            </form>   
-
-            <form name="frm" action="statistics.php" method="POST">
-                    <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                    <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                    <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Statistics" type="submit">
-            </form>   
-
-            <form name="frm" action="subject_wise.php" method="POST">
-                    <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                    <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                    <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Subject Wise" type="submit">
-            </form>   
-
-            <form name="frm" action="student_wise.php" method="POST">
-                    <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                    <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                    <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Student Wise" type="submit">
-            </form>   
-
-            <form name="frm" action="batch_wise.php" method="POST">
-                    <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                    <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                    <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Batch Wise" type="submit">
-            </form>   
-
-            <form name="frm" action="year_wise.php" method="POST">
-                    <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                    <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                    <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Year Wise" type="submit">
-            </form>   
-        
-            <div class="w3-responsive w3-dropdown-hover w3-hide-small">
-                <button class="w3-button" title="Advanced Reports">More<i class="fa fa-caret-down"></i></button>     
-                <div class="w3-dropdown-content w3-card-4 w3-bar-block">
-
-                    <form name="frm" action="gender_wise.php" method="POST">
-                        <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                        <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                        <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Gender Wise" type="submit">
-                    </form>   
-
-                    <form name="frm" action="teacher_wise.php" method="POST">
-                        <input id="iurl" type="hidden" value="<?php echo $iurl ?>" name="iurl"/>
-                        <input id="token" type="hidden" value="<?php echo $token ?>" name="token"/> 
-                        <input class="w3-bar-item w3-button w3-hide-small w3-hover-white w3-mobile" value="Teacher Wise" type="submit">
-                    </form>   
-                    <a href="#" class="w3-bar-item w3-button w3-mobile">....</a>
-                </div>
-            </div>
-        </div>
+    <div class=" w3-responsive header" >
+    
+        <!-- Navigation bar -->        
+        <?php include('navbar.php'); ?>
         <!--End of Navictacoin bar-->
         
         <!--Drop menus-->
-        <div id="upperdiv" class="w3-container">
+        <div id="upperdiv" class="w3-container w3-mobile">
             <table id= "table1">
+
                 <tr>
-                    <td></td><td></td><td>Term</td>
-                    <td>Grade</td>  <td>Section</td>  <td>Subject</td><td>Gender</td><td></td><td>Search</td>
+                    <td></td><td>Term</td>
+                    <td>Grade</td>  <td>Section</td>  <td>Subject</td><td>Gender</td><td></td>
                 </tr>
                 <tr>
                     <td>
-                        <button class="w3-button w3-blue" id="exportS" onclick="downloadStatistics()()" title="Export Statistics as PDF"><span class="material-icons">get_app</span></button>
+                        <button class="w3-button w3-round-xlarge w3-hover-blue-gray w3-medium w3-custom" id="exportS" onclick="downloadStatistics()()" title="Export Statistics as PDF">Export Statistics
+                            <span class="material-icons">save_alt</span></button>
                     </td>
-                    <td>|||</td>
+                   
                     <td>
-                        <select id="term" multiple="multiple"></select>
+                        <select   id="term" multiple="multiple"></select>   
                     </td>
                     <td >
-                        <select  id ="grade" multiple="multiple" class="w3-block w3-dropdown-content" ></select>  
+                        
+                        <select  id ="grade" multiple="multiple"  ></select>  
                     </td>
                     <td>
-                        <select id="batch" multiple="multiple" class="w3-block"></select>
+                        <select id="batch" multiple="multiple"></select>
                     </td>
                     <td>
-                        <select id="subject" multiple="multiple"></select>         
+                        <select id="subject" style="width:100px;overflow:hidden; " multiple="multiple"></select>         
                     </td>
                     <td>
                             <select id="gender" multiple="multiple"> 
@@ -355,24 +287,28 @@ $(function () {
                                 <option>Female</option> 
                             </select>
                     </td>
-                    <td>|||</td>
+                   
                     <td>
-                        <button class="w3-button w3-blue w3-block" id="search" title="Get students marks"><span class="fa fa-search"></span></button>
+                        <button style="padding: 15px 32px 32px 32px;text-align: center ;font-size: 14px;" class="w3-button w3-hover-blue-gray w3-custom w3-round-large " id="search" title="Get students marks">Search    <span class="fa fa-search"></span></button>
                     </td>
-                    <td>|||</td>
+                    
                     <td>
-                        <button class="w3-button w3-blue" id="exportM" onclick="downloadStudents()" title="Export Marks as PDF"><span class="material-icons">get_app</span></button>
+                        <button  class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="exportM" onclick="downloadStudents()" title="Export Marks as PDF">Export Marks <span class="material-icons ">save_alt</span></button>
                     </td>
+                    
                 </tr>
+                    
             </table>
+            <br>
         </div>
+
         <!--Drop menus-->
         
-    <div class="w3-container w3-col m4 l5" id="tables">
+    <div class="w3-container w3-col m4 l5 w3-mobile" id="tables" style="overflow: scroll;top: 0;  bottom: 0; height: 100vh; " >
         <textarea id="output" rows="10" cols="50" hidden></textarea>
         <br>
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="stable">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Statistics</th>
+            <th colspan="5" class="w3-custom " style="font-size: 16px">Statistics</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Marks Count</th>
                 <th class="w3-border-right"><input id="percent11" type="text" value= 50>% - <input id="percente12" type="text" value=100>%</th>
@@ -387,6 +323,7 @@ $(function () {
                 <td class="w3-border-right"></td>
             </tr>
         </table>
+        <br><br>
         
         <table id="stablePDF" hidden>
             <thead> <tr><th colspan="5"></th><th></th><th></th><th></th><th></th></tr></thead>
@@ -395,7 +332,7 @@ $(function () {
         </table>
         
         <table id="T1" class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" >
-        <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+        <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
         <tr>
             <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
             <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -408,7 +345,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T2">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -422,7 +359,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T3">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -436,7 +373,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T4">
-             <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+             <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -450,7 +387,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T5">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -464,7 +401,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T6">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -478,7 +415,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T7">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -492,7 +429,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T8">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -506,7 +443,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T9">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -520,7 +457,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T10">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -534,7 +471,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T11">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -548,7 +485,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T12">  
-            <th colspan="5" class="w3-blue" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -560,11 +497,11 @@ $(function () {
         </table>
             
     </div>
-
-    <div class="w3-col m8 l7 w3-card-4 w3-mobile" id="rightdiv"> 
         
+    <div class="w3-col m8 l7 w3-card-4 w3-mobile" id="rightdiv" style = "height:100vh; overflow: scroll; padding-top: 10px; padding-left: 10px; padding-right: 10px"> 
         <!--Downloading table  11:52 AM-->   
         <br>
+
         <table class="w3-table-all w3-card-4 w3-striped w3-hoverable" id="out" ></table>
         <table id="TT1" hidden>
             <thead><tr><th></th><th></th><th></th><th></th><th></th></tr></thead>
@@ -627,24 +564,27 @@ $(function () {
                    <tr><td></td><td></td><td></td><td></td><td></td></tr></tbody>
         </table>    
     </div>
-        
+    
+   <button onclick="topFunction()" style="left:0; padding: 10px;" class=" w3-hover-blue-gray w3-small" id="myBtn" title="Go to top"><span class="glyphicon glyphicon-arrow-up"style="font-size: 25px;" ></span></button>
+
     <!--Scroll Handling-->
-    <button onclick="topFunction()" id="myBtn" title="Go to top">Top</button>
     </div>
     <script>
-        window.onscroll = function() {scrollFunction();};
+        document.getElementById("tables").onscroll = function() {scrollFunction();};
         function scrollFunction() {
-            if (document.getElementById("out").scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            if (document.getElementById("tables").scrollTop > 20) {
                 document.getElementById("myBtn").style.display = "block";
             } else
                 document.getElementById("myBtn").style.display = "none";
             };
         function topFunction() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+            document.getElementById("tables").scrollTop = 0;
+            
+            
         };
     </script>
-
+    
+      
     <!--Term drop down  AND Tables initializer-->  
     <script type="text/javascript">
         for (var i = 1; i < 13; i++)
@@ -931,7 +871,7 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
          $('#grade').multiselect('rebuild');
 };
 </script>
-<script>
+--><script>
         function downloadStudents() {
                 var doc = new jsPDF('p', 'pt');
                 var table = doc.autoTableHtmlToJson(document.getElementById("out"));
@@ -947,8 +887,8 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
                 doc.autoTable(table.columns, table.data, options);
                 doc.save("Students.pdf");
         }
-</script>
-<script>
+</script><!--
+--><script>
         function downloadStatistics() {
                 var doc = new jsPDF('p', 'pt');
                 var header = function(data) {
@@ -978,7 +918,7 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
                 });
                 doc.save("Statistics.pdf");
         }
-</script>-->
+</script>
 
 </body>
 </html>
