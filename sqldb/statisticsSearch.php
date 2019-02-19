@@ -83,7 +83,7 @@
             
 
 
-//        echo $sql;    
+        echo $sql;    
         $result = $conn->query($sql);
         $rownumber = 1;
         if ($result->num_rows > 0) {
@@ -94,7 +94,7 @@
                 
                 while($row = $result->fetch_assoc())
                         echo "<tr><td>"  . $rownumber++ . "</td><td>" . $row["moe"] . 
-                                "</td><td>" . $row["name"] . "</td><td>" . $row["gender"] .
+                                "</td><td>" . $row["name"] . "</td><td>" .($row["gender"] == 'm'? 'Male': 'Female').
                                 "</td><td>" . $row["exam_name"] . "</td><td>" . $row["grade"] .
                                 "</td><td>" . $row["batch_name"] . "</td><td>" . $row["subject_name"] .
                                 "</td><td>" . $row["marks"]."</td></tr>";

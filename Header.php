@@ -30,7 +30,7 @@
             .w3-bar,h1,button,select {font-family: "Montserrat", sans-serif}
             .w3-custom {color:#fff !important; background-color:#009688 !important}
             .fa-anchor,.fa-coffee {font-size:200px}
-</style>
+    </style>
             
     </style> 
    

@@ -2,10 +2,41 @@
 <title>Statistics based on subject</title>
 </head>
 <script type="text/javascript">
-$(function () { $('#search').click(function () {
+$(function () { 
+    
+          $('#studentcategory').multiselect({ includeSelectAllOption: true });
+
+        $('#search').click(function () {
                 
         var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
         var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
+//        var category = document.getElementById("studentcategory").options[document.getElementById("studentcategory").selectedIndex].text;
+        var selected_category = $("#studentcategory option:selected");
+        
+            //Category               
+        var message = "";     var categoryHeader = "";
+        selected_category.each(function () {
+            var currentCategory = $(this).text();
+            if (currentCategory.indexOf("(") !== -1) {
+                var bracketIndex = currentCategory.indexOf("(");
+                currentCategory = currentCategory.slice(0,bracketIndex);
+            }
+            if (message ===""){
+                if (selected_category !== "") 
+                    message = " AND (student_categories.name = '" + currentCategory + "' ";
+                else 
+                    message = " (student_categories.name = '" + currentCategory + "'";
+                categoryHeader = " - " + currentCategory;
+            } else {
+                message += " OR student_categories.name = '" + currentCategory + "'";  //  grade like 'GR1' OR grade like 'GR10';
+                categoryHeader += " , " + currentCategory;
+            }
+        });
+        if (message !== "")
+            selected_category = message + ")";
+        else
+            selected_category = "";
+
         
                 // Between values Subject wise
                 var min=0, tableName, term, gender;
@@ -33,7 +64,7 @@ $(function () { $('#search').click(function () {
                                                 this.responseText;
                                 };
                                 httpAbove.open("POST", "sqldb/marksAbove.php?term=" + term + 
-                                        "&grade=" + grade  + "&subject=" + subject + 
+                                        "&grade=" + grade  + "&subject=" + subject +"&category=" + selected_category +
                                         "&gender=" + gender + "&min=" +min, false);
                                                          
                                 httpAbove.send();
@@ -98,17 +129,16 @@ function drawMaterial() {
 <!-- Navigation bar -->
         <?php include('navbar.php'); ?>
 <!-- End of Navigation bar -->
-<div id="upperdiv" class="w3-container">
-    
-<br>
+<div id="upperdiv" class="w3-container" style="padding-top: 10px; padding-bottom: 10px;">   
+
         <table id= "table1">
-        <tr><td></td><td></td><td>Grade</td><td>Subject</td><td></td><td></td></tr>
+            <tr><td></td><td></td><td>Grade</td><td>Subject</td><td>Student Category</td><td></td><td></td></tr>
         <tr><td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()()" title="Export Statistics as PDF" >Export Statistics  <span class="material-icons">save_alt</span></button>
-        </td><td></td><td><select id="grade"></select></td><td><select id="subject"> </select></td>
+        </td><td></td><td><select id="grade"></select></td><td><select id="subject"> </select></td></select></td><td><select id="studentcategory" multiple="multiple"> </select></td>
         <td></td><td><button style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="search" title="Get students marks">Search Results  <span class="fa fa-search"></span></button></td>
         <td></td><td><button  style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="exportM" onclick="downloadStudents()" title="Export Marks as PDF">Export Mark  <span class="material-icons ">save_alt</span></button></td>
         </tr>
-        </table><br>
+        </table>
 </div>
 
 <div id="tables" style="height: 100vh; overflow: auto">
@@ -144,10 +174,10 @@ function drawMaterial() {
                         <td class="w3-border-right"><input type="text" value= 95>% and above</td>
                 </tr>
                 <tr>
-                        <td class="w3-border-right">100</td>
-                        <td class="w3-border-right">50</td>
-                        <td class="w3-border-right">100</td>
-                        <td class="w3-border-right">50</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
                 </tr>
         </table>
                 <br>
@@ -182,10 +212,10 @@ function drawMaterial() {
                         <td class="w3-border-right"><input type="text" value= 95>% and above</td>
                 </tr>
                 <tr>
-                        <td class="w3-border-right">100</td>
-                        <td class="w3-border-right">50</td>
-                        <td class="w3-border-right">100</td>
-                        <td class="w3-border-right">50</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
                 </tr>
         </table>
         <br>
@@ -224,10 +254,10 @@ function drawMaterial() {
                         <td class="w3-border-right"><input type="text" value= 95>% and above</td>
                 </tr>
                 <tr>
-                        <td class="w3-border-right">100</td>
-                        <td class="w3-border-right">50</td>
-                        <td class="w3-border-right">100</td>
-                        <td class="w3-border-right">50</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
                 </tr>
         </table>
         <br>
@@ -262,10 +292,10 @@ function drawMaterial() {
                         <td class="w3-border-right"><input type="text" value= 95>% and above</td>
                 </tr>
                 <tr>
-                        <td class="w3-border-right">100</td>
-                        <td class="w3-border-right">50</td>
-                        <td class="w3-border-right">100</td>
-                        <td class="w3-border-right">50</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
+                        <td class="w3-border-right">--</td>
                 </tr>
         </table>
         <br>
@@ -440,6 +470,33 @@ function fetchTerms(table) {
          
 </script>
 
+<!--Initialize Student Category drop down-->     
+<script type="text/javascript">
+        var categoryArray = ["Your Data Base is Empty!."];
+         
+        var httpcategory = new XMLHttpRequest();
+        httpcategory.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                        var str = this.responseText;
+                        categoryArray = str.split("\n");   
+                  }
+         };
+         httpcategory.open("GET", "sqldb/distinctStudentCategory.php", false);
+         httpcategory.send();
+
+        var select = document.getElementById( 'studentcategory' );
+        delete categoryArray[categoryArray.length -1];
+        for( var i in categoryArray ) {
+            select.add( new Option( categoryArray[i] ) );
+        };   
+        $(function () {
+            $('#studentcategory').multiselect({
+                includeSelectAllOption: true
+                });  
+        });
+         
+</script>
+
 <!--Subject VIA Grades-->
 <script type="text/javascript">
 document.getElementById("grade").onchange = function() {fillSubjects();};
@@ -481,6 +538,8 @@ google.charts.setOnLoadCallback(drawMaterial);
 function drawMaterial() {
         var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
         var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
+        var studentcategory = document.getElementById("studentcategory").options[document.getElementById("studentcategory").selectedIndex].text;
+
 
         var value1, value2,value3,value4, result1, result2, result3, result4, tableName, chartName, gender1, gender2;
         for (var i = 1; i < 5; i++) {

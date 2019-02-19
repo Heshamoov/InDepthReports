@@ -8,7 +8,7 @@ and open the template in the editor.
     Author     : Hesham Alatrash - Heshamoov90@Gmail.com
 */
 input[type=text],input[type=password], select {
-    width: 100%;
+    max-width: 120px;
     display: inline-block;
     border: 1px solid white;
     box-sizing: border-box;

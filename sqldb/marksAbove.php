@@ -12,6 +12,7 @@
         $grade = $_REQUEST["grade"];
         $subject = $_REQUEST["subject"];
         $gender = $_REQUEST["gender"];
+        $category = $_REQUEST["category"];
         $min = $_REQUEST["min"];
         
         
@@ -29,33 +30,39 @@
 //    . "INNER JOIN students ON students.admission_no = marks.MOE\n"
 //
 //    . "WHERE (marks.Exam_Group = '$term') AND (marks.Grade = '$grade')"
-//                . " AND (marks.Subject = '$subject') AND (marks.mark >= $min) $gender";
+//                . " AND (marks.Subject = '$subject') AND (marks.mark >= $min) $gender";\
         
-          $sql = "SELECT students.gender gender,\n"
-            . "exam_scores.marks marks"
-            . "\n"
-            . "FROM (((((("
-            . "students\n"
-            . "INNER JOIN batches \n"
-            . "ON batches.id = students.batch_id)\n"
-            . "\n"
-            . "INNER JOIN courses \n"
-            . "ON batches.course_id = courses.id)\n"
-            . "\n"
-            . "INNER JOIN exam_groups\n"
-            . "ON exam_groups.batch_id = students.batch_id)\n"
-            . "\n"
-            . "INNER JOIN exam_scores \n"
-            . "ON exam_scores.student_id = students.id)\n"
-            . "\n"
-            . "INNER JOIN exams\n"
-            . "ON exams.id = exam_scores.exam_id)\n"
-            . "\n"
-            . "INNER JOIN subjects\n"
-            . "ON subjects.id = exams.subject_id)\n "
-            ."WHERE (exam_groups.name = '$term' ) AND (courses.course_name = '$grade' "
-            . "AND (subjects.name = '$subject') AND (exam_scores.marks >= $min ) $gender )";     
-
+//        
+        if($category == '')
+        {
+    $sql = "SELECT students.first_name\n"
+                . "FROM ((((((\n"
+                . "    students   \n"
+                . "    INNER JOIN batches ON students.batch_id = batches.id) \n"
+                . "    INNER JOIN courses ON batches.course_id = courses.id) \n"
+                . "    INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id) \n"
+                . "    INNER JOIN exam_scores ON students.id = exam_scores.student_id) \n"
+                . "    INNER JOIN exams ON exam_scores.exam_id = exams.id) \n"
+                . "    INNER JOIN subjects ON exams.subject_id = subjects.id) \n"
+                . "    WHERE ((exam_groups.name = '$term' ) AND (courses.course_name = '$grade') "
+                . "    AND (subjects.name = '$subject') AND (exam_scores.marks >= $min )  $gender )";  
+           
+        }
+        
+        else {
+          $sql = "SELECT students.first_name, student_categories.name\n"
+                . "FROM (((((((\n"
+                . "    students   \n"
+                . "    INNER JOIN batches ON students.batch_id = batches.id) \n"
+                . "    INNER JOIN courses ON batches.course_id = courses.id) \n"
+                . "    INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id) \n"
+                . "    INNER JOIN exam_scores ON students.id = exam_scores.student_id) \n"
+                . "    INNER JOIN exams ON exam_scores.exam_id = exams.id) \n"
+                . "    INNER JOIN subjects ON exams.subject_id = subjects.id) \n"
+                . "    INNER JOIN student_categories ON students.student_category_id = student_categories.id)"
+                . "    WHERE ((exam_groups.name = '$term' ) AND (courses.course_name = '$grade') "
+                . "    AND (subjects.name = '$subject') AND (exam_scores.marks >= $min ) $category $gender )";     
+        }
 // echo $sql;
         
         $result = $conn->query($sql);

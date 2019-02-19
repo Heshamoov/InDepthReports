@@ -255,7 +255,7 @@ $(function () {
         <!--End of Navictacoin bar-->
         
         <!--Drop menus-->
-        <div id="upperdiv" class="w3-container w3-mobile">
+        <div id="upperdiv" class="w3-container w3-mobile" style="padding-top: 10px; padding-bottom: 10px">
             <table id= "table1">
 
                 <tr>
@@ -269,20 +269,20 @@ $(function () {
                     </td>
                    
                     <td>
-                        <select   id="term" multiple="multiple"></select>   
+                        <select   id="term" style="width:100px;overflow:hidden; position: absolute "  multiple="multiple"></select>   
                     </td>
                     <td >
                         
-                        <select  id ="grade" multiple="multiple"  ></select>  
+                        <select  id ="grade" style="width:100px;overflow:hidden; position: absolute " multiple="multiple"  ></select>  
                     </td>
                     <td>
-                        <select id="batch" multiple="multiple"></select>
+                        <select id="batch" style="width:100px;overflow:hidden; position: absolute " multiple="multiple"></select>
                     </td>
                     <td>
-                        <select id="subject" style="width:100px;overflow:hidden; " multiple="multiple"></select>         
+                        <select id="subject"  style=" width: 150px;" multiple="multiple"></select>         
                     </td>
                     <td>
-                            <select id="gender" multiple="multiple"> 
+                            <select id="gender"style="width:100px;overflow:hidden; position: absolute "  multiple="multiple"> 
                                 <option>Male</option>
                                 <option>Female</option> 
                             </select>
@@ -299,7 +299,7 @@ $(function () {
                 </tr>
                     
             </table>
-            <br>
+          
         </div>
 
         <!--Drop menus-->
