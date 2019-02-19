@@ -2,11 +2,14 @@
 <title>Statistics based on subject</title>
 </head>
 <script type="text/javascript">
+    
+
 $(function () { 
     
+
           $('#studentcategory').multiselect({ includeSelectAllOption: true });
 
-        $('#search').click(function () {
+        $('#search, #charttype').click(function () {
                 
         var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
         var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
@@ -73,6 +76,8 @@ $(function () {
     
 google.charts.load('current', {packages: ['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawMaterial);
+
+
 function drawMaterial() {
         var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
         var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
@@ -107,12 +112,25 @@ function drawMaterial() {
                         [gender2 + "-" + value4.toString()+ '% and above',Number(result4), '#ff0000'],
                 ]);
                 var options = {
-                        title:'(' + term1 + " " + gender1 + ') VS ('  + term2 + " " + gender2 + ") " + grade + '-' + subject,
+                        title:'(' + term1 + " " + gender1 + ') VS ('  + term2 + " " + gender2 + ") " + grade + '-' + subject  ,
                 };
                 chartName = 'chart' + i;
                 
-                var materialChart = new google.visualization.ColumnChart(document.getElementById(chartName));
-                materialChart.draw(data, options);
+                var e = document.getElementById("charttype");
+                var type = e.options[e.selectedIndex].value;
+                if(type === "coloumn"){
+                        var materialChart = new google.visualization.ColumnChart(document.getElementById(chartName));
+                         materialChart.draw(data, options);}            
+                 if(type === "pie"){
+                        var materialChart = new google.visualization.PieChart(document.getElementById(chartName));
+                         materialChart.draw(data, options);}
+                if(type === "histogram"){
+                         var materialChart = new google.visualization.Histogram(document.getElementById(chartName));
+                         materialChart.draw(data, options);}
+                if(type === "linechart"){
+                         var materialChart = new google.visualization.LineChart(document.getElementById(chartName));
+                         materialChart.draw(data, options); }
+               
         }
     };
     
@@ -132,11 +150,32 @@ function drawMaterial() {
 <div id="upperdiv" class="w3-container" style="padding-top: 10px; padding-bottom: 10px;">   
 
         <table id= "table1">
-            <tr><td></td><td></td><td>Grade</td><td>Subject</td><td>Student Category</td><td></td><td></td></tr>
+        <tr><td></td>
+            <td></td>
+            <td>Grade</td>
+            <td>Subject</td>
+            <td>Student Category</td>
+            
+            <td></td><td></td>
+        </tr>
         <tr><td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()()" title="Export Statistics as PDF" >Export Statistics  <span class="material-icons">save_alt</span></button>
-        </td><td></td><td><select id="grade"></select></td><td><select id="subject"> </select></td></select></td><td><select id="studentcategory" multiple="multiple"> </select></td>
-        <td></td><td><button style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="search" title="Get students marks">Search Results  <span class="fa fa-search"></span></button></td>
-        <td></td><td><button  style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="exportM" onclick="downloadStudents()" title="Export Marks as PDF">Export Mark  <span class="material-icons ">save_alt</span></button></td>
+            </td>
+            <td></td>
+            <td><select id="grade"></select></td>
+            <td><select id="subject"> </select></td>
+            <td><select id="studentcategory" multiple="multiple"> </select></td>
+           
+            <td><button style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="search" title="Get students marks">Search Results  <span class="fa fa-search"></span></button></td>
+            <td></td>
+             <td><select  class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" style="text-align: center" id="charttype" > 
+                    <option class="w3-round-xlarge"style="text-align: center" selected="selected" value="pie">Pie Chart</option> 
+                     <option class="w3-round-xlarge"style="text-align: center"  value="coloumn">Coloumn Chart</option>
+                     <option class="w3-round-xlarge"style="text-align: center"  value="linechart">Line Chart</option> 
+                     <option class="w3-round-xlarge"style="text-align: center"  value="histogram">Histogram</option> 
+
+                     
+            </select></td>
+            <td><button  style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="exportM" onclick="downloadStudents()" title="Export Marks as PDF">Export Mark  <span class="material-icons ">save_alt</span></button></td>
         </tr>
         </table>
 </div>
@@ -168,10 +207,10 @@ function drawMaterial() {
         </th>
         </tr>
                 <tr>
-                        <td class="w3-border-right"><input type="text" value= 80>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 85>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 90>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 95>% and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;"value= 80> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;"value= 85> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;"value= 90> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;"value= 95> % and above</td>
                 </tr>
                 <tr>
                         <td class="w3-border-right">--</td>
@@ -206,10 +245,10 @@ function drawMaterial() {
                 </th>
                 </tr>
                 <tr>
-                        <td class="w3-border-right"><input type="text" value= 80>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 85>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 90>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 95>% and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;"value= 80> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;"value= 85> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;"value= 90> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;"value= 95> % and above</td>
                 </tr>
                 <tr>
                         <td class="w3-border-right">--</td>
@@ -248,10 +287,10 @@ function drawMaterial() {
         </th>
         </tr>
                 <tr>
-                        <td class="w3-border-right"><input type="text" value= 80>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 85>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 90>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 95>% and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 80> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 85> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 90> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 95> % and above</td>
                 </tr>
                 <tr>
                         <td class="w3-border-right">--</td>
@@ -286,10 +325,10 @@ function drawMaterial() {
                 </th>
                 </tr>
                 <tr>
-                        <td class="w3-border-right"><input type="text" value= 80>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 85>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 90>% and above</td>
-                        <td class="w3-border-right"><input type="text" value= 95>% and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 80> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 85> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 90> % and above</td>
+                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 95> % and above</td>
                 </tr>
                 <tr>
                         <td class="w3-border-right">--</td>
@@ -531,57 +570,6 @@ function fillSubjects(){
 };
 </script>
 
-// Charts
-<script type="text/javascript">
-google.charts.load('current', {packages: ['corechart', 'bar']});
-google.charts.setOnLoadCallback(drawMaterial);
-function drawMaterial() {
-        var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
-        var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
-        var studentcategory = document.getElementById("studentcategory").options[document.getElementById("studentcategory").selectedIndex].text;
-
-
-        var value1, value2,value3,value4, result1, result2, result3, result4, tableName, chartName, gender1, gender2;
-        for (var i = 1; i < 5; i++) {
-                tableName = 'T' + i;
-                
-                var year = document.getElementById(tableName + '-Year').options[document.getElementById(tableName + '-Year').selectedIndex].text;
-                var term1 = document.getElementById(tableName + '-Term1').options[document.getElementById(tableName + '-Term1').selectedIndex].text;
-                var term2 = document.getElementById(tableName + '-Term2').options[document.getElementById(tableName + '-Term2').selectedIndex].text;
-                var gender1 = document.getElementById(tableName + '-Gender1').options[document.getElementById(tableName + '-Gender1').selectedIndex].text;
-                var gender2 = document.getElementById(tableName + '-Gender2').options[document.getElementById(tableName + '-Gender2').selectedIndex].text;
-
-                value1 = document.getElementById(tableName).rows[2].cells[0].childNodes[0].value;
-                value2 = document.getElementById(tableName).rows[2].cells[1].childNodes[0].value;
-                value3 = document.getElementById(tableName).rows[2].cells[2].childNodes[0].value;
-                value4 = document.getElementById(tableName).rows[2].cells[3].childNodes[0].value;        
-
-                result1 = document.getElementById(tableName).rows[3].cells[0].innerHTML;
-                result2 = document.getElementById(tableName).rows[3].cells[1].innerHTML;
-                result3 = document.getElementById(tableName).rows[3].cells[2].innerHTML;
-                result4 = document.getElementById(tableName).rows[3].cells[3].innerHTML;
-                
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Number of Students');
-                data.addColumn('number', 'Students');
-                data.addColumn({type:'string', role:'style'});
-                
-                data.addRows([
-                        [gender1 + "-" + value1.toString() + '% and above', Number(result1), ' #0066cc'],
-                        [gender1 + "-" + value2.toString()+ '% and above',Number(result2), '#ff0000'],
-                        [gender2 + "-" + value3.toString() + '% and above', Number(result3), ' #0066cc'],
-                        [gender2 + "-" + value4.toString()+ '% and above',Number(result4), '#ff0000'],
-                ]);
-                var options = {
-                        title:'(' + term1 + " " + gender1 + ') VS ('  + term2 + " " + gender2 + ") " + grade + "-" + subject,
-                };
-                chartName = 'chart' + i;
-                
-                var materialChart = new google.visualization.ColumnChart(document.getElementById(chartName));
-                materialChart.draw(data, options);
-        }
-    };
-</script>
 
 </body>
 </html>

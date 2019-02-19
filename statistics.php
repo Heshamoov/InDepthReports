@@ -345,7 +345,7 @@ $(function () {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T2">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="5" class="w3-custom" style="font-size: 16px;">Subject</th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -901,8 +901,9 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
                         startY: doc.autoTableEndPosY() + 30                                      // Table top margin
                 };
                 var table = doc.autoTableHtmlToJson(stablePDF);
-                doc.autoTable(table.columns, table.data, breakLine);
                 
+                doc.autoTable(table.columns, table.data, breakLine);
+
                 var tableName ="";  var i = 1;
                 $('#subject').multiselect({ includeSelectAllOption: true });
                 var selected_subjects = $("#subject option:selected");

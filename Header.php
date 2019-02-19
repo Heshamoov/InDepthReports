@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="css/resultstyle.css">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://www.w3schools.com/lib/w3-theme-black.css">
@@ -30,6 +31,13 @@
             .w3-bar,h1,button,select {font-family: "Montserrat", sans-serif}
             .w3-custom {color:#fff !important; background-color:#009688 !important}
             .fa-anchor,.fa-coffee {font-size:200px}
+            .overlay {
+            width: 200px;
+            height: 200px;
+             position: absolute;
+             top: 60px;  /* chartArea top  */
+            left: 180px; /* chartArea left */
+}
     </style>
             
     </style> 
