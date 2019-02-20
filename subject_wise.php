@@ -1,19 +1,73 @@
 <?php include('Header.php'); ?>
 <title>Statistics based on subject</title>
 </head>
+
+<script>
+
+
+function printDiv(printCharts){
+    
+ 
+
+      var newWin=window.open('','Print-Window');
+        newWin.document.open();
+          newWin.document.write('<html><body onload="window.print()">'+printCharts.innerHTML+' </body></html>');
+  newWin.document.close();
+  setTimeout(function(){newWin.close();},10);
+
+}
+</script>
+<script>
+    var doc = new jsPDF();
+    var specialElementHandlers = {
+        '#editor': function (element, renderer) {
+            return true;
+        }
+    };
+
+    $('#exportS').click(function () {
+        doc.fromHTML($('#body').html(), 15, 15, {
+            'width': 170,
+                'elementHandlers': specialElementHandlers
+        });
+        doc.save('sample-file.pdf');
+    });
+
+    // This code is collected but useful, click below to jsfiddle link.
+</script>
+
+<script>
+    
+    
+function printAllCharts(chart1,chart2,chart3,chart4){ 
+       
+     
+
+
+      var newWin=window.open('','Print-Window');
+        newWin.document.open();
+        newWin.document.write('<html><body'+chart1.innerHTML+chart2.innerHTML+chart3.innerHTML+chart4.innerHTML+' </body></html>');
+        newWin.window.print();
+        newWin.document.close();
+  setTimeout(function(){newWin.close();},10);
+  
+ 
+
+}
+</script>
+
 <script type="text/javascript">
     
 
 $(function () { 
-    
-
+        
           $('#studentcategory').multiselect({ includeSelectAllOption: true });
 
         $('#search, #charttype').click(function () {
                 
         var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
         var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
-//        var category = document.getElementById("studentcategory").options[document.getElementById("studentcategory").selectedIndex].text;
+//      var category = document.getElementById("studentcategory").options[document.getElementById("studentcategory").selectedIndex].text;
         var selected_category = $("#studentcategory option:selected");
         
             //Category               
@@ -82,8 +136,11 @@ function drawMaterial() {
         var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
         var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
         var value1, value2,value3,value4, result1, result2, result3, result4, tableName, chartName, gender1, gender2;
+        
         for (var i = 1; i < 5; i++) {
                 tableName = 'T' + i;
+                chartprint = 'chart' + i;
+                
                 
                 var term1 = document.getElementById(tableName + '-Term1').options[document.getElementById(tableName + '-Term1').selectedIndex].text;
                 var term2 = document.getElementById(tableName + '-Term2').options[document.getElementById(tableName + '-Term2').selectedIndex].text;
@@ -130,6 +187,7 @@ function drawMaterial() {
                 if(type === "linechart"){
                          var materialChart = new google.visualization.LineChart(document.getElementById(chartName));
                          materialChart.draw(data, options); }
+
                
         }
     };
@@ -158,7 +216,7 @@ function drawMaterial() {
             
             <td></td><td></td>
         </tr>
-        <tr><td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()()" title="Export Statistics as PDF" >Export Statistics  <span class="material-icons">save_alt</span></button>
+        <tr><td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()" title="Export Statistics as PDF" >Export Charts  <span class="material-icons">print</span></button>
             </td>
             <td></td>
             <td><select id="grade"></select></td>
@@ -185,10 +243,12 @@ function drawMaterial() {
 <!--////////////////////////            Table 1     ///////////////////////////////////////////////////-->
 <textarea id="output" rows="10" cols="50" hidden></textarea>
 <div class="w3-row w3-border">
-        <div class="w3-container w3-half">
+    <div class="w3-container w3-half">
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T1">  
-            <th colspan="4" class="w3-teal" style="font-size: 18px">Benchmark Data</th>
-        <tr>
+            <th colspan="4" class="w3-teal" style="font-size: 18px"><button style="float: left;"type='button'class="w3-button w3-hover-blue-gray" onclick="printDiv(chart1)"id='printbtn'  title="Print chart"value='Print'><i class="glyphicon glyphicon-print"></i></button>Benchmark Data
+
+            </th>
+           <tr>
         <th colspan="2" class="w3-border-right">
                 <select id="T1-Term1"></select>
                 <select id="T1-Gender1">
@@ -220,12 +280,13 @@ function drawMaterial() {
                 </tr>
         </table>
                 <br>
+               
                 <div class="w3-half w3-card-4" id="chart1"></div>
         </div>
     
         <div class="w3-container w3-half">
         <table class=" w3-table-all w3-striped w3-centered w3-card-4" id="T2">  
-                <th colspan="4" class="w3-teal" style="font-size: 18px">Benchmark Data</th>
+                <th colspan="4" class="w3-teal" style="font-size: 18px"><button style="float: right;"type='button'class="w3-button w3-hover-blue-gray" onclick="printDiv(chart2)"id='printbtn'  title="Print chart"value='Print'><i class="glyphicon glyphicon-print"></i></button>Benchmark Data</th>
                 <tr>
                 <th colspan="2" class="w3-border-right">
                         <select id="T2-Term1"></select>
@@ -267,7 +328,7 @@ function drawMaterial() {
 <div class="w3-row w3-border">
         <div class="w3-container w3-half">
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T3">  
-        <th colspan="4" class="w3-teal" style="font-size: 18px">Benchmark Data</th>
+        <th colspan="4" class="w3-teal" style="font-size: 18px"><button style="float: left;"type='button'class="w3-button w3-hover-blue-gray" onclick="printDiv(chart3)"id='printbtn'  title="Print chart"value='Print'><i class="glyphicon glyphicon-print"></i></button>Benchmark Data</th>
         <tr>
         <th colspan="2" class="w3-border-right">
                 <select id="T3-Term1"></select>
@@ -305,7 +366,7 @@ function drawMaterial() {
     
         <div class="w3-container w3-half">
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T4">  
-                <th colspan="4" class="w3-teal" style="font-size: 18px">Benchmark Data</th>
+                <th colspan="4" class="w3-teal" style="font-size: 18px;" ><button style="float: right;"type='button'class="w3-button w3-hover-blue-gray" onclick="printDiv(chart4)"id='printbtn'  title="Print chart"value='Print'><i class="glyphicon glyphicon-print"></i></button>Benchmark Data</th>
                 <tr>
                 <th colspan="2" class="w3-border-right">
                         <select id="T4-Term1"></select>
@@ -553,8 +614,8 @@ function fillSubjects(){
                             subjectsArray = str.split("\?");
                     }
                 };
-                            httpSubjects.open("GET", "sqldb/distinctSubjects.php?grade=" + grade, false);
-                            httpSubjects.send();
+                httpSubjects.open("GET", "sqldb/distinctSubjects.php?grade=" + grade, false);
+                httpSubjects.send();
                 $('#subject').multiselect('destroy');
 
                 delete subjectsArray[subjectsArray.length - 1];
@@ -570,6 +631,51 @@ function fillSubjects(){
 };
 </script>
 
+
+<!----------Save PDF for table----------------->
+<script src="js/jspdf.min.js"></script>
+<script src="js/jspdf.plugin.autotable.src.js"></script>
+<script>
+       function downloadStatistics() {
+    var pdf = new jsPDF('p', 'pt', 'letter');
+    // source can be HTML-formatted string, or a reference
+    // to an actual DOM element from which the text will be scraped.
+    source = $('#T1')[0];
+
+    // we support special element handlers. Register them with jQuery-style 
+    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
+    // There is no support for any other type of selectors 
+    // (class, of compound) at this time.
+    specialElementHandlers = {
+        // element with id of "bypass" - jQuery style selector
+        '#bypassme': function (element, renderer) {
+            // true = "handled elsewhere, bypass text extraction"
+            return true
+        }
+    };
+    margins = {
+        top: 80,
+        bottom: 60,
+        left: 40,
+        width: 522
+    };
+    // all coords and widths are in jsPDF instance's declared units
+    // 'inches' in this case
+    pdf.fromHTML(
+    source, // HTML string or DOM elem ref.
+    margins.left, // x coord
+    margins.top, { // y coord
+        'width': margins.width, // max width of content on PDF
+        'elementHandlers': specialElementHandlers
+    },
+
+    function (dispose) {
+        // dispose: object with X, Y of the last line add to the PDF 
+        //          this allow the insertion of new lines after html
+        pdf.save('Test.pdf');
+    }, margins);
+}
+</script>
 
 </body>
 </html>

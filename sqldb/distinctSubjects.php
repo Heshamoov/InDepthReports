@@ -8,7 +8,6 @@
                 die("Connection failed: " . $conn->connect_error . "\n");
 
         $grade = $_REQUEST["grade"];
-        echo $grade;
 //        $sql = "SELECT DISTINCT subject FROM gold WHERE grade = '$grade'";
        $sql = "SELECT  DISTINCT subjects.name subject_name \n"
     . "\n"
@@ -25,7 +24,7 @@
     . "           ON exams.id = exam_scores.exam_id)\n"
     . "           INNER JOIN subjects\n"
     . "           ON subjects.id = exams.subject_id)\n"
-    . "WHERE courses.course_name = '$grade'";    
+        . "WHERE courses.course_name = '$grade'";    
 
 //      echo $sql;
         $result = $conn->query($sql);
