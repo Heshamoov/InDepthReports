@@ -1447,6 +1447,12 @@
        * @methodOf jsPDF#
        * @name text
        */
+
+      
+      
+      
+      
+      
       API.text = function (text, x, y, options) {
         /**
          * Inserts something like this into PDF

@@ -269,20 +269,20 @@ $(function () {
                     </td>
                    
                     <td>
-                        <select   id="term" style="width:100px;overflow:hidden; position: absolute "  multiple="multiple"></select>   
+                        <select   id="term"   multiple="multiple"></select>   
                     </td>
                     <td >
                         
-                        <select  id ="grade" style="width:100px;overflow:hidden; position: absolute " multiple="multiple"  ></select>  
+                        <select  id ="grade" multiple="multiple"  ></select>  
                     </td>
                     <td>
-                        <select id="batch" style="width:100px;overflow:hidden; position: absolute " multiple="multiple"></select>
+                        <select id="batch"  multiple="multiple"></select>
                     </td>
                     <td>
-                        <select id="subject"  style=" width: 150px;" multiple="multiple"></select>         
+                        <select id="subject" style="width : 100px;"  multiple="multiple"></select>         
                     </td>
                     <td>
-                            <select id="gender"style="width:100px;overflow:hidden; position: absolute "  multiple="multiple"> 
+                            <select id="gender"  multiple="multiple"> 
                                 <option>Male</option>
                                 <option>Female</option> 
                             </select>
@@ -325,10 +325,32 @@ $(function () {
         </table>
         <br><br>
         
-        <table id="stablePDF" hidden>
-            <thead> <tr><th colspan="5"></th><th></th><th></th><th></th><th></th></tr></thead>
-            <tbody> <tr><th>Year</th><th>Total Number</th><th></th><th></th><th></th></tr>
-                    <tr><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+        <table id="stablePDF" style="font-size: 100px" hidden>
+            <thead>
+                <tr>
+                    <th colspan="5"></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody> 
+                <tr>
+                    <th>Year</th>
+                    <th>Total Number</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
         </table>
         
         <table id="T1" class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" >
@@ -504,9 +526,31 @@ $(function () {
 
         <table class="w3-table-all w3-card-4 w3-striped w3-hoverable" id="out" ></table>
         <table id="TT1" hidden>
-            <thead><tr><th></th><th></th><th></th><th></th><th></th></tr></thead>
-            <tbody><tr><td>Year</td><td>Total Number</td><td></td><td></td><td></td></tr>
-                   <tr><td></td><td></td><td></td><td></td><td></td></tr></tbody>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Year</td>
+                    <td>Total Number</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                   <tr>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                       <td></td>
+                   </tr>
+            </tbody>
         </table>
         <table id="TT2" hidden>
             <thead><tr><th></th><th></th><th></th><th></th><th></th></tr></thead>
@@ -871,20 +915,25 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
          $('#grade').multiselect('rebuild');
 };
 </script>
+
+
 --><script>
         function downloadStudents() {
-                var doc = new jsPDF('p', 'pt');
+                var doc = new jsPDF('p', 'pt','a4');
                 var table = doc.autoTableHtmlToJson(document.getElementById("out"));
                 var header = function(data) {
-                        doc.setFontSize(12);
+                        doc.setFontSize(16);
                         doc.setFontStyle('normal');
-                        doc.text("Students List", data.settings.margin.left, 20);        // Header top margin
+                        doc.text("Students List", 250, 50);
+                        doc.line(250,53,335,53);// Header top margin
+// Header top margin
                 };
-                var options = {
-                        beforePageContent: header,
-                        startY: doc.autoTableEndPosY() + 30                                      // Table top margin
-                };
-                doc.autoTable(table.columns, table.data, options);
+              
+                doc.autoTable(table.columns, table.data,{beforePageContent: header,theme: 'grid',margin: {top: 70}, styles: {
+        fontSize: 12,
+        font: 'PTSans'
+    }    
+    } );
                 doc.save("Students.pdf");
         }
 </script><!--
@@ -892,29 +941,41 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
         function downloadStatistics() {
                 var doc = new jsPDF('p', 'pt');
                 var header = function(data) {
-                        doc.setFontSize(12);
-                        doc.setFontStyle('normal');
-                        doc.text("Subject Wise Statistics", data.settings.margin.left, 20);        // Header top margin
+                        doc.setFontSize(18);
+                        doc.setFontStyle('PTSans');
+                        doc.text("Subject Wise Statistics",225,50);
+                        doc.line(226,53,390,53);// Header top margin
                 };
-                var breakLine = {
-                        beforePageContent: header,
-                        startY: doc.autoTableEndPosY() + 30                                      // Table top margin
-                };
-                var table = doc.autoTableHtmlToJson(stablePDF);
-                
-                doc.autoTable(table.columns, table.data, breakLine);
+            
+                var table = doc.autoTableHtmlToJson(stablePDF);    
+                doc.autoTable(table.columns, table.data,{beforePageContent: header,theme: 'grid',margin: {top: 70, left:40,right:40},columnStyles: {
+    0: {columnWidth: 205},
+    1: {columnWidth: 80},
+    2: {columnWidth: 80},
+    3: {columnWidth: 80}
+     }, styles: {
+        fontSize: 12,
+        font: 'PTSans',
+    }
+    
+    });
 
                 var tableName ="";  var i = 1;
                 $('#subject').multiselect({ includeSelectAllOption: true });
                 var selected_subjects = $("#subject option:selected");
                         selected_subjects.each(function() {
-                        breakLine = {
-                                beforePageContent: header,
-                                startY: doc.autoTableEndPosY() + 20      // Table top margin
-                        };
+                       
                         tableName = 'TT' + i;
                         var table = doc.autoTableHtmlToJson(document.getElementById(tableName));
-                        doc.autoTable(table.columns, table.data, breakLine);
+                        doc.autoTable(table.columns, table.data, {startY: doc.autoTable.previous.finalY + 14,margin: {left:40,right:40},theme: 'grid',columnStyles: {
+    0: {columnWidth: 205},
+    1: {columnWidth: 80},
+    2: {columnWidth: 80},
+    3: {columnWidth: 80}
+     } ,styles: {
+        fontSize: 12,
+        font: 'PTSans'
+    }});
                         i++;
                 });
                 doc.save("Statistics.pdf");

@@ -33,7 +33,9 @@ blood_group, gender, nationality, language,category,religion,address,phone,city,
     color: #000000;
     margin-left: 20pt;
 }
-
+#subject{
+    max-width : 10px;
+}
 #myBtn{
   display: none;
   position: fixed;

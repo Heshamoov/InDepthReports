@@ -94,7 +94,7 @@
                 
                 while($row = $result->fetch_assoc())
                         echo "<tr><td>"  . $rownumber++ . "</td><td>" . $row["moe"] . 
-                                "</td><td style = font-size:16px; font-style: oblique>" . $row["name"] . "</td><td>" .($row["gender"] == 'm'? 'Male': 'Female').
+                                "</td><td style = font-size:16px; font-style: oblique>" . $row["name"] . "</td><td>" .($row["gender"] == 'm'? 'M': 'F').
                                 "</td><td>" . $row["exam_name"] . "</td><td>" . $row["grade"] .
                                 "</td><td>" . $row["batch_name"] . "</td><td>" . $row["subject_name"] .
                                 "</td><td>" . $row["marks"]."</td></tr>";

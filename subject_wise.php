@@ -17,57 +17,44 @@ function printDiv(printCharts){
 
 }
 </script>
-<script>
-    var doc = new jsPDF();
-    var specialElementHandlers = {
-        '#editor': function (element, renderer) {
-            return true;
-        }
-    };
 
-    $('#exportS').click(function () {
-        doc.fromHTML($('#body').html(), 15, 15, {
-            'width': 170,
-                'elementHandlers': specialElementHandlers
-        });
-        doc.save('sample-file.pdf');
-    });
 
-    // This code is collected but useful, click below to jsfiddle link.
-</script>
-
-<script>
+<!--<script>
     
     
-function printAllCharts(chart1,chart2,chart3,chart4){ 
-       
-     
-
-
-      var newWin=window.open('','Print-Window');
-        newWin.document.open();
-        newWin.document.write('<html><body'+chart1.innerHTML+chart2.innerHTML+chart3.innerHTML+chart4.innerHTML+' </body></html>');
-        newWin.window.print();
-        newWin.document.close();
-  setTimeout(function(){newWin.close();},10);
-  
- 
-
-}
-</script>
+//    -----------print function for printing all google charts-----------------------
+//    
+//function printAllCharts(chart1,chart2,chart3,chart4){ 
+//       
+//     
+//
+//
+//      var newWin=window.open('','Print-Window');
+//        newWin.document.open();
+//        newWin.document.write('<html><body'+chart1.innerHTML+chart2.innerHTML+chart3.innerHTML+chart4.innerHTML+' </body></html>');
+//        newWin.window.print();
+//        newWin.document.close();
+//  setTimeout(function(){newWin.close();},10);
+//  
+// 
+//
+//}
+//</script>-->
 
 <script type="text/javascript">
     
+        var imgData = new Array();
 
 $(function () { 
         
           $('#studentcategory').multiselect({ includeSelectAllOption: true });
 
+
+
         $('#search, #charttype').click(function () {
                 
         var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
         var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
-//      var category = document.getElementById("studentcategory").options[document.getElementById("studentcategory").selectedIndex].text;
         var selected_category = $("#studentcategory option:selected");
         
             //Category               
@@ -133,30 +120,69 @@ google.charts.setOnLoadCallback(drawMaterial);
 
 
 function drawMaterial() {
+    
+   
+    
         var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
         var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
-        var value1, value2,value3,value4, result1, result2, result3, result4, tableName, chartName, gender1, gender2;
-        
+        var value1, value2,value3,value4, result1, result2, result3, result4, tableName, table1, chartName, gender1, gender2;
+       
         for (var i = 1; i < 5; i++) {
                 tableName = 'T' + i;
-                chartprint = 'chart' + i;
-                
-                
+                 table1 = 'TT' + i;
+            var tableName1 = document.getElementById(table1);
+
                 var term1 = document.getElementById(tableName + '-Term1').options[document.getElementById(tableName + '-Term1').selectedIndex].text;
                 var term2 = document.getElementById(tableName + '-Term2').options[document.getElementById(tableName + '-Term2').selectedIndex].text;
+                tableName1.rows[0].cells[3].innerHTML = subject;
+
                 var gender1 = document.getElementById(tableName + '-Gender1').options[document.getElementById(tableName + '-Gender1').selectedIndex].text;
+                if(gender1 === 'Both')
+                {
+                tableName1.rows[1].cells[1].innerHTML = term1+'Boys & Girls';
+            }
+            else
+            {
+                tableName1.rows[1].cells[1].innerHTML = term1+gender1;
+
+            }
+        
                 var gender2 = document.getElementById(tableName + '-Gender2').options[document.getElementById(tableName + '-Gender2').selectedIndex].text;
+                  if(gender2 === 'Both')
+                {
+                tableName1.rows[1].cells[5].innerHTML = term1+'Boys & Girls';
+            }
+            else
+            {
+                tableName1.rows[1].cells[5].innerHTML = term2+gender2;
+
+            }
+        
 
                 value1 = document.getElementById(tableName).rows[2].cells[0].childNodes[0].value;
+                tableName1.rows[2].cells[0].innerHTML = 'Above '+value1+' %';
+
                 value2 = document.getElementById(tableName).rows[2].cells[1].childNodes[0].value;
+                tableName1.rows[2].cells[2].innerHTML = 'Above '+value2+' %';
+
                 value3 = document.getElementById(tableName).rows[2].cells[2].childNodes[0].value;
+                tableName1.rows[2].cells[4].innerHTML = 'Above '+value3+' %';
+
                 value4 = document.getElementById(tableName).rows[2].cells[3].childNodes[0].value;        
+                tableName1.rows[2].cells[6].innerHTML = 'Above '+value4+' %';
 
                 result1 = document.getElementById(tableName).rows[3].cells[0].innerHTML;
+                tableName1.rows[3].cells[0].innerHTML = result1;
+
                 result2 = document.getElementById(tableName).rows[3].cells[1].innerHTML;
+                tableName1.rows[3].cells[2].innerHTML = result2;
+
                 result3 = document.getElementById(tableName).rows[3].cells[2].innerHTML;
-                result4 = document.getElementById(tableName).rows[3].cells[3].innerHTML;
+                tableName1.rows[3].cells[4].innerHTML = result3;
                 
+                result4 = document.getElementById(tableName).rows[3].cells[3].innerHTML;
+                tableName1.rows[3].cells[6].innerHTML = result4;
+
                 var data = new google.visualization.DataTable();
                 data.addColumn('string', 'Number of Students');
                 data.addColumn('number', 'Students');
@@ -177,16 +203,20 @@ function drawMaterial() {
                 var type = e.options[e.selectedIndex].value;
                 if(type === "coloumn"){
                         var materialChart = new google.visualization.ColumnChart(document.getElementById(chartName));
-                         materialChart.draw(data, options);}            
+                     
+                materialChart.draw(data, options);}            
                  if(type === "pie"){
                         var materialChart = new google.visualization.PieChart(document.getElementById(chartName));
                          materialChart.draw(data, options);}
+
                 if(type === "histogram"){
                          var materialChart = new google.visualization.Histogram(document.getElementById(chartName));
                          materialChart.draw(data, options);}
                 if(type === "linechart"){
                          var materialChart = new google.visualization.LineChart(document.getElementById(chartName));
                          materialChart.draw(data, options); }
+                      imgData[i] = materialChart.getImageURI()
+
 
                
         }
@@ -216,7 +246,7 @@ function drawMaterial() {
             
             <td></td><td></td>
         </tr>
-        <tr><td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()" title="Export Statistics as PDF" >Export Charts  <span class="material-icons">print</span></button>
+        <tr><td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()" title="Export Data as PDF" >Export Data  <span class="material-icons">print</span></button>
             </td>
             <td></td>
             <td><select id="grade"></select></td>
@@ -226,8 +256,8 @@ function drawMaterial() {
             <td><button style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="search" title="Get students marks">Search Results  <span class="fa fa-search"></span></button></td>
             <td></td>
              <td><select  class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" style="text-align: center" id="charttype" > 
-                    <option class="w3-round-xlarge"style="text-align: center" selected="selected" value="pie">Pie Chart</option> 
-                     <option class="w3-round-xlarge"style="text-align: center"  value="coloumn">Coloumn Chart</option>
+                    <option class="w3-round-xlarge" style="text-align: center;" selected="selected" value="pie">Pie Chart</option> 
+                     <option class="w3-round-xlarge"style="text-align: center"  value="coloumn">Column Chart</option>
                      <option class="w3-round-xlarge"style="text-align: center"  value="linechart">Line Chart</option> 
                      <option class="w3-round-xlarge"style="text-align: center"  value="histogram">Histogram</option> 
 
@@ -279,9 +309,21 @@ function drawMaterial() {
                         <td class="w3-border-right">--</td>
                 </tr>
         </table>
+        
+
+        
+           <table id="TT1" class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" hidden>
+                               <thead>
+          <td> </td><td></td><td ></td><td ></td><td ></td><td ></td><td ></td></thead>
+           <tbody>
+                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
+                <tr><td ></td><td></td><td></td><td></td><td ></td><td ></td><td></td></tr>
+           </tbody>
+        </table>
                 <br>
                
-                <div class="w3-half w3-card-4" id="chart1"></div>
+                <div class="w3-half w3-card-4"  id="chart1"></div>
         </div>
     
         <div class="w3-container w3-half">
@@ -317,6 +359,16 @@ function drawMaterial() {
                         <td class="w3-border-right">--</td>
                         <td class="w3-border-right">--</td>
                 </tr>
+        </table>
+            
+              <table id="TT2" hidden>
+                              <thead>
+          <td> </td><td ></td><td ></td><td ></td><td ></td><td ></td><td ></td></thead>
+           <tbody>
+                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
+                <tr><td ></td><td></td><td></td><td></td><td ></td><td ></td><td></td></tr>
+           </tbody>
         </table>
         <br>
         <div class="w3-half w3-card-4" id="chart2"></div>
@@ -360,6 +412,18 @@ function drawMaterial() {
                         <td class="w3-border-right">--</td>
                 </tr>
         </table>
+            
+              <table id="TT3" hidden>
+                    <thead>
+          <td> </td><td ></td><td ></td><td ></td><td ></td><td ></td><td ></td></thead>
+           <tbody>
+                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
+                <tr><td ></td><td></td><td></td><td></td><td ></td><td ></td><td></td></tr>
+           </tbody>
+        </table>
+             
+     
         <br>
         <div class="w3-half w3-card-4" id="chart3"></div>
         </div>
@@ -397,6 +461,16 @@ function drawMaterial() {
                         <td class="w3-border-right">--</td>
                         <td class="w3-border-right">--</td>
                 </tr>
+        </table>
+            
+              <table id="TT4" hidden>
+                              <thead>
+          <td> </td><td ></td><td ></td><td ></td><td ></td><td ></td><td ></td></thead>
+           <tbody>
+                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
+                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
+                <tr><td ></td><td></td><td></td><td></td><td ></td><td ></td><td></td></tr>
+           </tbody>
         </table>
         <br>
         <div class="w3-half w3-card-4" id="chart4"></div>
@@ -633,48 +707,73 @@ function fillSubjects(){
 
 
 <!----------Save PDF for table----------------->
-<script src="js/jspdf.min.js"></script>
-<script src="js/jspdf.plugin.autotable.src.js"></script>
+
 <script>
-       function downloadStatistics() {
-    var pdf = new jsPDF('p', 'pt', 'letter');
-    // source can be HTML-formatted string, or a reference
-    // to an actual DOM element from which the text will be scraped.
-    source = $('#T1')[0];
+     function downloadStatistics() {
+         
+     
+     
+     
+    
+                var doc = new jsPDF('p', 'pt','a4');
+                var header = function(data) {
+                        doc.setFontSize(16);
+                        doc.setFontStyle('PTSans');
+                        doc.text("Statistics Based on Subject", 210, 80);        // Header top margin
+                };
+                
 
-    // we support special element handlers. Register them with jQuery-style 
-    // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
-    // There is no support for any other type of selectors 
-    // (class, of compound) at this time.
-    specialElementHandlers = {
-        // element with id of "bypass" - jQuery style selector
-        '#bypassme': function (element, renderer) {
-            // true = "handled elsewhere, bypass text extraction"
-            return true
+
+          
+               var tableName ="";                      
+                     
+               tableName = 'TT1';
+               var table = doc.autoTableHtmlToJson(document.getElementById(tableName));
+               doc.autoTable(table.columns, table.data,{beforePageContent: header, margin: {top:100,left:40,right:40} ,styles: {
+        fontSize: 12,
+        halign: 'center',
+        font: 'PTSans'
+    }});                  doc.addImage(imgData[1], 'png', 80, 180, 420, 250);
+
+
+
+
+                  
+               tableName = 'TT2'; 
+               var table = doc.autoTableHtmlToJson(document.getElementById(tableName));
+               doc.autoTable(table.columns, table.data,{beforePageContent: header,margin: {top:450,left:40,right:40} ,styles: {
+        fontSize: 12,
+        halign: 'center',
+        font: 'PTSans'
+                 }});
+                               doc.addImage(imgData[2], 'png', 80, 550, 420, 250);
+
+             
+             
+              doc.addPage();
+                               tableName = 'TT3'; 
+                        var table = doc.autoTableHtmlToJson(document.getElementById(tableName));
+                        doc.autoTable(table.columns, table.data,{beforePageContent: header,margin: {top:100,left:40,right:40} ,styles: {
+        fontSize: 12,
+        font: 'PTSans',
+        halign: 'center'
+                 }});
+                           doc.addImage(imgData[3], 'png', 80, 180, 420, 250);
+
+              
+                               tableName = 'TT4'; 
+                        var table = doc.autoTableHtmlToJson(document.getElementById(tableName));
+                        doc.autoTable(table.columns, table.data,{beforePageContent: header,margin: {top:450,left:40,right:40} ,styles: {
+        fontSize: 12,
+        font: 'PTSans',
+        halign: 'center'
+                 }});
+                             doc.addImage(imgData[4], 'png', 80, 550,420, 250);
+
+             
+             
+                doc.save("Statistics.pdf");
         }
-    };
-    margins = {
-        top: 80,
-        bottom: 60,
-        left: 40,
-        width: 522
-    };
-    // all coords and widths are in jsPDF instance's declared units
-    // 'inches' in this case
-    pdf.fromHTML(
-    source, // HTML string or DOM elem ref.
-    margins.left, // x coord
-    margins.top, { // y coord
-        'width': margins.width, // max width of content on PDF
-        'elementHandlers': specialElementHandlers
-    },
-
-    function (dispose) {
-        // dispose: object with X, Y of the last line add to the PDF 
-        //          this allow the insertion of new lines after html
-        pdf.save('Test.pdf');
-    }, margins);
-}
 </script>
 
 </body>
