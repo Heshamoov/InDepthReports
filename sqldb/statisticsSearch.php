@@ -29,7 +29,7 @@
     
     if ($terms == "" and $grades == "" and $batches == "" and $gender == "" and $subjects == ""){
 
-    $sql =    "SELECT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, \n"
+    $sql =    "SELECT DISTINCT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, \n"
             . "courses.course_name grade,exam_groups.name exam_name,\n"
             . " exam_scores.marks marks,subjects.name subject_name\n"
             . "\n"
@@ -54,7 +54,7 @@
             . "ON subjects.id = exams.subject_id)\n "; }
     
     else {
-        $sql =   "SELECT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, \n"
+        $sql =   "SELECT DISTINCT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, \n"
             . "courses.course_name grade,exam_groups.name exam_name,\n"
             . " exam_scores.marks marks,subjects.name subject_name\n"
             . "\n"

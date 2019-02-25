@@ -17,7 +17,7 @@
 //        $sql =       " SELECT  subject FROM gold" .
 //                     " WHERE subject LIKE '$subject%'";
             
-              $sql =    "SELECT * "
+              $sql =    "SELECT  * "
             . "FROM (((((("
             . "students\n"
             . "INNER JOIN batches \n"
@@ -44,7 +44,7 @@
 //        $sql =       " SELECT  subject FROM gold" .
 //                     " WHERE $terms $grades $batches $gender  AND subjects.name LIKE '$subject%'";
             
-             $sql ="SELECT *"
+             $sql ="SELECT  *"
             . "FROM (((((("
             . "students\n"
             . "INNER JOIN batches \n"

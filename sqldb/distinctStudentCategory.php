@@ -8,7 +8,6 @@
                 die("Connection failed: " . $conn->connect_error . "\n");
 
       
-//        $sql = "SELECT DISTINCT subject FROM gold WHERE grade = '$grade'";
         
        $sql = "SELECT  DISTINCT name from student_categories\n"
                 . "WHERE is_deleted = 0\n"

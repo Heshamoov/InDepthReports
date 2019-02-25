@@ -2,7 +2,10 @@
 <title>Statistics based on subject</title>
 </head>
 
-<script>
+
+
+<!--------------print single chart---------------------->
+<!--<script>
 
 
 function printDiv(printCharts){
@@ -16,13 +19,14 @@ function printDiv(printCharts){
   setTimeout(function(){newWin.close();},10);
 
 }
-</script>
+</script>-->
 
+
+    <!-------------print function for printing all google charts------------------------->
 
 <!--<script>
     
     
-//    -----------print function for printing all google charts-----------------------
 //    
 //function printAllCharts(chart1,chart2,chart3,chart4){ 
 //       
@@ -42,31 +46,93 @@ function printDiv(printCharts){
 //</script>-->
 
 <script type="text/javascript">
-    
-        var imgData = new Array();
-
+           
+  var imgData = new Array();
 $(function () { 
         
-          $('#studentcategory').multiselect({ includeSelectAllOption: true });
+     
 
+        $('#search, #charttype').click(function () {    
+            var indexGrade;
+            var indexSubject;
+            var indexSection;
+            var indexCategory;
+            
+        for ( var index = 1; index < 3 ; index++){  
+            
+            indexGrade = "T" + index + "-GR";
+            indexSubject = "T" + index + "-SB";
+            indexSection = "T" + index + "-SC";
+            indexCategory = "T" + index + "-CA";
+            
+           
+            
+            var grade = document.getElementById(indexGrade).options[document.getElementById(indexGrade).selectedIndex].text;
+            var category = $("#"+indexCategory+" option:selected");
+            var subject = $("#"+indexSubject+" option:selected");  
+            var section = $("#"+indexSection+" option:selected");  
+            
+            
+            
+                            //Section            
+        var message = "";     var sectionHeader = "";
+        section.each(function () {
+            var currentSection = $(this).text();
+            if (currentSection.indexOf("(") !== -1) {
+                var bracketIndex = currentSection.indexOf("(");
+                currentSection= currentSection.slice(0,bracketIndex);
+            }
+            if (message ===""){
+                if (section !== "") 
+                    message = " AND (batches.name = '" + currentSection+ "' ";
+                else 
+                    message = " (batches.name = '" + currentSection + "'";
+                    sectionHeader = " - " + currentSection;
+            } else {
+                message += " OR batches.name = '" + currentSection + "'";  //  grade like 'GR1' OR grade like 'GR10';
+                sectionHeader += " , " + currentSection;
+            }
+        });
+        if (message !== "")
+           section = message + ")";
+        else
+            section = "";
+            
+            
+                        //Subject              
+        var message = "";     var subjectHeader = "";
+        subject.each(function () {
+            var currentSubject = $(this).text();
+            if (currentSubject.indexOf("(") !== -1) {
+                var bracketIndex = currentSubject.indexOf("(");
+                currentSubject = currentSubject.slice(0,bracketIndex);
+            }
+            if (message ===""){
+                if (subject !== "") 
+                    message = " AND (subjects.name = '" + currentSubject + "' ";
+                else 
+                    message = " (subjects.name = '" + currentSubject + "'";
+                subjectHeader = " - " + currentSubject;
+            } else {
+                message += " OR subjects.name = '" + currentSubject + "'";  //  grade like 'GR1' OR grade like 'GR10';
+                subjectHeader += " , " + currentSubject;
+            }
+        });
+        if (message !== "")
+           subject = message + ")";
+        else
+            subject = "";
 
-
-        $('#search, #charttype').click(function () {
-                
-        var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
-        var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
-        var selected_category = $("#studentcategory option:selected");
-        
             //Category               
         var message = "";     var categoryHeader = "";
-        selected_category.each(function () {
+        category.each(function () {
             var currentCategory = $(this).text();
             if (currentCategory.indexOf("(") !== -1) {
                 var bracketIndex = currentCategory.indexOf("(");
                 currentCategory = currentCategory.slice(0,bracketIndex);
             }
             if (message ===""){
-                if (selected_category !== "") 
+                if (category !== "") 
                     message = " AND (student_categories.name = '" + currentCategory + "' ";
                 else 
                     message = " (student_categories.name = '" + currentCategory + "'";
@@ -77,14 +143,15 @@ $(function () {
             }
         });
         if (message !== "")
-            selected_category = message + ")";
+            category = message + ")";
         else
-            selected_category = "";
+            category = "";
+
 
         
                 // Between values Subject wise
                 var min=0, tableName, term, gender;
-                for (var t=1; t<5; t++) {
+              t=index; {
                         tableName = 'T' + t; 
                         for (var i=0; i<4; i++) {
                                 if (i < 2) {
@@ -108,26 +175,36 @@ $(function () {
                                                 this.responseText;
                                 };
                                 httpAbove.open("POST", "sqldb/marksAbove.php?term=" + term + 
-                                        "&grade=" + grade  + "&subject=" + subject +"&category=" + selected_category +
-                                        "&gender=" + gender + "&min=" +min, false);
+                                        "&grade=" + grade  + "&subject=" + subject +"&category=" + category +
+                                        "&gender=" + gender + "&min=" + min + "&section=" + section,false);
                                                          
                                 httpAbove.send();
                         }
                 }
-    
+       
 google.charts.load('current', {packages: ['corechart', 'bar']});
 google.charts.setOnLoadCallback(drawMaterial);
 
-
+        }
+        
+        
 function drawMaterial() {
     
-   
-    
-        var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
-        var subject = document.getElementById("subject").options[document.getElementById("subject").selectedIndex].text;
+       for (var i = 1; i < 3; i++) {
+           
+           var  indexGrade = "T" + i+ "-GR";
+           var  indexSubject = "T" + i + "-SB";
+           var  indexSection = "T" + i + "-SC";
+            
+           
+//        var grade = document.getElementById(indexGrade).options[document.getElementById(indexGrade).selectedIndex].text;
+//        var subject = document.getElementById(indexSubject).options[document.getElementById(indexSubject).selectedIndex].text;
+//        var section = document.getElementById(indexSection).options[document.getElementById(indexSection).selectedIndex].text;
+//        
+        var value1, value2,value3,value4, result1, result2, result3, result4, tableName, chartName, gender1, gender2;
         var value1, value2,value3,value4, result1, result2, result3, result4, tableName, table1, chartName, gender1, gender2;
        
-        for (var i = 1; i < 5; i++) {
+       
                 tableName = 'T' + i;
                  table1 = 'TT' + i;
             var tableName1 = document.getElementById(table1);
@@ -195,7 +272,8 @@ function drawMaterial() {
                         [gender2 + "-" + value4.toString()+ '% and above',Number(result4), '#ff0000'],
                 ]);
                 var options = {
-                        title:'(' + term1 + " " + gender1 + ') VS ('  + term2 + " " + gender2 + ") " + grade + '-' + subject  ,
+                        title:'(' + term1 + " " + gender1 + ') VS ('  + term2 + " " + gender2 + ") "  ,
+//                        + grade + '-' + subject + '  for batch ' + section ,
                 };
                 chartName = 'chart' + i;
                 
@@ -206,7 +284,8 @@ function drawMaterial() {
                      
                 materialChart.draw(data, options);}            
                  if(type === "pie"){
-                        var materialChart = new google.visualization.PieChart(document.getElementById(chartName));
+
+                           var materialChart = new google.visualization.PieChart(document.getElementById(chartName));
                          materialChart.draw(data, options);}
 
                 if(type === "histogram"){
@@ -215,19 +294,21 @@ function drawMaterial() {
                 if(type === "linechart"){
                          var materialChart = new google.visualization.LineChart(document.getElementById(chartName));
                          materialChart.draw(data, options); }
-                      imgData[i] = materialChart.getImageURI()
+                     
+                      imgData[i] = materialChart.getImageURI();
 
 
                
         }
-    };
+    }; 
     
-
-});
-    });
+    
+        }
+);
+         });
 </script>
 
-<body  onload="fillSubjects()">
+<body  onload="fillSections1(),fillSections2(),fillSubjects1(),fillSubjects2()">
     <?php $token = $_POST['token']; ?>
     <?php $iurl =  $_POST['iurl']; ?>
     
@@ -238,21 +319,10 @@ function drawMaterial() {
 <div id="upperdiv" class="w3-container" style="padding-top: 10px; padding-bottom: 10px;">   
 
         <table id= "table1">
-        <tr><td></td>
-            <td></td>
-            <td>Grade</td>
-            <td>Subject</td>
-            <td>Student Category</td>
-            
-            <td></td><td></td>
-        </tr>
-        <tr><td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()" title="Export Data as PDF" >Export Data  <span class="material-icons">print</span></button>
+        <tr>
+            <td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()" title="Export Data as PDF" >Export Data  <span class="material-icons">print</span></button>
             </td>
             <td></td>
-            <td><select id="grade"></select></td>
-            <td><select id="subject"> </select></td>
-            <td><select id="studentcategory" multiple="multiple"> </select></td>
-           
             <td><button style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="search" title="Get students marks">Search Results  <span class="fa fa-search"></span></button></td>
             <td></td>
              <td><select  class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" style="text-align: center" id="charttype" > 
@@ -269,14 +339,21 @@ function drawMaterial() {
 </div>
 
 <div id="tables" style="height: 100vh; overflow: auto">
+   
 <!--Tables-->
 <!--////////////////////////            Table 1     ///////////////////////////////////////////////////-->
 <textarea id="output" rows="10" cols="50" hidden></textarea>
 <div class="w3-row w3-border">
     <div class="w3-container w3-half">
+        <br>
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T1">  
-            <th colspan="4" class="w3-teal" style="font-size: 18px"><button style="float: left;"type='button'class="w3-button w3-hover-blue-gray" onclick="printDiv(chart1)"id='printbtn'  title="Print chart"value='Print'><i class="glyphicon glyphicon-print"></i></button>Benchmark Data
-
+            <th colspan="4" class="w3-teal" style="font-size: 18px">
+                <button style="float: left;"type='button'class="w3-button w3-hover-blue-gray" hidden onclick="printDiv(chart1)"id='printbtn'  title="Print chart"value='Print'>
+                <i class="glyphicon glyphicon-print"></i></button>
+                <select id="T1-GR" ></select>
+                <select id="T1-SC" multiple></select>
+                <select id="T1-SB" multiple></select>
+                <select id="T1-CA" multiple></select>
             </th>
            <tr>
         <th colspan="2" class="w3-border-right">
@@ -327,8 +404,16 @@ function drawMaterial() {
         </div>
     
         <div class="w3-container w3-half">
+            <br>
         <table class=" w3-table-all w3-striped w3-centered w3-card-4" id="T2">  
-                <th colspan="4" class="w3-teal" style="font-size: 18px"><button style="float: right;"type='button'class="w3-button w3-hover-blue-gray" onclick="printDiv(chart2)"id='printbtn'  title="Print chart"value='Print'><i class="glyphicon glyphicon-print"></i></button>Benchmark Data</th>
+                 <th colspan="4" class="w3-teal" style="font-size: 18px">
+                <button style="float: left;"type='button'class="w3-button w3-hover-blue-gray" hidden onclick="printDiv(chart2)"id='printbtn'  title="Print chart"value='Print'>
+                <i class="glyphicon glyphicon-print"></i></button>
+                <select id="T2-GR" ></select>
+                <select id="T2-SC" multiple ></select>
+                <select id="T2-SB" multiple ></select>
+                <select id="T2-CA" multiple></select>
+            </th>
                 <tr>
                 <th colspan="2" class="w3-border-right">
                         <select id="T2-Term1"></select>
@@ -377,104 +462,7 @@ function drawMaterial() {
 </div>
 <br><br>
 <!--////////////////////////            Table 2     ///////////////////////////////////////////////////-->
-<div class="w3-row w3-border">
-        <div class="w3-container w3-half">
-        <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T3">  
-        <th colspan="4" class="w3-teal" style="font-size: 18px"><button style="float: left;"type='button'class="w3-button w3-hover-blue-gray" onclick="printDiv(chart3)"id='printbtn'  title="Print chart"value='Print'><i class="glyphicon glyphicon-print"></i></button>Benchmark Data</th>
-        <tr>
-        <th colspan="2" class="w3-border-right">
-                <select id="T3-Term1"></select>
-                <select id="T3-Gender1">
-                        <option>Boys</option>
-                        <option>Girls</option>
-                        <option>Both</option>
-                </select>            
-        </th>
-        <th colspan="2" class="w3-border-right">
-                <select id="T3-Term2"></select>
-                <select id="T3-Gender2">
-                        <option>Girls</option>
-                        <option>Boys</option>
-                        <option>Both</option>
-                </select>            
-        </th>
-        </tr>
-                <tr>
-                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 80> % and above</td>
-                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 85> % and above</td>
-                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 90> % and above</td>
-                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 95> % and above</td>
-                </tr>
-                <tr>
-                        <td class="w3-border-right">--</td>
-                        <td class="w3-border-right">--</td>
-                        <td class="w3-border-right">--</td>
-                        <td class="w3-border-right">--</td>
-                </tr>
-        </table>
-            
-              <table id="TT3" hidden>
-                    <thead>
-          <td> </td><td ></td><td ></td><td ></td><td ></td><td ></td><td ></td></thead>
-           <tbody>
-                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
-                <tr><td ></td><td></td><td></td><td></td><td ></td><td ></td><td></td></tr>
-           </tbody>
-        </table>
-             
-     
-        <br>
-        <div class="w3-half w3-card-4" id="chart3"></div>
-        </div>
-    
-        <div class="w3-container w3-half">
-        <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T4">  
-                <th colspan="4" class="w3-teal" style="font-size: 18px;" ><button style="float: right;"type='button'class="w3-button w3-hover-blue-gray" onclick="printDiv(chart4)"id='printbtn'  title="Print chart"value='Print'><i class="glyphicon glyphicon-print"></i></button>Benchmark Data</th>
-                <tr>
-                <th colspan="2" class="w3-border-right">
-                        <select id="T4-Term1"></select>
-                        <select id="T4-Gender1">
-                                <option>Boys</option>
-                                <option>Girls</option>
-                                <option>Both</option>
-                        </select>            
-                </th>
-                <th colspan="2" class="w3-border-right">
-                        <select id="T4-Term2"></select>
-                        <select id="T4-Gender2">
-                                <option>Girls</option>
-                                <option>Boys</option>
-                                <option>Both</option>
-                        </select>                    
-                </th>
-                </tr>
-                <tr>
-                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 80> % and above</td>
-                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 85> % and above</td>
-                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 90> % and above</td>
-                        <td class="w3-border-right"><input type="text" style = "font-style:initial ; font-size: 16px;" value= 95> % and above</td>
-                </tr>
-                <tr>
-                        <td class="w3-border-right">--</td>
-                        <td class="w3-border-right">--</td>
-                        <td class="w3-border-right">--</td>
-                        <td class="w3-border-right">--</td>
-                </tr>
-        </table>
-            
-              <table id="TT4" hidden>
-                              <thead>
-          <td> </td><td ></td><td ></td><td ></td><td ></td><td ></td><td ></td></thead>
-           <tbody>
-                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
-                <tr><td></td><td></td><td></td><td></td><td ></td><td ></td><td ></td></tr>
-                <tr><td ></td><td></td><td></td><td></td><td ></td><td ></td><td></td></tr>
-           </tbody>
-        </table>
-        <br>
-        <div class="w3-half w3-card-4" id="chart4"></div>
-        </div>
+
 </div>
     
 <!--////////////////////////            Table 3     ///////////////////////////////////////////////////-->
@@ -514,7 +502,6 @@ function drawMaterial() {
             doc.setFontSize(18);
             doc.setTextColor(40);
             doc.setFontStyle('normal');
-            //doc.addImage(headerImgData, 'JPEG', data.settings.margin.left, 20, 50, 50);
             doc.text("Statistics Report", data.settings.margin.left, 50);
         };
         var options = {
@@ -527,17 +514,29 @@ function drawMaterial() {
     }
 </script>
 </div>
-<!--Onchange event listener Year and Gender-->
+<!--Onchange event listener -->
 <script type="text/javascript">
+document.getElementById("T1-GR").onchange = function() {fillSections1(); fillSubjects1(); Result();};
+document.getElementById("T2-GR").onchange = function() {fillSections2(); fillSubjects2(); Result();};
 document.getElementById('T1-Gender1').onchange = function() {Result();};
 document.getElementById('T1-Gender2').onchange = function() {Result();};
 document.getElementById('T2-Gender1').onchange = function() {Result();};
 document.getElementById('T2-Gender2').onchange = function() {Result();};
-document.getElementById('T3-Gender1').onchange = function() {Result();};    
-document.getElementById('T3-Gender2').onchange = function() {Result();};
-document.getElementById('T4-Gender1').onchange = function() {Result();};
-document.getElementById('T4-Gender2').onchange = function() {Result();};
-function Result() {
+document.getElementById('T1-Term1').onchange = function() {Result();};
+document.getElementById('T1-Term2').onchange = function() {Result();};
+document.getElementById('T2-Term1').onchange = function() {Result();};
+document.getElementById('T2-Term2').onchange = function() {Result();};
+//document.getElementById('T1-SC').onchange = function() {Result();};
+//document.getElementById('T1-SB').onchange = function() {Result();};
+//document.getElementById('T1-SR').onchange = function() {Result();};
+//document.getElementById('T2-SC').onchange = function() {Result();};
+//document.getElementById('T2-SB').onchange = function() {Result();};
+//document.getElementById('T2-SR').onchange = function() {Result();};
+//document.getElementById('T2-CA').onchange = function() {Result();};
+//document.getElementById('T1-CA').onchange = function() {Result();};
+
+
+function Result(){
         document.getElementById("search").click();
 }
 </script>    
@@ -574,7 +573,7 @@ function fetchTerms(table) {
         };
         httpterms.open("GET", "sqldb/displayTerms.php", false);
         httpterms.send();
-        for (T=1; T<5; T++) {
+        for (T=1; T<3; T++) {
 //                var select = document.getElementById('T' + T + '-Year');
 //                while (select.length > 0)
 //                        select.remove(0);
@@ -595,29 +594,23 @@ function fetchTerms(table) {
                 }
         }
       
-        
+
         $(function () {$('#T1-Term1').multiselect({includeSelectAllOption: true});});
         $(function () {$('#T1-Term2').multiselect({includeSelectAllOption: true});});
         $(function () {$('#T2-Term1').multiselect({includeSelectAllOption: true});});
         $(function () {$('#T2-Term2').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T3-Term1').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T3-Term2').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T4-Term1').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T4-Term2').multiselect({includeSelectAllOption: true});});
+   
         
         $(function () {$('#T1-Gender1').multiselect({includeSelectAllOption: true});});
         $(function () {$('#T1-Gender2').multiselect({includeSelectAllOption: true});});
         $(function () {$('#T2-Gender1').multiselect({includeSelectAllOption: true});});
         $(function () {$('#T2-Gender2').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T3-Gender1').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T3-Gender2').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T4-Gender1').multiselect({includeSelectAllOption: true});});
-        $(function () {$('#T4-Gender2').multiselect({includeSelectAllOption: true});});
+
         
 </script>
 
 
-<!--Initialize Grade drop down-->     
+<!--Initialize Grade drop down for table1-->     
 <script type="text/javascript">
         var gradesArray = ["Your Data Base is Empty!."];
          
@@ -631,20 +624,112 @@ function fetchTerms(table) {
          httpgrades.open("GET", "sqldb/initGrades.php", false);
          httpgrades.send();
 
-        var select = document.getElementById( 'grade' );
+        var select = document.getElementById( 'T1-GR' );
         delete gradesArray[gradesArray.length -1];
         for( var i in gradesArray ) {
             select.add( new Option( gradesArray[i] ) );
         };   
         $(function () {
-            $('#grade').multiselect({
+            $('#T1-GR').multiselect({
                 includeSelectAllOption: true
                 });  
         });
          
 </script>
 
-<!--Initialize Student Category drop down-->     
+<!--Initialize Grade drop down for table 2-->     
+<script type="text/javascript">
+        var gradesArray = ["Your Data Base is Empty!."];
+         
+        var httpgrades = new XMLHttpRequest();
+        httpgrades.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                        var str = this.responseText;
+                        gradesArray = str.split("\n");   
+                  }
+         };
+         httpgrades.open("GET", "sqldb/initGrades.php", false);
+         httpgrades.send();
+
+        var select = document.getElementById( 'T2-GR' );
+        delete gradesArray[gradesArray.length -1];
+        for( var i in gradesArray ) {
+            select.add( new Option( gradesArray[i] ) );
+        };   
+        $(function () {
+            $('#T2-GR').multiselect({
+                includeSelectAllOption: true
+                });  
+        });
+         
+</script>
+
+
+<!--Sections VIA Grades for table 1-->
+<script type="text/javascript">
+function fillSections1(){
+        var grade = document.getElementById("T1-GR").options[document.getElementById("T1-GR").selectedIndex].text;
+        if (grade !== 'Select Grade') {
+                var select = document.getElementById('T1-SC');
+                while (select.length > 0)
+                    select.remove(0);
+
+                var httpSections = new XMLHttpRequest();
+                httpSections.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                            var str = this.responseText;
+                            sectionsArray = str.split("\?");
+                    }
+                };
+                httpSections.open("GET", "sqldb/distinctBatches.php?grade=" + grade, false);
+                httpSections.send();
+                $('#T1-SC').multiselect('destroy');
+                delete sectionsArray[sectionsArray.length - 1];
+                for( var i in sectionsArray ) {
+                         select.add( new Option( sectionsArray[i] ) );
+                };   
+                $(function () {
+                    $('#T1-SC').multiselect({
+                             includeSelectAllOption: true
+                    }); 
+                });
+        }
+};
+</script>
+
+<!--Sections VIA Grades for table 2-->
+<script type="text/javascript">
+function fillSections2(){
+        var grade = document.getElementById("T2-GR").options[document.getElementById("T2-GR").selectedIndex].text;
+        if (grade !== 'Select Grade') {
+                var select = document.getElementById('T2-SC');
+                while (select.length > 0)
+                    select.remove(0);
+
+                var httpSections = new XMLHttpRequest();
+                httpSections.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                            var str = this.responseText;
+                            sectionsArray = str.split("\?");
+                    }
+                };
+                httpSections.open("GET", "sqldb/distinctBatches.php?grade=" + grade, false);
+                httpSections.send();
+                $('#T2-SC').multiselect('destroy');
+                delete sectionsArray[sectionsArray.length - 1];
+                for( var i in sectionsArray ) {
+                         select.add( new Option( sectionsArray[i] ) );
+                };   
+                $(function () {
+                    $('#T2-SC').multiselect({
+                             includeSelectAllOption: true
+                    }); 
+                });
+        }
+};
+</script>
+
+<!--Initialize Student Category drop down for table 1-->     
 <script type="text/javascript">
         var categoryArray = ["Your Data Base is Empty!."];
          
@@ -658,26 +743,52 @@ function fetchTerms(table) {
          httpcategory.open("GET", "sqldb/distinctStudentCategory.php", false);
          httpcategory.send();
 
-        var select = document.getElementById( 'studentcategory' );
+        var select = document.getElementById( 'T1-CA' );
         delete categoryArray[categoryArray.length -1];
         for( var i in categoryArray ) {
             select.add( new Option( categoryArray[i] ) );
         };   
         $(function () {
-            $('#studentcategory').multiselect({
+            $('#T1-CA').multiselect({
                 includeSelectAllOption: true
                 });  
         });
          
 </script>
 
-<!--Subject VIA Grades-->
+<!--Initialize Student Category drop down for table 2-->     
 <script type="text/javascript">
-document.getElementById("grade").onchange = function() {fillSubjects();};
-function fillSubjects(){
-        var grade = document.getElementById("grade").options[document.getElementById("grade").selectedIndex].text;
+        var categoryArray = ["Your Data Base is Empty!."];
+         
+        var httpcategory = new XMLHttpRequest();
+        httpcategory.onreadystatechange = function() {
+                if (this.readyState === 4) {
+                        var str = this.responseText;
+                        categoryArray = str.split("\n");   
+                  }
+         };
+         httpcategory.open("GET", "sqldb/distinctStudentCategory.php", false);
+         httpcategory.send();
+
+        var select = document.getElementById( 'T2-CA' );
+        delete categoryArray[categoryArray.length -1];
+        for( var i in categoryArray ) {
+            select.add( new Option( categoryArray[i] ) );
+        };   
+        $(function () {
+            $('#T2-CA').multiselect({
+                includeSelectAllOption: true
+                });  
+        });
+         
+</script>
+
+<!--Subject VIA Grades for table 1-->
+<script type="text/javascript">
+function fillSubjects1(){
+        var grade = document.getElementById("T1-GR").options[document.getElementById("T1-GR").selectedIndex].text;
         if (grade !== 'Select Grade') {
-                var select = document.getElementById('subject');
+                var select = document.getElementById('T1-SB');
                 while (select.length > 0)
                     select.remove(0);
 
@@ -690,20 +801,53 @@ function fillSubjects(){
                 };
                 httpSubjects.open("GET", "sqldb/distinctSubjects.php?grade=" + grade, false);
                 httpSubjects.send();
-                $('#subject').multiselect('destroy');
+                $('#T1-SB').multiselect('destroy');
 
                 delete subjectsArray[subjectsArray.length - 1];
                 for( var i in subjectsArray ) {
                          select.add( new Option( subjectsArray[i] ) );
                 };   
                 $(function () {
-                    $('#subject').multiselect({
+                    $('#T1-SB').multiselect({
                              includeSelectAllOption: true
                     }); 
                 });
         }
 };
 </script>
+<!--Subject VIA Grades for table 2-->
+<script type="text/javascript">
+function fillSubjects2(){
+        var grade = document.getElementById("T2-GR").options[document.getElementById("T2-GR").selectedIndex].text;
+        if (grade !== 'Select Grade') {
+                var select = document.getElementById('T2-SB');
+                while (select.length > 0)
+                    select.remove(0);
+
+                var httpSubjects = new XMLHttpRequest();
+                httpSubjects.onreadystatechange = function() {
+                    if (this.readyState === 4) {
+                            var str = this.responseText;
+                            subjectsArray = str.split("\?");
+                    }
+                };
+                httpSubjects.open("GET", "sqldb/distinctSubjects.php?grade=" + grade, false);
+                httpSubjects.send();
+                $('#T2-SB').multiselect('destroy');
+
+                delete subjectsArray[subjectsArray.length - 1];
+                for( var i in subjectsArray ) {
+                         select.add( new Option( subjectsArray[i] ) );
+                };   
+                $(function () {
+                    $('#T2-SB').multiselect({
+                             includeSelectAllOption: true
+                    }); 
+                });
+        }
+};
+</script>
+
 
 
 <!----------Save PDF for table----------------->
@@ -722,8 +866,6 @@ function fillSubjects(){
                         doc.text("Statistics Based on Subject", 210, 80);        // Header top margin
                 };
                 
-
-
           
                var tableName ="";                      
                      
@@ -748,30 +890,7 @@ function fillSubjects(){
                  }});
                                doc.addImage(imgData[2], 'png', 80, 550, 420, 250);
 
-             
-             
-              doc.addPage();
-                               tableName = 'TT3'; 
-                        var table = doc.autoTableHtmlToJson(document.getElementById(tableName));
-                        doc.autoTable(table.columns, table.data,{beforePageContent: header,margin: {top:100,left:40,right:40} ,styles: {
-        fontSize: 12,
-        font: 'PTSans',
-        halign: 'center'
-                 }});
-                           doc.addImage(imgData[3], 'png', 80, 180, 420, 250);
 
-              
-                               tableName = 'TT4'; 
-                        var table = doc.autoTableHtmlToJson(document.getElementById(tableName));
-                        doc.autoTable(table.columns, table.data,{beforePageContent: header,margin: {top:450,left:40,right:40} ,styles: {
-        fontSize: 12,
-        font: 'PTSans',
-        halign: 'center'
-                 }});
-                             doc.addImage(imgData[4], 'png', 80, 550,420, 250);
-
-             
-             
                 doc.save("Statistics.pdf");
         }
 </script>
