@@ -13,7 +13,7 @@
         //    -----------arabic encoding-------------
 
 
-        $sql = "SELECT DISTINCT name FROM subjects";
+        $sql = "SELECT DISTINCT name FROM subjects WHERE is_deleted = 0";
         $result = $conn->query($sql);
 
         

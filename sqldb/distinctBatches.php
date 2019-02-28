@@ -1,5 +1,5 @@
 <?php
-        $servername = "localhost";          $username = "reports2018";
+        $servername = "localhost";        $username = "reports2018";
         $password = "Indepth2018";        $DB = "fedena_pro";
 
         $conn = new mysqli($servername, $username, $password, $DB);

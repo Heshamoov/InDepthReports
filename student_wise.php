@@ -49,8 +49,7 @@ hr {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 <body>
-    <?php $token = $_POST['token']; ?>
-    <?php $iurl =  $_POST['iurl'];  ?>
+  
 <!-- Navigation bar -->
         <?php include('navbar.php'); ?>
 <!-- End of Navigation bar -->
@@ -75,7 +74,7 @@ hr {
 
 <script>
 // Set the date we're counting down to
-var countDownDate = new Date("OCT 1, 2018 00:00:").getTime();
+var countDownDate = new Date("MARCH 15, 2019 00:00:").getTime();
 
 // Update the count down every 1 second
 var countdownfunction = setInterval(function() {

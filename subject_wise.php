@@ -309,12 +309,13 @@ function drawMaterial() {
 </script>
 
 <body  onload="fillSections1(),fillSections2(),fillSubjects1(),fillSubjects2()">
-    <?php $token = $_POST['token']; ?>
-    <?php $iurl =  $_POST['iurl']; ?>
     
 <div class=" w3-responsive header">
 <!-- Navigation bar -->
         <?php include('navbar.php'); ?>
+        <script>
+            document.getElementById("navSubjectWise").style.backgroundColor = '#009688' ;
+        </script>
 <!-- End of Navigation bar -->
 <div id="upperdiv" class="w3-container" style="padding-top: 10px; padding-bottom: 10px;">   
 

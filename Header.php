@@ -23,6 +23,7 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
 
 
 
@@ -35,6 +36,18 @@
             .w3-bar,h1,button,select {font-family: "Montserrat", sans-serif}
             .w3-custom {color:#fff !important; background-color:#009688 !important}
             .fa-anchor,.fa-coffee {font-size:20px}
+            
+                        .chart {
+              align-content: center;
+              display: flex;
+              justify-content: center;
+            }
+            
+            .popover {width:100%}
+
+#popover-content-logout > * {
+  background-color:#ff0000 !important;
+}
             
             .overlay {
             width: 200px;

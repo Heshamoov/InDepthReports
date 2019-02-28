@@ -1,7 +1,11 @@
-<!--test-->
 <?php include('Header.php'); ?>
+
 <title>Statistics</title>
+
 </head>
+
+
+
 <script type="text/javascript"> 
 $(function () {
     
@@ -245,13 +249,17 @@ $(function () {
 
 <body>
     
-    <?php $token = $_POST['token']; ?>
-    <?php $iurl =  $_POST['iurl']; ?>
     
     <div class=" w3-responsive header" >
     
         <!-- Navigation bar -->        
         <?php include('navbar.php'); ?>
+        
+        <!--set color for current tab-->
+        <script>
+            document.getElementById("navStatistics").style.backgroundColor = '#009688' ;
+        </script>
+
         <!--End of Navictacoin bar-->
         
         <!--Drop menus-->
@@ -279,7 +287,7 @@ $(function () {
                         <select id="batch"  multiple="multiple"></select>
                     </td>
                     <td>
-                        <select id="subject" style="width : 100px;"  multiple="multiple"></select>         
+                        <select id="subject"  multiple="multiple"></select>         
                     </td>
                     <td>
                             <select id="gender"  multiple="multiple"> 
@@ -308,7 +316,14 @@ $(function () {
         <textarea id="output" rows="10" cols="50" hidden></textarea>
         <br>
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="stable">  
-            <th colspan="5" class="w3-custom " style="font-size: 16px">Statistics</th>
+            <th colspan="4" class="w3-custom " style="font-size: 16px">Statistics 
+           </th>
+           <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                        data-toggle="chart1" data-content="body"  data-html="true" >
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
+           
+
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Marks Count</th>
                 <th class="w3-border-right"><input id="percent11" type="text" value= 50>% - <input id="percente12" type="text" value=100>%</th>
@@ -322,6 +337,8 @@ $(function () {
                 <td class="w3-border-right"></td>
                 <td class="w3-border-right"></td>
             </tr>
+        
+        
         </table>
         <br><br>
         
@@ -981,6 +998,74 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
                 doc.save("Statistics.pdf");
         }
 </script>
+
+            
+<script>$(function () {
+    $('[data-toggle="chart1"]').popover(
+  {
+
+  html: true,
+  content: function() {
+  
+    return $('#chart_div').html();
+  }
+});
+
+});
+    
+</script>
+
+<script type="text/javascript">
+google.charts.load("current", {
+  packages: ['corechart']
+});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+    
+  var data = google.visualization.arrayToDataTable([
+    ['Name', 'Age', {
+      role: 'style'
+    }],
+    ['Kaleb', 1, 'cyan', ],
+    ['Dakota', 1, 'orange', ],
+    ['Jaden', 4, 'yellow'],
+    ['Kayla', 25, 'pink'],
+    ['Thomas', 28, 'lime']
+  ]);
+
+  var options = {
+    bar: {
+      groupWidth: '80%'
+    },
+    height: '300',
+    legend: 'none',
+    width: '550',
+  };
+
+  var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+
+  if (navigator.userAgent.match(/Trident\/7\./)) {
+    google.visualization.events.addListener(chart, 'click', function() {
+      chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+      console.log(chart_div.innerHTML);
+    });
+    chart.draw(data, options);
+  } else {
+    google.visualization.events.addListener(chart, 'select png', function() {
+      chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
+      console.log(chart_div.innerHTML);
+//    });
+    chart.draw(data, options);
+  }
+}
+</script>
+
+<div id = "popcontainer" class="popover-content-el hide " >
+
+    <div id="chart_div"  >
+    </div>
+</div>
 
 </body>
 </html>
