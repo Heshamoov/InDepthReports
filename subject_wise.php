@@ -46,17 +46,13 @@ function printDiv(printCharts){
 //</script>-->
 
 <script type="text/javascript">
-           
-  var imgData = new Array();
-$(function () { 
-        
-     
-
-        $('#search, #charttype').click(function () {    
-            var indexGrade;
-            var indexSubject;
-            var indexSection;
-            var indexCategory;
+    var imgData = new Array();
+    $(function () { 
+   $('#search, #charttype').click(function () {    
+   var indexGrade;
+   var indexSubject;
+   var indexSection;
+   var indexCategory;
             
         for ( var index = 1; index < 3 ; index++){  
             
@@ -109,12 +105,12 @@ $(function () {
             }
             if (message ===""){
                 if (subject !== "") 
-                    message = " AND (subjects.name = '" + currentSubject + "' ";
+                    message = " AND (subjects.name like '" + currentSubject + "%' ";
                 else 
-                    message = " (subjects.name = '" + currentSubject + "'";
+                    message = " (subjects.name like '" + currentSubject + "%'";
                 subjectHeader = " - " + currentSubject;
             } else {
-                message += " OR subjects.name = '" + currentSubject + "'";  //  grade like 'GR1' OR grade like 'GR10';
+                message += " OR subjects.name like '" + currentSubject + "%'";  //  grade like 'GR1' OR grade like 'GR10';
                 subjectHeader += " , " + currentSubject;
             }
         });
@@ -323,7 +319,7 @@ function drawMaterial() {
             <td><button style="text-align: center ;" class="w3-button w3-round-xlarge w3-medium w3-hover-blue-gray w3-center w3-custom" id="exportS" onclick="downloadStatistics()" title="Export Data as PDF" >Export Data  <span class="material-icons">print</span></button>
             </td>
             <td></td>
-            <td><button style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="search" title="Get students marks">Search Results  <span class="fa fa-search"></span></button></td>
+            <td><button style="text-align: center ;" class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" id="search" title="Get students marks">Search Results<span class="fa fa-search"></span></button></td>
             <td></td>
              <td><select  class="w3-button w3-hover-blue-gray w3-custom w3-medium w3-round-xlarge" style="text-align: center" id="charttype" > 
                     <option class="w3-round-xlarge" style="text-align: center;" selected="selected" value="pie">Pie Chart</option> 
@@ -561,7 +557,7 @@ function fetchTerms(table) {
 }; 
 </script>-->
 
-<!--Initialize Terms-->
+<!--Init Terms-->
 <script type="text/javascript">
         var termsArray = ["Your Data Base is Empty!."];
         var httpterms = new XMLHttpRequest();
@@ -610,7 +606,7 @@ function fetchTerms(table) {
 </script>
 
 
-<!--Initialize Grade drop down for table1-->     
+<!--Init Grade drop down for table1-->     
 <script type="text/javascript">
         var gradesArray = ["Your Data Base is Empty!."];
          
@@ -637,7 +633,7 @@ function fetchTerms(table) {
          
 </script>
 
-<!--Initialize Grade drop down for table 2-->     
+<!--Init Grade drop down for table 2-->     
 <script type="text/javascript">
         var gradesArray = ["Your Data Base is Empty!."];
          
@@ -665,7 +661,7 @@ function fetchTerms(table) {
 </script>
 
 
-<!--Sections VIA Grades for table 1-->
+<!--Init Sections VIA Grades for table 1-->
 <script type="text/javascript">
 function fillSections1(){
         var grade = document.getElementById("T1-GR").options[document.getElementById("T1-GR").selectedIndex].text;
@@ -681,7 +677,7 @@ function fillSections1(){
                             sectionsArray = str.split("\?");
                     }
                 };
-                httpSections.open("GET", "sqldb/distinctBatches.php?grade=" + grade, false);
+                httpSections.open("GET", "sqldb/distinctSection.php?grade=" + grade, false);
                 httpSections.send();
                 $('#T1-SC').multiselect('destroy');
                 delete sectionsArray[sectionsArray.length - 1];
@@ -713,7 +709,7 @@ function fillSections2(){
                             sectionsArray = str.split("\?");
                     }
                 };
-                httpSections.open("GET", "sqldb/distinctBatches.php?grade=" + grade, false);
+                httpSections.open("GET", "sqldb/distinctSection.php?grade=" + grade, false);
                 httpSections.send();
                 $('#T2-SC').multiselect('destroy');
                 delete sectionsArray[sectionsArray.length - 1];
@@ -729,7 +725,7 @@ function fillSections2(){
 };
 </script>
 
-<!--Initialize Student Category drop down for table 1-->     
+<!--Init Student Category drop down for table 1-->     
 <script type="text/javascript">
         var categoryArray = ["Your Data Base is Empty!."];
          
@@ -756,7 +752,7 @@ function fillSections2(){
          
 </script>
 
-<!--Initialize Student Category drop down for table 2-->     
+<!--Init Student Category drop down for table 2-->     
 <script type="text/javascript">
         var categoryArray = ["Your Data Base is Empty!."];
          
@@ -783,7 +779,7 @@ function fillSections2(){
          
 </script>
 
-<!--Subject VIA Grades for table 1-->
+<!-- Init Subject VIA Grades for table 1-->
 <script type="text/javascript">
 function fillSubjects1(){
         var grade = document.getElementById("T1-GR").options[document.getElementById("T1-GR").selectedIndex].text;
