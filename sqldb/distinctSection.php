@@ -10,9 +10,10 @@
         $grade = $_REQUEST["grade"];
         $sql = "SELECT DISTINCT batches.name name FROM batches\n "
                 . "INNER JOIN courses\n"
-                . "ON batches.course_id = courses.id\n"
-                . "WHERE courses.course_name = '$grade'"
-                . "ORDER By batches.id DESC";
+                . "ON batches.course_id = courses.id\n "
+                . "WHERE courses.course_name = '$grade' "
+                . "AND batches.is_deleted = 0 "
+                . "ORDER By batches.academic_year_id DESC, batches.name ASC";
 //                echo $sql;
         
         
