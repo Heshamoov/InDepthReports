@@ -279,6 +279,7 @@ function drawMaterial() {
                 
                 var e = document.getElementById("charttype");
                 var type = e.options[e.selectedIndex].value;
+                
                 if(type === "coloumn"){
                         var materialChart = new google.visualization.ColumnChart(document.getElementById(chartName));
                      

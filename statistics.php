@@ -175,6 +175,9 @@ $(function () {
             }; 
             httpTotal.open("POST", "sqldb/subjectCount.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subject=" + currentSubject + "&gender=" + selected_gender, false);
             httpTotal.send();
+            
+                             
+            
 
             //Between values Subject wise
             var min=0,max =0;
@@ -214,8 +217,10 @@ $(function () {
         var xmlhttp = new XMLHttpRequest();
         xmlhttp.onreadystatechange = function() {
             if (this.readyState === 4) {
+                
                 stable.rows[2].cells[1].innerHTML = this.responseText;
                 stablePDF.rows[2].cells[1].innerHTML = this.responseText;
+                drawChart()
             }
         }; 
         xmlhttp.open("POST", "sqldb/count.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subjects=" + selected_subjects + "&gender=" + selected_gender, false);
@@ -230,9 +235,11 @@ $(function () {
             stablePDF.rows[1].cells[i].innerHTML = min + "% - " + max + "%";
             var xmlhttpm1 = new XMLHttpRequest();
             xmlhttpm1.onreadystatechange = function() {
+               
                 if (this.readyState === 4) {
                     stable.rows[2].cells[i].innerHTML = this.responseText;
                     stablePDF.rows[2].cells[i].innerHTML = this.responseText;
+                     drawChart();
                 }
             };
             xmlhttpm1.open("POST", "sqldb/between.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subjects=" + selected_subjects + "&gender=" + selected_gender + "&min=" + min + "&max=" + max, false);
@@ -243,9 +250,54 @@ $(function () {
 
 
 
+
 </script>
  
-    
+<script>
+        
+google.charts.load("current", {
+packages: ['corechart']
+});
+google.charts.setOnLoadCallback(drawChart);
+
+function drawChart() {
+        var value1, value2,value3,value4, value5, value6, result1, result2, result3,  tableName , header ;
+            var tableName = document.getElementById("stable");
+
+                value1 = tableName.rows[1].cells[2].childNodes[0].value;
+                value2= tableName.rows[1].cells[2].childNodes[2].value;
+                value3= tableName.rows[1].cells[3].childNodes[0].value;
+                value4= tableName.rows[1].cells[3].childNodes[2].value;
+                value5= tableName.rows[1].cells[4].childNodes[0].value;
+                value6= tableName.rows[1].cells[4].childNodes[2].value;
+                result1 = tableName.rows[2].cells[2].innerHTML;
+                result2 = tableName.rows[2].cells[3].innerHTML;
+                result3 = tableName.rows[2].cells[4].innerHTML;
+                header = tableName.rows[0].cells[0].innerHTML;
+         
+
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Number of Students');
+                data.addColumn('number', 'Students');
+                data.addColumn({type:'string', role:'style'});
+                
+                data.addRows([
+                        [ value1.toString() + '% - ' + value2.toString() + "% ", Number(result1), ' yellow'],
+                        [ value3.toString()+ '% - ' + value4.toString() + "% ",Number(result2), 'orange'],
+                        [ value5.toString() + '% - ' + value6.toString() + "%", Number(result3), ' lime'],
+                            ]);
+                var options = {title: header };
+                        
+                      
+                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                         chart.draw(data, options); 
+   
+        
+    }; 
+
+
+</script>
 
 <body>
     
@@ -319,7 +371,7 @@ $(function () {
             <th colspan="4" class="w3-custom " style="font-size: 16px">Statistics 
            </th>
            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
-                                                        data-toggle="chart1" data-content="body"  data-html="true" >
+                                                        data-toggle="popover" >
                                                         <span class="material-icons ">signal_cellular_alt</span>
                                                 </button></th>
            
@@ -1000,70 +1052,34 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
 </script>
 
             
-<script>$(function () {
-    $('[data-toggle="chart1"]').popover(
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popover"]').popover(
   {
-
+trigger: "manual" ,
   html: true,
   content: function() {
   
     return $('#chart_div').html();
   }
-});
-
-});
-    
-</script>
-
-<script type="text/javascript">
-google.charts.load("current", {
-  packages: ['corechart']
-});
-google.charts.setOnLoadCallback(drawChart);
-
-function drawChart() {
-    
-  var data = google.visualization.arrayToDataTable([
-    ['Name', 'Age', {
-      role: 'style'
-    }],
-    ['Kaleb', 1, 'cyan', ],
-    ['Dakota', 1, 'orange', ],
-    ['Jaden', 4, 'yellow'],
-    ['Kayla', 25, 'pink'],
-    ['Thomas', 28, 'lime']
-  ]);
-
-  var options = {
-    bar: {
-      groupWidth: '80%'
-    },
-    height: '300',
-    legend: 'none',
-    width: '550',
-  };
-
-  var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
-
-  if (navigator.userAgent.match(/Trident\/7\./)) {
-    google.visualization.events.addListener(chart, 'click', function() {
-      chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
-      console.log(chart_div.innerHTML);
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
     });
-    chart.draw(data, options);
-  } else {
-    google.visualization.events.addListener(chart, 'select png', function() {
-      chart_div.innerHTML = '<img src="' + chart.getImageURI() + '">';
-      console.log(chart_div.innerHTML);
-//    });
-    chart.draw(data, options);
-  }
-}
+
+});
+    
 </script>
 
-<div id = "popcontainer" class="popover-content-el hide " >
 
-    <div id="chart_div"  >
+
+<div id = "popcontainer" class="popover-content-el hide " style="width:400px; "  >
+
+    <div id="chart_div" style="width:400px; "  >
     </div>
 </div>
 

@@ -4,7 +4,7 @@
 <div class="w3-bar  w3-blue-gray w3-card  w3-medium" >
     
         
-    <l style="vertical-align: middle; padding-left: 10px; font-family: fantasy;font-size: 30px; color: whitesmoke"> REPORT CENTER</l>
+    <l style="vertical-align: middle; padding-left: 10px; font-size: 30px; color: whitesmoke"> REPORTS CENTER</l>
              <div style="float: right; background-color: #607D8B; color: white"class="w3-responsive w3-dropdown-hover w3-hide-small">
                 <button class="w3-button" title="Advanced Reports">More <i class="fa fa-caret-down"></i></button>     
                 <div class="w3-dropdown-content w3-card-4 w3-bar-block" >

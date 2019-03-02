@@ -87,3 +87,10 @@ input[type=text]{
 }
 
 
+
+.popover, #chart_div{
+    min-width:33%;
+    min-height:30%; 
+ 
+}
+
