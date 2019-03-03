@@ -40,8 +40,7 @@ input[type=text]{
   font-size: 18px;
   border: none;
   outline: none;
-  background-color: red;
-  color: white;
+  color: darkred;
   cursor: pointer;
   padding: 15px;
   border-radius: 4px;

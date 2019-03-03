@@ -282,7 +282,6 @@ function drawMaterial() {
                 
                 if(type === "coloumn"){
                         var materialChart = new google.visualization.ColumnChart(document.getElementById(chartName));
-                     
                 materialChart.draw(data, options);}            
                  if(type === "pie"){
 

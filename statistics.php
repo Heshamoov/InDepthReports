@@ -7,6 +7,8 @@
 
 
 <script type="text/javascript"> 
+    
+   
 $(function () {
     
     $('#term').multiselect({ includeSelectAllOption: true });
@@ -16,6 +18,9 @@ $(function () {
     $('#gender').multiselect({ includeSelectAllOption: true });
     
     $( document ).on("ready click",function () {
+        
+        google.charts.setOnLoadCallback(drawChart);
+        google.charts.setOnLoadCallback(drawChartSubjects);
         
         var selected_terms = $("#term option:selected");
         var selected_grades = $("#grade option:selected");
@@ -189,7 +194,8 @@ $(function () {
                 httpBetween.onreadystatechange = function() {
                     if (this.readyState === 4) {
                         table.rows[2].cells[i].innerHTML = this.responseText;
-                        table2.rows[2].cells[i].innerHTML = this.responseText;                                                
+                        table2.rows[2].cells[i].innerHTML = this.responseText;  
+                       
                     }
                 };
                 httpBetween.open("POST", "sqldb/subjectBetween.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subject=" + currentSubject + "&gender=" + selected_gender + "&min=" + min + "&max=" + max, false);
@@ -220,7 +226,7 @@ $(function () {
                 
                 stable.rows[2].cells[1].innerHTML = this.responseText;
                 stablePDF.rows[2].cells[1].innerHTML = this.responseText;
-                drawChart()
+                drawChart();
             }
         }; 
         xmlhttp.open("POST", "sqldb/count.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subjects=" + selected_subjects + "&gender=" + selected_gender, false);
@@ -254,11 +260,13 @@ $(function () {
 </script>
  
 <script>
+     var imgData = new Array();
         
 google.charts.load("current", {
 packages: ['corechart']
 });
 google.charts.setOnLoadCallback(drawChart);
+google.charts.setOnLoadCallback(drawChartSubjects);
 
 function drawChart() {
         var value1, value2,value3,value4, value5, value6, result1, result2, result3,  tableName , header ;
@@ -292,9 +300,51 @@ function drawChart() {
                       
                         var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                          chart.draw(data, options); 
+                          imgData[0] = chart.getImageURI();
    
         
     }; 
+    
+    
+    
+    
+   
+    function drawChartSubjects() {
+        
+        for(t = 1 ; t < 13 ; t++)
+        {
+            table = "T" + t;
+        var value1, value2,value3, result1, result2, result3,  tableName , header ;
+            var tableName = document.getElementById(table);
+
+                value1 = tableName.rows[1].cells[2].innerHTML;
+                value2 = tableName.rows[1].cells[3].innerHTML;
+                value3 = tableName.rows[1].cells[4].innerHTML;
+                result1 = tableName.rows[2].cells[2].innerHTML;
+                result2 = tableName.rows[2].cells[3].innerHTML;
+                result3 = tableName.rows[2].cells[4].innerHTML;
+                header = tableName.rows[0].cells[0].innerHTML;
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Number of Students');
+                data.addColumn('number', 'Students');
+                data.addColumn({type:'string', role:'style'});
+                
+                data.addRows([
+                        [ value1.toString(), Number(result1), ' yellow'],
+                        [ value2.toString(),Number(result2), 'orange'],
+                        [ value3.toString(), Number(result3), ' lime'],
+                            ]);
+                var options = {title: header };
+                        
+                      chartName = "chart" + t;
+                        var chartS = new google.visualization.ColumnChart(document.getElementById(chartName));
+                         chartS.draw(data, options); 
+                          imgData[t] = chartS.getImageURI();
+   
+    }   
+    }; 
+    
 
 
 </script>
@@ -423,7 +473,13 @@ function drawChart() {
         </table>
         
         <table id="T1" class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" >
-        <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+        <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+        <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject1" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
+           
+        
         <tr>
             <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
             <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -436,7 +492,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T2">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px;">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px;">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject2" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -450,7 +510,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T3">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject3" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -464,7 +528,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T4">
-             <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+             <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+             <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject4" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -478,7 +546,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T5">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject5" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -492,7 +564,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T6">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject6" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -506,7 +582,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T7">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject7" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -520,7 +600,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T8">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject8" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -534,7 +618,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T9">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject9" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -548,7 +636,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T10">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject10" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -562,7 +654,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T11">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject11" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -576,7 +672,11 @@ function drawChart() {
         <br>
     
         <table class=" w3-table-all w3-striped w3-bordered w3-centered w3-card-4" id="T12">  
-            <th colspan="5" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="4" class="w3-custom" style="font-size: 16px">Subject</th>
+            <th colspan="1" class="w3-custom">  <button  style="float: right;"type="button" class="btn w3-button w3-hover-blue-gray w3-custom" 
+                                                     data-toggle="popoverSubject12" onclick="drawChartSubjects();">
+                                                        <span class="material-icons ">signal_cellular_alt</span>
+                                                </button></th>
             <tr>
                 <th class="w3-border-right">Academic Year</th><th class="w3-border-right">Total</th>
                 <th class="w3-border-right"></th><th class="w3-border-right"></th><th class="w3-border-right"></th>
@@ -678,14 +778,14 @@ function drawChart() {
         </table>    
     </div>
     
-   <button onclick="topFunction()" style="left:0; padding: 10px;" class=" w3-hover-blue-gray w3-small" id="myBtn" title="Go to top"><span class="glyphicon glyphicon-arrow-up"style="font-size: 25px;" ></span></button>
+   <button onclick="topFunction()" style="left:0; padding: 10px;" class=" w3-hover-blue-gray w3-small w3-round-xxlarge" id="myBtn" title="Scroll to top"><span class="glyphicon glyphicon-arrow-up"style="font-size: 25px;" ></span></button>
 
     <!--Scroll Handling-->
     </div>
     <script>
         document.getElementById("tables").onscroll = function() {scrollFunction();};
         function scrollFunction() {
-            if (document.getElementById("tables").scrollTop > 20) {
+            if (document.getElementById("tables").scrollTop > 50) {
                 document.getElementById("myBtn").style.display = "block";
             } else
                 document.getElementById("myBtn").style.display = "none";
@@ -988,6 +1088,7 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
 
 --><script>
         function downloadStudents() {
+            
                 var doc = new jsPDF('p', 'pt','a4');
                 var table = doc.autoTableHtmlToJson(document.getElementById("out"));
                 var header = function(data) {
@@ -1008,14 +1109,15 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
 </script><!--
 --><script>
         function downloadStatistics() {
+           
                 var doc = new jsPDF('p', 'pt');
                 var header = function(data) {
                         doc.setFontSize(18);
-                        doc.setFontStyle('PTSans');
+                        doc.setFont('PTSans');
                         doc.text("Subject Wise Statistics",225,50);
                         doc.line(226,53,390,53);// Header top margin
                 };
-            
+
                 var table = doc.autoTableHtmlToJson(stablePDF);    
                 doc.autoTable(table.columns, table.data,{beforePageContent: header,theme: 'grid',margin: {top: 70, left:40,right:40},columnStyles: {
     0: {columnWidth: 205},
@@ -1051,6 +1153,71 @@ output.value += "distinctArray[" + distinctIndex + "] = " + distinctArray[distin
         }
 </script>
 
+--><script>
+        function downloadPopoverStatistics() {
+                var doc = new jsPDF('p', 'pt');
+                var header = function(data) {
+                        doc.setFontSize(18);
+                        doc.setFontStyle('PTSans');
+                        doc.text("Statistics",225,50);
+                        doc.line(226,53,290,53);// Header top margin
+                };
+                doc.addImage(imgData[0], 'jpg', 80, 180, 300, 150);
+                var table = doc.autoTableHtmlToJson(stablePDF);    
+                doc.autoTable(table.columns, table.data,{beforePageContent: header,theme: 'grid', margin: {top: 70, left:40,right:40},columnStyles: {
+    0: {columnWidth: 205},
+    1: {columnWidth: 80},
+    2: {columnWidth: 80},
+    3: {columnWidth: 80},
+    4: {columnWidth: 80}
+
+     }, styles: {
+        fontSize: 12,
+        font: 'PTSans',
+        halign: 'center'
+
+    }
+    
+    });
+
+
+                doc.save("Statistics.pdf");
+        }
+</script>
+
+--><script>
+        function downloadPopoverSubjects(tno) {
+                var doc = new jsPDF('p', 'pt');
+                var tableName ="";
+                var header = function(data) {
+                        doc.setFontSize(18);
+                        doc.setFontStyle('PTSans');
+                        doc.text("Subject wise Statistics",225,50);
+                        doc.line(226,53,390,53);// Header top margin
+                };
+                
+                
+                tableName = "TT" + tno;
+                doc.addImage(imgData[tno], 'png', 80, 180, 300, 200);
+                var table = doc.autoTableHtmlToJson(document.getElementById(tableName));    
+                doc.autoTable(table.columns, table.data,{beforePageContent: header,theme: 'grid',margin: {top: 70, left:40,right:40},columnStyles: {
+    0: {columnWidth: 205},
+    1: {columnWidth: 80},
+    2: {columnWidth: 80},
+    3: {columnWidth: 80},
+    4: {columnWidth: 80}
+     }, styles: {
+        fontSize: 12,
+        font: 'PTSans',
+        halign: 'center'
+    }
+    
+    });
+
+                doc.save("Subject.pdf");
+        }
+</script>
+
             
 <script>
  
@@ -1061,7 +1228,30 @@ trigger: "manual" ,
   html: true,
   content: function() {
   
-    return $('#chart_div').html();
+    return $('#popcontainer').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject1"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject1').html();
   }
 }).on("mouseenter", function () {
         var _this = this;
@@ -1076,12 +1266,333 @@ trigger: "manual" ,
 </script>
 
 
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject2"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject2').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject3"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject3').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject4"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject4').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject5"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject5').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject6"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject6').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject7"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject7').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject8"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject8').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject9"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject10').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject11"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject11').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
+<script>
+ 
+    $(document).ready(function(){
+    $('[data-toggle="popoverSubject12"]').popover(
+  {
+trigger: "manual" ,
+  html: true,
+  content: function() {
+  
+    return $('#popcontainerSubject12').html();
+  }
+}).on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    });
+
+});
+    
+</script>
+
 
 <div id = "popcontainer" class="popover-content-el hide " style="width:400px; "  >
 
     <div id="chart_div" style="width:400px; "  >
+        
     </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom" id="exportS" style="float: right; margin-bottom: 10px" onclick="downloadPopoverStatistics()" title="Export Statistics as PDF">
+                <span class="material-icons">save_alt</span></button>
 </div>
+
+<div id = "popcontainerSubject1" class="popover-content-el hide  " style="width:400px; "  >
+    <div id="chart1" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(1)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+
+<div id = "popcontainerSubject2" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart2" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(2)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+
+<div id = "popcontainerSubject3" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart3" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(3)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+<div id = "popcontainerSubject4" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart4" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(4)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+<div id = "popcontainerSubject5" class="popover-content-el hide  " style="width:400px; "  >
+    <div id="chart5" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(5)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+<div id = "popcontainerSubject6" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart6" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(6)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+<div id = "popcontainerSubject7" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart7" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(7)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+<div id = "popcontainerSubject8" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart8" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(8)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+<div id = "popcontainerSubject9" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart9" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(9)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+<div id = "popcontainerSubject10" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart10" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(10)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+<div id = "popcontainerSubject11" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart11" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(11)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+<div id = "popcontainerSubject12" class="popover-content-el hide " style="width:400px; "  >
+    <div id="chart12" style="width:400px; "  >
+        
+    </div>
+    <button class="w3-button  w3-hover-blue-gray  w3-round-xxlarge w3-custom"  style="float: right; margin-bottom: 10px" onclick="downloadPopoverSubjects(12)" title="Export Statistics as PDF">
+    <span class="material-icons">save_alt</span></button>
+</div>
+
 
 </body>
 </html>
