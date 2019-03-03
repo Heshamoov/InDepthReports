@@ -1,22 +1,23 @@
 <?php
-        include ('../dbConfig.php');
 
-        $conn = new mysqli($servername, $username, $password, $DB);
+include ('../dbConfig.php');
 
-        if ($conn->connect_error)
-                die("Connection failed: " . $conn->connect_error . "\n");
-    
-        $grades = $_REQUEST["grades"];
-        $batches = $_REQUEST["batches"];
-        $subject = $_REQUEST["subject"];
-        $gender = $_REQUEST["gender"];
-        $terms = $_REQUEST["terms"];
-        
-        if ($terms == "" and $grades == "" and $batches == "" and $gender == "") {
+$conn = new mysqli($servername, $username, $password, $DB);
+
+if ($conn->connect_error)
+    die("Connection failed: " . $conn->connect_error . "\n");
+
+$grades = $_REQUEST["grades"];
+$batches = $_REQUEST["batches"];
+$subject = $_REQUEST["subject"];
+$gender = $_REQUEST["gender"];
+$terms = $_REQUEST["terms"];
+
+if ($terms == "" and $grades == "" and $batches == "" and $gender == "") {
 //        $sql =       " SELECT  subject FROM gold" .
 //                     " WHERE subject LIKE '$subject%'";
-            
-              $sql =    "SELECT  * "
+
+    $sql = "SELECT  * "
             . "FROM (((((("
             . "students\n"
             . "INNER JOIN batches \n"
@@ -36,14 +37,12 @@
             . "\n"
             . "INNER JOIN subjects\n"
             . "ON subjects.id = exams.subject_id)\n "
-            .  " WHERE subjects.name LIKE '$subject%'";
-              
-          
-        } else {
+            . " WHERE subjects.name LIKE '$subject%'";
+} else {
 //        $sql =       " SELECT  subject FROM gold" .
 //                     " WHERE $terms $grades $batches $gender  AND subjects.name LIKE '$subject%'";
-            
-             $sql ="SELECT  *"
+
+    $sql = "SELECT  *"
             . "FROM (((((("
             . "students\n"
             . "INNER JOIN batches \n"
@@ -64,12 +63,11 @@
             . "INNER JOIN subjects\n"
             . "ON subjects.id = exams.subject_id)\n "
             . " WHERE $terms $grades $batches $gender  AND subjects.name LIKE '$subject%'";
-            
-        }
+}
 //        echo $sql;
-        
-        $result = $conn->query($sql);
-        $rowcount=mysqli_num_rows($result);
-        echo $rowcount;
-        
-        $conn->close();
+
+$result = $conn->query($sql);
+$rowcount = mysqli_num_rows($result);
+echo $rowcount;
+
+$conn->close();

@@ -1,21 +1,22 @@
 <?php
-        include ('../dbConfig.php');
+
+include ('../dbConfig.php');
 
 $grades = $_REQUEST["grades"];
-        $batches = $_REQUEST["batches"];
-        $subjects = $_REQUEST["subjects"];
-        $gender = $_REQUEST["gender"];
-        $terms = $_REQUEST["terms"];
-    
+$batches = $_REQUEST["batches"];
+$subjects = $_REQUEST["subjects"];
+$gender = $_REQUEST["gender"];
+$terms = $_REQUEST["terms"];
+
 //       $sql =       " SELECT students.admission_no, students.first_name, students.gender," .
 //                        " marks.Exam_Group, marks.Grade, marks.Batch, marks.Subject, marks.Mark " .
 //                        " FROM marks" .
 //                        " INNER JOIN students ON students.admission_no = marks.MOE" .
 //                        " WHERE $terms $grades $batches $gender $subjects";
 //       echo $sql;
-         if ($terms == "" and $grades == "" and $batches == "" and $gender == "" and $subjects == ""){
+if ($terms == "" and $grades == "" and $batches == "" and $gender == "" and $subjects == "") {
 
-    $sql =    "SELECT *"
+    $sql = "SELECT *"
             . "\n"
             . "FROM (((((("
             . "students\n"
@@ -35,11 +36,10 @@ $grades = $_REQUEST["grades"];
             . "ON exams.id = exam_scores.exam_id)\n"
             . "\n"
             . "INNER JOIN subjects\n"
-            . "ON subjects.id = exams.subject_id)\n "; }
-            
-            else{
-        
-        $sql =    "SELECT*"
+            . "ON subjects.id = exams.subject_id)\n ";
+} else {
+
+    $sql = "SELECT*"
             . "\n"
             . "FROM (((((("
             . "students\n"
@@ -61,12 +61,12 @@ $grades = $_REQUEST["grades"];
             . "INNER JOIN subjects\n"
             . "ON subjects.id = exams.subject_id)\n "
             . "WHERE  $terms $grades $batches $gender $subjects";
-            }
-        
+}
+
 //        echo $sql;
-        
-        $result = $conn->query($sql);
-        $rowcount=mysqli_num_rows($result);
-        echo $rowcount;
-        
-        $conn->close();
+
+$result = $conn->query($sql);
+$rowcount = mysqli_num_rows($result);
+echo $rowcount;
+
+$conn->close();
