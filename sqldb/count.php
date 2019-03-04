@@ -1,6 +1,6 @@
 <?php
 
-include ('../dbConfig.php');
+include ('../config/dbConfig.php');
 
 $grades = $_REQUEST["grades"];
 $batches = $_REQUEST["batches"];

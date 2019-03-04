@@ -2,48 +2,14 @@
 <title>Statistics based on subject</title>
 </head>
 
+<script>
+    $(window).load(function () {
+        // Animate loader off screen
+        $(".se-pre-con").fadeOut("slow");
+        ;
+    });
 
-
-<!--------------print single chart---------------------->
-<!--<script>
-
-
-function printDiv(printCharts){
-    
- 
-
-      var newWin=window.open('','Print-Window');
-        newWin.document.open();
-          newWin.document.write('<html><body onload="window.print()">'+printCharts.innerHTML+' </body></html>');
-  newWin.document.close();
-  setTimeout(function(){newWin.close();},10);
-
-}
-</script>-->
-
-
-<!-------------print function for printing all google charts------------------------->
-
-<!--<script>
-    
-    
-//    
-//function printAllCharts(chart1,chart2,chart3,chart4){ 
-//       
-//     
-//
-//
-//      var newWin=window.open('','Print-Window');
-//        newWin.document.open();
-//        newWin.document.write('<html><body'+chart1.innerHTML+chart2.innerHTML+chart3.innerHTML+chart4.innerHTML+' </body></html>');
-//        newWin.window.print();
-//        newWin.document.close();
-//  setTimeout(function(){newWin.close();},10);
-//  
-// 
-//
-//}
-//</script>-->
+</script>
 
 <script type="text/javascript">
 
@@ -316,6 +282,7 @@ function printDiv(printCharts){
 </script>
 
 <body  onload="fillSections1(), fillSections2(), fillSubjects1(), fillSubjects2()">
+    <div class="se-pre-con"></div>
 
     <div class=" w3-responsive header">
         <!-- Navigation bar -->

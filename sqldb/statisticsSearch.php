@@ -1,14 +1,7 @@
 <?php
 
-include ('../dbConfig.php');
+include ('../config/dbConfig.php');
 
-
-
-//   -----------arabic encoding----------------
-$sSQL = 'SET CHARACTER SET utf8';
-mysqli_query($conn, $sSQL)
-        or die('Can\'t charset in DataBase');
-//    -----------arabic encoding-------------
 
 $terms = $_REQUEST["terms"];
 $grades = $_REQUEST["grades"];

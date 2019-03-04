@@ -1,11 +1,8 @@
 <?php
 
-include ('../dbConfig.php');
+include ('../config/dbConfig.php');
 
-$conn = new mysqli($servername, $username, $password, $DB);
 
-if ($conn->connect_error)
-    die("Connection failed: " . $conn->connect_error . "\n");
 
 $grades = $_REQUEST["grades"];
 $batches = $_REQUEST["batches"];

@@ -1,6 +1,6 @@
 <?php
 
-include ('../dbConfig.php');
+include ('../config/dbConfig.php');
 
 $terms = $_REQUEST["terms"];
 $grades = $_REQUEST["grades"];

@@ -1,14 +1,7 @@
 <?php
 
-$servername = "localhost";
-$username = "reports2018";
-$password = "Indepth2018";
-$DB = "alsanawbar2018";
+include ('../config/dbConfig.php');
 
-$conn = new mysqli($servername, $username, $password, $DB);
-
-if ($conn->connect_error)
-    die("Connection failed: " . $conn->connect_error . "\n");
 
 $sql = "SELECT Grade, Batch, Name, MOE FROM students ORDER BY Grade, Batch";
 $i = 1;

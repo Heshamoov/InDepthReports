@@ -2,13 +2,13 @@
 
 include ('../config/dbConfig.php');
 
-$sql = "SELECT DISTINCT course_name FROM courses\n"
-        . "WHERE is_deleted = 0\n"
+$sql = "SELECT name FROM academic_years\n"
         . "ORDER BY created_at";
 
+//echo  $sql;
 $result = $conn->query($sql);
 
 while ($row = mysqli_fetch_array($result))
-    echo $row['course_name'] . "\n";
+    echo $row['name'] . "\n";
 
 $conn->close();

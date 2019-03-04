@@ -4,7 +4,14 @@
 
 </head>
 
-
+<!--loder initialization-->
+<script>
+  $(window).load(function () {
+        // Animate loader off screen
+        $(".se-pre-con").fadeOut("slow");
+        ;
+    });
+</script>
 
 <script type="text/javascript">
 
@@ -172,9 +179,9 @@
                 }
 
                 //Academic Year value
-                stablePDF.rows[2].cells[0].innerHTML = "2017-2018";
-                table.rows[2].cells[0].innerHTML = "2017-2018";
-                table2.rows[2].cells[0].innerHTML = "2017-2018";
+                stablePDF.rows[2].cells[0].innerHTML = "2018-2019";
+                table.rows[2].cells[0].innerHTML = "2018-2019";
+                table2.rows[2].cells[0].innerHTML = "2018-2019";
 
                 // Total value Subject wise
                 var httpTotal = new XMLHttpRequest();
@@ -358,6 +365,8 @@
 
 <body>
 
+    <div class="se-pre-con"></div>
+
 
     <div class=" w3-responsive header" >
 
@@ -396,7 +405,7 @@
                         <select id="batch"  multiple="multiple"></select>
                     </td>
                     <td>
-                        <select id="subject"  multiple="multiple"></select>         
+                        <select id="subject" multiple="multiple"></select>         
                     </td>
                     <td>
                         <select id="gender"  multiple="multiple"> 
@@ -470,7 +479,7 @@
                         <th></th>
                     </tr>
                     <tr>
-                        <td></td>
+                        <td>2018-2019</td>
                         <td></td>
                         <td></td>
                         <td></td>

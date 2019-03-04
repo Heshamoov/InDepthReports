@@ -1,6 +1,6 @@
 <?php
 
-include ('../dbConfig.php');
+include ('../config/dbConfig.php');
 
 
 $terms = $_REQUEST["terms"];
@@ -27,7 +27,7 @@ if ($terms == "" and $grades == "" and $batches == "" and $gender == "") {
             . "	ON students.id = exam_scores.student_id\n"
             . " AND exam_scores.exam_id = exams.id)\n"
             . "	INNER JOIN subjects ON exams.subject_id = subjects.id) "
-            . " AND (exam_scores.marks BETWEEN $min AND $max)";
+            . "WHERE (exam_scores.marks BETWEEN $min AND $max)";
 } else {
 //              $sql =       " SELECT *" .
 //                                " FROM gold" .
