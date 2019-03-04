@@ -24,60 +24,38 @@ $gender = $_REQUEST["gender"];
 
 if ($terms == "" and $grades == "" and $batches == "" and $gender == "" and $subjects == "") {
 
-    $sql = "SELECT DISTINCT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, \n"
-            . "courses.course_name grade,exam_groups.name exam_name,\n"
-            . " exam_scores.marks marks,subjects.name subject_name\n"
+    $sql = "SELECT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, courses.course_name grade,exam_groups.name exam_name, exam_scores.marks marks,subjects.name subject_name\n"
             . "\n"
-            . "FROM (((((("
+            . "FROM ((((((\n"
             . "students\n"
-            . "INNER JOIN batches \n"
-            . "ON batches.id = students.batch_id)\n"
-            . "\n"
-            . "INNER JOIN courses \n"
-            . "ON batches.course_id = courses.id)\n"
-            . "\n"
-            . "INNER JOIN exam_groups\n"
-            . "ON exam_groups.batch_id = students.batch_id)\n"
-            . "\n"
-            . "INNER JOIN exam_scores \n"
-            . "ON exam_scores.student_id = students.id)\n"
-            . "\n"
-            . "INNER JOIN exams\n"
-            . "ON exams.id = exam_scores.exam_id)\n"
-            . "\n"
-            . "INNER JOIN subjects\n"
-            . "ON subjects.id = exams.subject_id)\n ";
+            . "INNER JOIN batches ON students.batch_id = batches.id) \n"
+            . "	INNER JOIN courses ON batches.course_id = courses.id)     \n"
+            . "	INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id)\n"
+            . "	INNER JOIN exams ON exam_groups.id = exams.exam_group_id)    \n"
+            . "	INNER JOIN exam_scores\n"
+            . "	ON students.id = exam_scores.student_id\n"
+            . "       AND exam_scores.exam_id = exams.id)\n"
+            . "	INNER JOIN subjects ON exams.subject_id = subjects.id) ORDER BY students.id ASC, exam_groups.name";
 } else {
-    $sql = "SELECT DISTINCT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, \n"
-            . "courses.course_name grade,exam_groups.name exam_name,\n"
-            . " exam_scores.marks marks,subjects.name subject_name\n"
-            . "\n"
-            . "FROM (((((("
+    $sql = "SELECT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, courses.course_name grade,exam_groups.name exam_name, exam_scores.marks marks,subjects.name subject_name\n"
+            . "FROM ((((((\n"
             . "students\n"
-            . "INNER JOIN batches \n"
-            . "ON batches.id = students.batch_id)\n"
-            . "\n"
-            . "INNER JOIN courses \n"
-            . "ON batches.course_id = courses.id)\n"
-            . "\n"
-            . "INNER JOIN exam_groups\n"
-            . "ON exam_groups.batch_id = students.batch_id)\n"
-            . "\n"
-            . "INNER JOIN exam_scores \n"
-            . "ON exam_scores.student_id = students.id)\n"
-            . "\n"
-            . "INNER JOIN exams\n"
-            . "ON exams.id = exam_scores.exam_id)\n"
-            . "\n"
-            . "INNER JOIN subjects\n"
-            . "ON subjects.id = exams.subject_id)\n "
-            . "WHERE  $terms $grades $batches $gender $subjects";
+            . "INNER JOIN batches ON students.batch_id = batches.id) \n"
+            . "	INNER JOIN courses ON batches.course_id = courses.id)     \n"
+            . "	INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id)\n"
+            . "	INNER JOIN exams ON exam_groups.id = exams.exam_group_id)    \n"
+            . "	\n"
+            . "	INNER JOIN exam_scores\n"
+            . "	ON students.id = exam_scores.student_id\n"
+            . "       AND exam_scores.exam_id = exams.id)\n"
+            . "	INNER JOIN subjects ON exams.subject_id = subjects.id) WHERE  $terms $grades $batches $gender $subjects"
+            . " ORDER BY students.id ASC, exam_groups.name ";
 }
 
 
 
 
-//        echo $sql;    
+//echo $sql;
 $result = $conn->query($sql);
 $rownumber = 1;
 if ($result->num_rows > 0) {
