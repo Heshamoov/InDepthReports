@@ -27,7 +27,7 @@ admission_date {
     color: #0000ff;
     font-size: 20pt;
 }
-blood_group, gender, nationality, language,category,religion,address,phone,city,state
+blood_group, gender,curriculum, nationality, language,category,religion,address,phone,city,state
 ,country,phone,mobile,email,biometric_id,is_sms_lenabled,is_email_enabled{
     display: block;
     color: #000000;

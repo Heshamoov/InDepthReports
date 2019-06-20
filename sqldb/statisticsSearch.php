@@ -52,14 +52,13 @@ if ($terms == "" and $grades == "" and $batches == "" and $gender == "" and $sub
 $result = $conn->query($sql);
 $rownumber = 1;
 if ($result->num_rows > 0) {
-    echo "<thead><tr id =out class= w3-custom  ><th>No</th><th>MOE</th>" .
-    "<th>Name</th><th>Gender</th><th>Exam Group</th>" .
+    echo "<thead><tr id =out class= w3-custom  ><th>SI No.</th><th>Curriculum</th>" .
+    "<th>Exam Group</th>" .
     "<th>Grade</th><th>Section</th>" .
-    "<th>Subject</th><th>Mark</th></tr></thead><tbody>";
+    "<th>Subject</th><th>Attainment</th></tr></thead><tbody>";
 
     while ($row = $result->fetch_assoc())
         echo "<tr><td>" . $rownumber++ . "</td><td>" . $row["moe"] .
-        "</td><td style = font-size:16px; font-style: oblique>" . $row["name"] . "</td><td>" . ($row["gender"] == 'm' ? 'M' : 'F') .
         "</td><td>" . $row["exam_name"] . "</td><td>" . $row["grade"] .
         "</td><td>" . $row["batch_name"] . "</td><td>" . $row["subject_name"] .
         "</td><td>" . $row["marks"] . "</td></tr>";
