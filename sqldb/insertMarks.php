@@ -1,14 +1,7 @@
 <?php
 
-$servername = "localhost";
-$username = "reports2018";
-$password = "Indepth2018";
-$DB = "alsanawbar2018";
+include ('../config/dbConfig.php');
 
-$conn = new mysqli($servername, $username, $password, $DB);
-
-if ($conn->connect_error)
-    die("Connection failed: " . $conn->connect_error . "\n");
 
 $q = "INSERT INTO marks (moe, exam_group, grade, batch, subject, mark) VALUES " . $_REQUEST["q"];
 echo $q;
