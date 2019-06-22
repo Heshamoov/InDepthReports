@@ -1,6 +1,6 @@
 <?php
 
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 
 $term = $_REQUEST["term"];

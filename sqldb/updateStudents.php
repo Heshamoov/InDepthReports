@@ -1,6 +1,6 @@
 <?php
 
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 $sql = "UPDATE `students` SET " . $_REQUEST["sql"];
 echo $sql;

@@ -1,6 +1,6 @@
 <?php
 
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 
 $sql = "SELECT MAX(SMS), FamilyId, Name FROM parent GROUP BY FamilyId ORDER BY FamilyId";

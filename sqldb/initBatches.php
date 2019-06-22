@@ -1,6 +1,6 @@
 <?php
 
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 $sql = "SELECT DISTINCT name FROM batches\n"
         . "WHERE is_deleted = 0\n"

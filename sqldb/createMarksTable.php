@@ -1,6 +1,6 @@
 <?php
 
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 $sql = "CREATE TABLE marks (
                         Serial SMALLINT(6) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,

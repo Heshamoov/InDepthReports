@@ -1,6 +1,6 @@
 <?php
 
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 
 $sql = "SELECT Grade, Batch, Name, MOE FROM students ORDER BY Grade, Batch";

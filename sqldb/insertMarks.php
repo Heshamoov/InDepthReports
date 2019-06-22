@@ -1,6 +1,6 @@
 <?php
 
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 
 $q = "INSERT INTO marks (moe, exam_group, grade, batch, subject, mark) VALUES " . $_REQUEST["q"];

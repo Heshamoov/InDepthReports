@@ -1,5 +1,5 @@
 <?php
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 
 $q = "INSERT INTO students (moe, name, grade, batch) VALUES " . $_REQUEST["q"];

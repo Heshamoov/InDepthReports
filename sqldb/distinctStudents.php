@@ -1,6 +1,6 @@
 <?php
 
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 $grade = $_REQUEST["grade"];
 $batch = $_REQUEST["batch"];

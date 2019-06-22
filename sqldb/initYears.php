@@ -1,6 +1,6 @@
 <?php
 
-include ('../config/dbConfig.php');
+include ('/srv/InDepthReports/config/dbConfig.php');
 
 $sql = "SELECT name FROM academic_years\n"
         . "ORDER BY created_at";
