@@ -1,76 +1,66 @@
 <?php
-        $servername = "localhost";          $username = "reports2018";
-        $password = "Indepth2018";        $DB = "fedena_pro";
 
-        $conn = new mysqli($servername, $username, $password, $DB);
+include ('../config/dbConfig.php');
 
-        if ($conn->connect_error)
-                die("Connection failed: " . $conn->connect_error . "\n");
-    
-        $grades = $_REQUEST["grades"];
-        $batches = $_REQUEST["batches"];
-        $subject = $_REQUEST["subject"];
-        $gender = $_REQUEST["gender"];
-        $terms = $_REQUEST["terms"];
-        
-        if ($terms == "" and $grades == "" and $batches == "" and $gender == "") {
+
+
+$grades = $_REQUEST["grades"];
+$batches = $_REQUEST["batches"];
+$subject = $_REQUEST["subject"];
+$gender = $_REQUEST["gender"];
+$terms = $_REQUEST["terms"];
+
+if ($terms == "" and $grades == "" and $batches == "" and $gender == "") {
 //        $sql =       " SELECT  subject FROM gold" .
 //                     " WHERE subject LIKE '$subject%'";
-            
-              $sql =    "SELECT  * "
-            . "FROM (((((("
+
+ $sql = "SELECT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, courses.course_name grade,exam_groups.name exam_name, exam_scores.marks marks,subjects.name subject_name\n"
+            . "\n"
+            . "FROM ((((((\n"
             . "students\n"
-            . "INNER JOIN batches \n"
-            . "ON batches.id = students.batch_id)\n"
+            . "INNER JOIN batches ON students.batch_id = batches.id) \n"
+            . "	\n"
+            . "	INNER JOIN courses ON batches.course_id = courses.id)     \n"
             . "\n"
-            . "INNER JOIN courses \n"
-            . "ON batches.course_id = courses.id)\n"
+            . "	INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id)\n"
             . "\n"
-            . "INNER JOIN exam_groups\n"
-            . "ON exam_groups.batch_id = students.batch_id)\n"
             . "\n"
-            . "INNER JOIN exam_scores \n"
-            . "ON exam_scores.student_id = students.id)\n"
+            . "	INNER JOIN exams ON exam_groups.id = exams.exam_group_id)    \n"
+            . "	\n"
+            . "	INNER JOIN exam_scores\n"
+            . "	ON students.id = exam_scores.student_id\n"
+            . "       AND exam_scores.exam_id = exams.id)\n"
             . "\n"
-            . "INNER JOIN exams\n"
-            . "ON exams.id = exam_scores.exam_id)\n"
-            . "\n"
-            . "INNER JOIN subjects\n"
-            . "ON subjects.id = exams.subject_id)\n "
-            .  " WHERE subjects.name LIKE '$subject%'";
-              
-          
-        } else {
+            . "	INNER JOIN subjects ON exams.subject_id = subjects.id)"
+            . " WHERE subjects.name LIKE '$subject%'";
+} else {
 //        $sql =       " SELECT  subject FROM gold" .
 //                     " WHERE $terms $grades $batches $gender  AND subjects.name LIKE '$subject%'";
-            
-             $sql ="SELECT  *"
-            . "FROM (((((("
+
+ $sql = "SELECT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, courses.course_name grade,exam_groups.name exam_name, exam_scores.marks marks,subjects.name subject_name\n"
+            . "\n"
+            . "FROM ((((((\n"
             . "students\n"
-            . "INNER JOIN batches \n"
-            . "ON batches.id = students.batch_id)\n"
+            . "INNER JOIN batches ON students.batch_id = batches.id) \n"
+            . "	\n"
+            . "	INNER JOIN courses ON batches.course_id = courses.id)     \n"
             . "\n"
-            . "INNER JOIN courses \n"
-            . "ON batches.course_id = courses.id)\n"
+            . "	INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id)\n"
             . "\n"
-            . "INNER JOIN exam_groups\n"
-            . "ON exam_groups.batch_id = students.batch_id)\n"
             . "\n"
-            . "INNER JOIN exam_scores \n"
-            . "ON exam_scores.student_id = students.id)\n"
+            . "	INNER JOIN exams ON exam_groups.id = exams.exam_group_id)    \n"
+            . "	\n"
+            . "	INNER JOIN exam_scores\n"
+            . "	ON students.id = exam_scores.student_id\n"
+            . "       AND exam_scores.exam_id = exams.id)\n"
             . "\n"
-            . "INNER JOIN exams\n"
-            . "ON exams.id = exam_scores.exam_id)\n"
-            . "\n"
-            . "INNER JOIN subjects\n"
-            . "ON subjects.id = exams.subject_id)\n "
+            . "	INNER JOIN subjects ON exams.subject_id = subjects.id)"
             . " WHERE $terms $grades $batches $gender  AND subjects.name LIKE '$subject%'";
-            
-        }
+}
 //        echo $sql;
-        
-        $result = $conn->query($sql);
-        $rowcount=mysqli_num_rows($result);
-        echo $rowcount;
-        
-        $conn->close();
+
+$result = $conn->query($sql);
+$rowcount = mysqli_num_rows($result);
+echo $rowcount;
+
+$conn->close();

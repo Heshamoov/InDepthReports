@@ -1,82 +1,54 @@
 <?php
-        $servername = "localhost";          $username = "reports2018";
-        $password = "Indepth2018";        $DB = "fedena_pro";
 
-        $conn = new mysqli($servername, $username, $password, $DB);
+include ('../config/dbConfig.php');
 
-        if ($conn->connect_error)
-                die("Connection failed: " . $conn->connect_error . "\n");
+$terms = $_REQUEST["terms"];
+$grades = $_REQUEST["grades"];
+$batches = $_REQUEST["batches"];
+$subjects = $_REQUEST["subjects"];
+$gender = $_REQUEST["gender"];
+$min = $_REQUEST["min"];
+$max = $_REQUEST["max"];
 
-        $terms = $_REQUEST["terms"];
-        $grades = $_REQUEST["grades"];
-        $batches = $_REQUEST["batches"];
-        $subjects = $_REQUEST["subjects"];
-        $gender = $_REQUEST["gender"];
-        $min = $_REQUEST["min"];
-        $max = $_REQUEST["max"];
-    
 //        $sql =           " SELECT *" .
 //                        " FROM gold" .
 //                        " WHERE $terms $grades $batches $gender $subjects" .
 //                        " AND (mark BETWEEN $min AND $max)";
-   //   echo $sql;
-                 if ($terms == "" and $grades == "" and $batches == "" and $gender == "" and $subjects == ""){
+//   echo $sql;
+if ($terms == "" and $grades == "" and $batches == "" and $gender == "" and $subjects == "") {
 
-    $sql =    "SELECT students.admission_no moe, students.first_name name, students.gender gender,  batches.id, batches.name batch_name, \n"
-            . "courses.id, courses.course_name grade, exam_groups.id examgroups_id, exam_groups.name exam_name, exam_scores.id examscores_id,\n"
-            . " exam_scores.marks marks, exams.id exam_id, exams.subject_id, subjects.id subjects_id, subjects.name subject_name\n"
+   $sql = "SELECT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, courses.course_name grade,exam_groups.name exam_name, exam_scores.marks marks,subjects.name subject_name\n"
             . "\n"
-            . "FROM (((((("
+            . "FROM ((((((\n"
             . "students\n"
-            . "INNER JOIN batches \n"
-            . "ON batches.id = students.batch_id)\n"
+            . "INNER JOIN batches ON students.batch_id = batches.id) \n"
+            . "	INNER JOIN courses ON batches.course_id = courses.id)     \n"
+            . "	INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id)\n"
+            . "	INNER JOIN exams ON exam_groups.id = exams.exam_group_id)    \n"
+            . "	INNER JOIN exam_scores\n"
+            . "	ON students.id = exam_scores.student_id\n"
+            . "       AND exam_scores.exam_id = exams.id)\n"
+            . "	INNER JOIN subjects ON exams.subject_id = subjects.id) "
+            . " WHERE (exam_scores.marks BETWEEN $min AND $max)";
+} else {
+
+   $sql = "SELECT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, courses.course_name grade,exam_groups.name exam_name, exam_scores.marks marks,subjects.name subject_name\n"
             . "\n"
-            . "INNER JOIN courses \n"
-            . "ON batches.course_id = courses.id)\n"
-            . "\n"
-            . "INNER JOIN exam_groups\n"
-            . "ON exam_groups.batch_id = students.batch_id)\n"
-            . "\n"
-            . "INNER JOIN exam_scores \n"
-            . "ON exam_scores.student_id = students.id)\n"
-            . "\n"
-            . "INNER JOIN exams\n"
-            . "ON exams.id = exam_scores.exam_id)\n"
-            . "\n"
-            . "INNER JOIN subjects\n"
-            . "ON subjects.id = exams.subject_id)\n "
-                 . " WHERE (exam_scores.marks BETWEEN $min AND $max)";}
-            else{
-        
-        $sql =    "SELECT students.admission_no moe, students.first_name name, students.gender gender,  batches.id, batches.name batch_name, \n"
-            . "courses.id, courses.course_name grade, exam_groups.id examgroups_id, exam_groups.name exam_name, exam_scores.id examscores_id,\n"
-            . " exam_scores.marks marks, exams.id exam_id, exams.subject_id, subjects.id subjects_id, subjects.name subject_name\n"
-            . "\n"
-            . "FROM (((((("
+            . "FROM ((((((\n"
             . "students\n"
-            . "INNER JOIN batches \n"
-            . "ON batches.id = students.batch_id)\n"
-            . "\n"
-            . "INNER JOIN courses \n"
-            . "ON batches.course_id = courses.id)\n"
-            . "\n"
-            . "INNER JOIN exam_groups\n"
-            . "ON exam_groups.batch_id = students.batch_id)\n"
-            . "\n"
-            . "INNER JOIN exam_scores \n"
-            . "ON exam_scores.student_id = students.id)\n"
-            . "\n"
-            . "INNER JOIN exams\n"
-            . "ON exams.id = exam_scores.exam_id)\n"
-            . "\n"
-            . "INNER JOIN subjects\n"
-            . "ON subjects.id = exams.subject_id)\n "
+            . "INNER JOIN batches ON students.batch_id = batches.id) \n"
+            . "	INNER JOIN courses ON batches.course_id = courses.id)     \n"
+            . "	INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id)\n"
+            . "	INNER JOIN exams ON exam_groups.id = exams.exam_group_id)    \n"
+            . "	INNER JOIN exam_scores\n"
+            . "	ON students.id = exam_scores.student_id\n"
+            . "       AND exam_scores.exam_id = exams.id)\n"
+            . "	INNER JOIN subjects ON exams.subject_id = subjects.id)"
             . "WHERE  $terms $grades $batches $gender $subjects AND (exam_scores.marks BETWEEN $min AND $max) ";
-        
-            }
+}
 //        echo $sql;
-        $result = $conn->query($sql);
-        $rowcount=mysqli_num_rows($result);
-        echo $rowcount;
+$result = $conn->query($sql);
+$rowcount = mysqli_num_rows($result);
+echo $rowcount;
 
-        $conn->close();
+$conn->close();
