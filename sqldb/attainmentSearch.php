@@ -12,43 +12,49 @@ $gender = $_REQUEST["gender"];
 
 if ($terms == "" and $grades == "" and $batches == "" and $gender == "" and $subjects == "") {
 
-      $sql = "SELECT T2.s2_name s2_name, T1.Count Count, T2.Total Total, ((T1.Count * 100 )/ T2.Total)  AVG FROM " 
-	     ."( SELECT count(*) Count, subjects.name s1_name "
+      $sql = "SELECT T2.s2_name s2_name, T1.Count Count, T2.Total Total, T1.grade grade, T1.exam, ROUND(((T1.Count * 100 )/ T2.Total),2)  AVG FROM " 
+	     ."( SELECT count(*) Count,exam_groups.name exams, subjects.name s1_name, courses.course_name grade, exam_groups.name exam "
 	     ."FROM(((((( students INNER JOIN batches ON students.batch_id = batches.id) "
 	     ."INNER JOIN courses ON batches.course_id = courses.id) "
 	     ."INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id) "
 	     ."INNER JOIN exams ON exam_groups.id = exams.exam_group_id) "
 	     ."INNER JOIN exam_scores ON students.id = exam_scores.student_id AND exam_scores.exam_id = exams.id) "
 	     ."INNER JOIN subjects ON exams.subject_id = subjects.id) "
-	     ."WHERE exam_scores.marks > 75 GROUP BY subjects.name ) AS T1 JOIN "
-	     ."( SELECT count(*) Total, subjects.name s2_name FROM "
+	     ."WHERE exam_scores.marks > 75 GROUP BY courses.course_name, exam_groups.name, subjects.name ) AS T1 JOIN "
+	     ."( SELECT count(*) Total, subjects.name s2_name, courses.course_name grade, exam_groups.name exams FROM "
 	     ."(((((( students INNER JOIN batches ON students.batch_id = batches.id) "
 	     ."INNER JOIN courses ON batches.course_id = courses.id) "
 	     ."INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id) "
 	     ."INNER JOIN exams ON exam_groups.id = exams.exam_group_id) "
 	     ."INNER JOIN exam_scores ON students.id = exam_scores.student_id AND exam_scores.exam_id = exams.id) "
 	     ."INNER JOIN subjects ON exams.subject_id = subjects.id) "
-	     ."GROUP BY subjects.name) AS T2 ON T1.s1_name = T2.s2_name;";
+	     ."GROUP BY courses.course_name, exam_groups.name, subjects.name) AS T2 ON T1.s1_name = T2.s2_name AND T1.grade = T2.grade AND T1.exams = T2.exams;";
 
 
 
-			//echo $sql;
+//			echo $sql;
 			$result = $conn->query($sql);
 			$rownumber = 1;
 			if ($result->num_rows > 0) {
-			    echo "<thead><tr id =out class= w3-custom  ><th>Subjects</th>" 
-			    ."<th>Total Students Attended</th>" 
+			    echo "<thead><tr id =out class= w3-custom  ><th>Grade</th>" 
+                            ."<th>Exam</th>" 
+                            ."<th>Subject</th>" 
+			    ."<th>Total Students Attended</th>"
 			    ."<th>Students Scored Above Scale</th>"
 			    ."<th>Average</th>"
-			    ."<th>Attainment Status</th></tr></thead><tbody>";
+                            ."<th>Status<th></tr></thead><tbody>";
 			
-			    while ($row = $result->fetch_assoc())
-			        echo "<tr><td>" . $row["s2_name"] . "</td>"
+			    while ($row = $result->fetch_assoc()){
+			        echo "<tr><td>" . $row["grade"] . "</td>"
+                                        ."<td>" . $row["exam"] . "</td>"
+                                   	."<td>" . $row["s2_name"] . "</td>"
 			        	."<td>" . $row["Total"] . "</td>"
 					."<td>" . $row["Count"] . "</td>"
-			        	."<td>" . $row["AVG"] . "</td>"
-					."<td>" . $row["subject_name"] . "</td></tr>";
-			    echo "</tbody>";
+			        	."<td>" . $row["AVG"] . "</td>";
+                                        if ($row["AVG"] >= 75)
+					echo "<td> Outstanding</td>";
+                                        echo "</tr>";
+                            echo "</tbody>"; }
 			} else
     				echo "Data Not Found, try to import it to DB";
 
