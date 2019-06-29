@@ -7,6 +7,7 @@
 <!--loder initialization-->
 <script>
   $(window).load(function () {
+
         // Animate loader off screen
         $(".se-pre-con").fadeOut("slow");
         ;
@@ -14,7 +15,6 @@
 </script>
 
 <script type="text/javascript">
-
 
     $(function () {
         $('#term').multiselect({includeSelectAllOption: true});
@@ -59,49 +59,57 @@
             else
                 selected_terms = "";
 
-
-          //academic_years
-/*           var message = "";
-            var yearHeader = "";
+      //Academic Years                
+            var message = "";
+            var academicHeader = "";
             selected_years.each(function () {
+                var currentYear = $(this).text();
+                if (currentYear.indexOf("(") !== -1) {
+                    var bracketIndex = currentYear.indexOf("(");
+                    currentYear = currentYear.slice(0, bracketIndex);
+                }
                 if (message === "") {
                     if (selected_years !== "")
-                        message = " AND (academic_years.name = '" + $(this).text() + "' ";
+                        message = "  (academic_years.name = '" + currentYear + "' ";
                     else
-                        message = " (academic_years.name = '" + $(this).text() + "' ";
-                    yearHeader = " - " + $(this).text();
+                        message = " AND (academic_years.name = '" + currentYear + "'";
+                    academicHeader = " - " + currentYear;
                 } else {
-                    message += " OR academic_years.name = '" + $(this).text() + "' ";
-                    yearHeader += " , " + $(this).text();
+                    message += " OR academic_years.name = '" + currentYear + "'";  //  grade like 'GR1' OR grade like 'GR10';
+                    academicHeader += " , " + currentYear;
                 }
             });
             if (message !== "")
                 selected_years = message + ")";
             else
                 selected_years = "";
-	
-		 //Category
-            var message = "";
-            var categoryHeader = "";
-            selected_category.each(function () {
-                if (message === "") {
-                    if (selected_category !== "")
-                        message = " AND (student_categories.name = '" + $(this).text() + "' ";
-                    else
-                        message = " (student_categories.name = '" + $(this).text() + "' ";
-                    categoryHeader = " - " + $(this).text();
-                } else {
-                    message += " OR student_categories.name = '" + $(this).text() + "' ";
-                    categoryHeader += " , " + $(this).text();
-                }
-            });
-            if (message !== "")
-                selected_category = message + ")";
-            else
-                selected_category = "";
             
+         
+             //Category               
+                var message = "";
+                var categoryHeader = "";
+                selected_category.each(function () {
+                    var currentCategory = $(this).text();
+                    if (currentCategory.indexOf("(") !== -1) {
+                        var bracketIndex = currentCategory.indexOf("(");
+                        currentCategory = currentCategory.slice(0, bracketIndex);
+                    }
+                    if (message === "") {
+                        if (selected_category !== "")
+                            message = "  (student_categories.name = '" + currentCategory + "' ";
+                        else
+                            message = " AND (student_categories.name = '" + currentCategory + "'";
+                        categoryHeader = " - " + currentCategory;
+                    } else {
+                        message += " OR student_categories.name = '" + currentCategory + "'";  //  grade like 'GR1' OR grade like 'GR10';
+                        categoryHeader += " , " + currentCategory;
+                    }
+                });
+                if (message !== "")
+                    selected_category = message + ")";
+                else
+                    selected_category = "";
 
-*/            
 
             //Grades                
             var message = "";
@@ -202,10 +210,10 @@
 
                 tableNumber++;
                 if (message === "") {
-                    if (selected_terms !== "" || selected_grades !== "" || selected_batches !== "" || selected_gender !== "")
+                    if (selected_terms !== "" || selected_grades !== "" || selected_batches !== "" || selected_gender !== "" || selected_years !== "" || selected_category !== "")
                         message = " AND (subjects.name  LIKE '" + currentSubject + "%' ";  //Add '%' to the end of the subject name: WHERE subject LIKE 'Math%' 
                     else
-                        message = " (subjects.name = '" + currentSubject + "' ";
+                        message = " (subjects.name LIKE '" + currentSubject + "%' ";
                     subjectHeader = " - " + currentSubject;
                 } else {
                     message += "OR subjects.name  LIKE '" + currentSubject + "%' ";
@@ -243,7 +251,7 @@
                         table2.rows[2].cells[1].innerHTML = this.responseText;
                     }
                 };
-                httpTotal.open("POST", "sqldb/subjectCount.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subject=" + currentSubject + "&gender=" + selected_gender, false);
+                httpTotal.open("POST", "sqldb/subjectCount.php?terms=" + selected_terms + "&years=" + selected_years + "&grades=" +  selected_grades + "&batches=" + selected_batches + "&subject=" + currentSubject + "&gender=" + selected_gender +  "&category=" + selected_category , false);
                 httpTotal.send();
 
 
@@ -263,7 +271,7 @@
 
                         }
                     };
-                    httpBetween.open("POST", "sqldb/subjectBetween.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subject=" + currentSubject + "&gender=" + selected_gender + "&min=" + min + "&max=" + max, false);
+                    httpBetween.open("POST", "sqldb/subjectBetween.php?terms=" + selected_terms +  "&years=" + selected_years + "&grades=" +   selected_grades + "&batches=" + selected_batches + "&subject=" + currentSubject + "&gender=" + selected_gender +  "&category=" + selected_category +"&min=" + min + "&max=" + max, false);
                     httpBetween.send();
                 }
             });
@@ -281,7 +289,7 @@
                 if (this.readyState === 4)
                     document.getElementById("out").innerHTML = this.responseText;
             };
-            xmlhttp.open("POST", "sqldb/attainmentSearch.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subjects=" + selected_subjects + "&gender=" + selected_gender, false);
+            xmlhttp.open("POST", "sqldb/attainmentSearch.php?terms=" + selected_terms +  "&years=" + selected_years + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subjects=" + selected_subjects + "&gender=" + selected_gender +  "&category=" + selected_category, false);
             xmlhttp.send();
 
             //Total Count
@@ -294,7 +302,7 @@
                     drawChart();
                 }
             };
-            xmlhttp.open("POST", "sqldb/count.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subjects=" + selected_subjects + "&gender=" + selected_gender, false);
+            xmlhttp.open("POST", "sqldb/count.php?terms=" + selected_terms +  "&years=" + selected_years + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subjects=" + selected_subjects + "&gender=" + selected_gender +  "&category=" + selected_category, false);
             xmlhttp.send();
 
             //Statistics Min-Max
@@ -313,7 +321,7 @@
                         drawChart();
                     }
                 };
-                xmlhttpm1.open("POST", "sqldb/between.php?terms=" + selected_terms + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subjects=" + selected_subjects + "&gender=" + selected_gender + "&min=" + min + "&max=" + max, false);
+                xmlhttpm1.open("POST", "sqldb/between.php?terms=" + selected_terms +  "&years=" + selected_years + "&grades=" + selected_grades + "&batches=" + selected_batches + "&subjects=" + selected_subjects + "&gender=" + selected_gender +  "&category=" + selected_category + "&min=" + min + "&max=" + max, false);
                 xmlhttpm1.send();
             }
         });
@@ -868,7 +876,7 @@
 
 
 
-<!--Initialize Academic Years->     
+Initialize Academic Years->     
 <script type="text/javascript">
     var yearArray = ["Your Data Base is Empty!."];
 
@@ -894,7 +902,7 @@
         });
     });
 
-</script>
+</script><!--
 
 
     <!--Term drop down  AND Tables initializer-->  

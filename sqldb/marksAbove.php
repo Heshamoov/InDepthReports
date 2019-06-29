@@ -21,20 +21,16 @@ else if ($gender === 'Girls')
 
 
 
-//        $sql = "SELECT students.Gender, marks.Mark FROM marks\n"
-//
-//    . "INNER JOIN students ON students.admission_no = marks.MOE\n"
-//
-//    . "WHERE (marks.Exam_Group = '$term') AND (marks.Grade = '$grade')"
-//                . " AND (marks.Subject = '$subject') AND (marks.mark >= $min) $gender";\
+
 
 
 
 
 $sql = "SELECT students.admission_no moe, students.first_name name, students.gender gender, batches.name batch_name, courses.course_name grade,exam_groups.name exam_name, exam_scores.marks marks,subjects.name subject_name\n"
         . "\n"
-        . "FROM ((((((\n"
+        . "FROM (((((((\n"
         . "students\n"
+        . "LEFT JOIN student_categories on students.student_category_id) \n "
         . "INNER JOIN batches ON students.batch_id = batches.id) \n"
         . "	INNER JOIN courses ON batches.course_id = courses.id)     \n"
         . "	INNER JOIN exam_groups ON students.batch_id = exam_groups.batch_id)\n"
@@ -46,7 +42,6 @@ $sql = "SELECT students.admission_no moe, students.first_name name, students.gen
         . "	INNER JOIN subjects ON exams.subject_id = subjects.id) "
         . "    WHERE ((exam_groups.name = '$term' ) AND (courses.course_name = '$grade') "
         . "    AND (exam_scores.marks >= $min )  $subject $section $category  $gender )";
-//        }
 // echo $sql;
 
 $result = $conn->query($sql);
